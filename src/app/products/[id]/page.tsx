@@ -1,11 +1,8 @@
-import { PageProps } from "next/app";
+interface Params {
+  id: string;
+}
 
-type ProductPageProps = {
-  params: { id: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
-
-export default function ProductPage({ params }: ProductPageProps) {
+export default function ProductPage({ params }: { params: Params }) {
   return (
     <div>
       <h1>Product details</h1>
