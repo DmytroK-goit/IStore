@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -6,7 +8,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-black-600 flex flex-col ">
-        <header>header</header>
+        <header>
+          <p>header</p>
+          <Link href="/">Home</Link>
+        </header>
         {children}
         <footer>footer</footer>
       </body>
