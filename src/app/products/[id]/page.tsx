@@ -1,8 +1,4 @@
-interface Params {
-  id: string;
-}
-
-export default function ProductPage({ params }: { params: Params }) {
+export default function ProductPage({ params }: any) {
   return (
     <div>
       <h1>Product details</h1>
