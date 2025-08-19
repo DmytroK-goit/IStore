@@ -5,8 +5,12 @@ export default function Home() {
     <div>
       <h1>Welcome to IStore</h1>
       <p>Your one-stop shop for all things tech!</p>
-      <Link href="/about">About Us</Link>
-      <Link href="/products">Products</Link>
+      <div className="flex gap-4 mt-4">
+        <Link href="/about">About Us</Link>
+        <Link href="/products">Products</Link>
+        <Link href="/login">Login</Link>
+        <Link href="/register">Registration</Link>
+      </div>
     </div>
   );
 }
