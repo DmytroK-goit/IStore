@@ -1,88 +1,41 @@
-import Link from "next/link";
+import Link from 'next/link';
+
+const buttonClasses = `
+  inline-block
+    text-white
+  font-semibold
+  rounded-2xl
+  bg-emerald-500
+  shadow-md
+  hover:bg-emerald-600
+  hover:shadow-lg
+  transition
+  duration-300
+  ease-in-out
+  text-center
+  w-full
+  sm:w-auto
+  text-sm
+ 
+`;
 
 export default function Home() {
   return (
-    <div>
-      <h1>Welcome to IStore</h1>
-      <p>Your one-stop shop for all things tech!</p>
-      <div
-        className="flex gap-4 
-      mt-4"
-      >
-        <Link
-          href="/about"
-          className="    inline-block    px-6 py-2    text-white font-semibold
-    rounded-2xl
-    bg-emerald-500
-    shadow-md
-    hover:bg-emerald-600
-    hover:shadow-lg
-    transition
-    duration-300
-    ease-in-out
-    text-center
-  "
-        >
+    <div className="p-6 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-2">Welcome to IStore</h1>
+      <p className="text-gray-200 mb-4">Your one-stop shop for all things tech!</p>
+
+      <div className="flex flex-wrap gap-4 mt-4">
+        <Link href="/about" className={buttonClasses}>
           About Us
         </Link>
-        <Link
-          className="
-    inline-block
-    px-6 py-2
-    text-white
-    font-semibold
-    rounded-2xl
-    bg-emerald-500
-    shadow-md
-    hover:bg-emerald-600
-    hover:shadow-lg
-    transition
-    duration-300
-    ease-in-out
-    text-center
-  "
-          href="/products"
-        >
+        <Link href="/products" className={buttonClasses}>
           Products
         </Link>
-        <Link
-          className="
-    inline-block
-    px-6 py-2
-    text-white
-    font-semibold
-    rounded-2xl
-    bg-emerald-500
-    shadow-md
-    hover:bg-emerald-600
-    hover:shadow-lg
-    transition
-    duration-300
-    ease-in-out
-    text-center
-  "
-          href="/login"
-        >
+        <Link href="/login" className={buttonClasses}>
           Login
         </Link>
-        <Link
-          className="
-    inline-block
-    px-6 py-2
-    text-white
-    font-semibold
-    rounded-2xl
-    bg-emerald-500
-    shadow-md
-    hover:bg-emerald-600
-    hover:shadow-lg
-    transition
-    duration-300
-    ease-in-out
-    text-center
-  "
-          href="/register"
-        >
+        <Link href="/register" className={buttonClasses}>
           Registration
         </Link>
       </div>
