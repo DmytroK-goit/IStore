@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { products } from '../products/page';
+import { products } from '@/data/products';
 
 type CartItem = { id: number; quantity: number };
 

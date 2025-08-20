@@ -1,38 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-
-export const products = [
-  {
-    id: 1,
-    name: 'Product A',
-    category: 'auto',
-    price: 100,
-    description: 'A great product',
-    amount: 10,
-    image: null,
-    tags: ['car', 'engine', 'accessory'], // <- ключові слова
-  },
-  {
-    id: 2,
-    name: 'Product B',
-    category: 'electronics',
-    price: 200,
-    description: 'An amazing gadget',
-    amount: 5,
-    image: null,
-    tags: ['gadget', 'tech', 'smart'],
-  },
-  {
-    id: 3,
-    name: 'Product C',
-    category: 'furniture',
-    price: 300,
-    description: 'A stylish chair',
-    amount: 2,
-    image: null,
-    tags: ['chair', 'home', 'office'],
-  },
-];
+import { products } from '@/data/products';
 
 type CartItem = { id: number; quantity: number };
 
