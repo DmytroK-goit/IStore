@@ -1,5 +1,11 @@
 import AddItem from '@/components/addItem/addItem';
+import SoldItemsPage from '@/components/soldItem/soldItem';
 
 export default function AdminPage() {
-  return <AddItem />;
+  return (
+    <div>
+      <AddItem />
+      <SoldItemsPage />
+    </div>
+  );
 }

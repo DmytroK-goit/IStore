@@ -3,6 +3,13 @@ import { useState, useEffect } from 'react';
 import { products } from '@/data/products';
 
 type CartItem = { id: number; quantity: number };
+type SoldItem = {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  date: string;
+};
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -10,32 +17,51 @@ export default function CartPage() {
     ((typeof products)[0] & { quantity: number })[]
   >([]);
 
+  // Завантаження з localStorage при монтуванні
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
       const parsedCart: CartItem[] = JSON.parse(storedCart);
       setCartItems(parsedCart);
-
-      const itemsWithDetails = parsedCart.map((ci) => {
-        const product = products.find((p) => p.id === ci.id);
-        return { ...product, quantity: ci.quantity };
-      });
-      setDetailedItems(itemsWithDetails as any);
+      setDetailedItems(
+        parsedCart.map((ci) => {
+          const product = products.find((p) => p.id === ci.id);
+          return { ...product, quantity: ci.quantity };
+        }) as any,
+      );
     }
   }, []);
 
+  // Синхронізація cartItems -> detailedItems + localStorage
   useEffect(() => {
+    if (cartItems.length === 0) {
+      localStorage.removeItem('cart'); // очищати, якщо корзина порожня
+      setDetailedItems([]);
+      return;
+    }
+
     localStorage.setItem('cart', JSON.stringify(cartItems));
-    const itemsWithDetails = cartItems.map((ci) => {
-      const product = products.find((p) => p.id === ci.id);
-      return { ...product, quantity: ci.quantity };
-    });
-    setDetailedItems(itemsWithDetails as any);
+
+    setDetailedItems(
+      cartItems.map((ci) => {
+        const product = products.find((p) => p.id === ci.id);
+        return { ...product, quantity: ci.quantity };
+      }) as any,
+    );
   }, [cartItems]);
 
   const increaseQuantity = (id: number) => {
     setCartItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item)),
+      prev.map((item) => {
+        const product = products.find((p) => p.id === item.id);
+        if (!product) return item;
+        if (item.quantity < product.amount) {
+          return { ...item, quantity: item.quantity + 1 };
+        } else {
+          alert(`Cannot add more than ${product.amount} of this product`);
+        }
+        return item;
+      }),
     );
   };
 
@@ -55,6 +81,29 @@ export default function CartPage() {
       </div>
     );
   }
+
+  const buyItems = () => {
+    if (cartItems.length === 0) return;
+
+    const soldItems: SoldItem[] = cartItems.map((ci) => {
+      const product = products.find((p) => p.id === ci.id)!;
+      return {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: ci.quantity,
+        date: new Date().toISOString(),
+      };
+    });
+
+    // Додаємо до існуючих сплачених замовлень
+    const existingSold = JSON.parse(localStorage.getItem('sold') || '[]');
+    localStorage.setItem('sold', JSON.stringify([...existingSold, ...soldItems]));
+
+    // Очищаємо корзину
+    setCartItems([]);
+    alert('Purchase successful!');
+  };
 
   const total = detailedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -97,6 +146,7 @@ export default function CartPage() {
       </div>
       <button
         type="button"
+        onClick={buyItems}
         className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
       >
         Buy
