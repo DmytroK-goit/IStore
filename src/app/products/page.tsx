@@ -10,6 +10,7 @@ export const products = [
     description: 'A great product',
     amount: 10,
     image: null,
+    tags: ['car', 'engine', 'accessory'], // <- ключові слова
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ export const products = [
     description: 'An amazing gadget',
     amount: 5,
     image: null,
+    tags: ['gadget', 'tech', 'smart'],
   },
   {
     id: 3,
@@ -28,24 +30,7 @@ export const products = [
     description: 'A stylish chair',
     amount: 2,
     image: null,
-  },
-  {
-    id: 4,
-    name: 'Product D',
-    category: 'auto',
-    price: 150,
-    description: 'A reliable car part',
-    amount: 8,
-    image: null,
-  },
-  {
-    id: 5,
-    name: 'Product E',
-    category: 'electronics',
-    price: 250,
-    description: 'A high-tech device',
-    amount: 3,
-    image: null,
+    tags: ['chair', 'home', 'office'],
   },
 ];
 
@@ -104,12 +89,18 @@ export default function ProductsPage() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filteredProducts.map((product) => {
           const quantityInCart = cart.find((item) => item.id === product.id)?.quantity || 0;
+          const outOfStock = product.amount === 0;
+
           return (
             <div
               key={product.id}
-              className="border rounded-2xl shadow-md p-4 bg-white hover:shadow-lg transition flex flex-col"
+              className={`border rounded-2xl shadow-md p-4 flex flex-col transition ${
+                outOfStock
+                  ? 'bg-gray-100 opacity-70 cursor-not-allowed'
+                  : 'bg-white hover:shadow-lg'
+              }`}
             >
-              <div className="w-full h-40 bg-gray-100 flex items-center justify-center rounded-xl mb-4 overflow-hidden">
+              <div className="w-full h-40 bg-gray-200 flex items-center justify-center rounded-xl mb-4 overflow-hidden">
                 {product.image ? (
                   <img
                     src={product.image}
@@ -126,12 +117,28 @@ export default function ProductsPage() {
               <p className="text-gray-700 mb-2 flex-grow">{product.description}</p>
               <p className="font-bold text-lg mb-2">${product.price}</p>
               <p className="text-sm text-gray-500 mb-4">In stock: {product.amount}</p>
-
+              <div className="flex flex-wrap gap-2 mt-2">
+                {product.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
               <button
-                onClick={() => addToCart(product.id)}
-                className="w-full bg-emerald-500 text-white py-2 rounded-xl hover:bg-emerald-600 transition"
+                onClick={() => !outOfStock && addToCart(product.id)}
+                disabled={outOfStock}
+                className={`w-full py-2 rounded-xl transition ${
+                  outOfStock
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-emerald-500 text-white hover:bg-emerald-600'
+                }`}
               >
-                Add to Cart {quantityInCart > 0 && `(${quantityInCart})`}
+                {outOfStock
+                  ? 'Out of Stock'
+                  : `Add to Cart ${quantityInCart > 0 ? `(${quantityInCart})` : ''}`}
               </button>
             </div>
           );

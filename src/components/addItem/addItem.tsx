@@ -27,7 +27,6 @@ export default function AddItem() {
 
   const handleSubmit = (values: typeof initialValues) => {
     console.log('Form data:', values);
-    // тут можна зробити запит на бекенд для збереження
   };
 
   return (
