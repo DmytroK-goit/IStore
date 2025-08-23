@@ -27,7 +27,7 @@ export default function login() {
 
   return (
     <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4 text-red">Register</h2>
+      <h2 className="text-xl font-bold mb-4 text-red">Login</h2>
 
       <Formik
         initialValues={initialValues}
@@ -35,7 +35,7 @@ export default function login() {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <Form className="flex flex-col gap-4 bg-white p-6 rounded shadow-md">
+          <Form className="flex flex-col gap-4 p-6 rounded shadow-md">
             <div>
               <label htmlFor="username">Login</label>
               <Field type="text" name="login" className="border p-2 w-full rounded" />
