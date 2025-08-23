@@ -23,7 +23,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </nav>
         </header>
 
-        <main className="flex-1 p-5">{children}</main>
+        <main
+          className="flex-1 p-5 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/img/bg-store.jpg')" }}
+        >
+          {children}
+        </main>
 
         <footer className="flex flex-col items-center justify-center gap-2 h-20 bg-gray-800 border-t border-gray-700">
           <p className="text-sm text-gray-400">

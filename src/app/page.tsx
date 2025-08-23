@@ -20,8 +20,8 @@ const buttonClasses = `
 export default function Home() {
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-2">Welcome to IStore</h2>
-      <p className="text-gray-400 mb-4">Your one-stop shop for all things tech!</p>
+      <h2 className="text-5xl font-bold mb-2 text-black">Welcome to IStore</h2>
+      <p className="text-gray-800 mb-4">Your one-stop shop for all things tech!</p>
 
       <div className="flex flex-wrap gap-x-10 gap-y-10 mt-6">
         <Link href="/about" className={buttonClasses}>
