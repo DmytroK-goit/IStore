@@ -95,19 +95,21 @@ export default function ProductsPage() {
                   </span>
                 ))}
               </div>
-              <button
-                onClick={() => !outOfStock && addToCart(product.id)}
-                disabled={outOfStock}
-                className={`w-full py-2 rounded-xl transition ${
-                  outOfStock
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-emerald-500 text-white hover:bg-emerald-600'
-                }`}
-              >
-                {outOfStock
-                  ? 'Out of Stock'
-                  : `Add to Cart ${quantityInCart > 0 ? `(${quantityInCart})` : ''}`}
-              </button>
+              <div className="flex justify-center mt-4">
+                <button
+                  onClick={() => !outOfStock && addToCart(product.id)}
+                  disabled={outOfStock}
+                  className={`w-1/4 rounded-xl transition ${
+                    outOfStock
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      : 'bg-emerald-500 text-white hover:bg-emerald-600'
+                  }`}
+                >
+                  {outOfStock
+                    ? 'Out of Stock'
+                    : `Add to Cart ${quantityInCart > 0 ? `(${quantityInCart})` : ''}`}
+                </button>
+              </div>
             </div>
           );
         })}

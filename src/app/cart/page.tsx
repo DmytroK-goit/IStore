@@ -63,12 +63,14 @@ export default function CartPage() {
   const increaseQuantity = (id: number) => {
     setCartItems((prev) =>
       prev.map((item) => {
-        const product = products.find((p) => p.id === item.id);
-        if (!product) return item;
-        if (item.quantity < product.amount) {
-          return { ...item, quantity: item.quantity + 1 };
-        } else {
-          alert(`Cannot add more than ${product.amount} of this product`);
+        if (item.id === id) {
+          const product = products.find((p) => p.id === item.id);
+          if (!product) return item;
+          if (item.quantity < product.amount) {
+            return { ...item, quantity: item.quantity + 1 };
+          } else {
+            alert(`Cannot add more than ${product.amount} of this product`);
+          }
         }
         return item;
       }),
@@ -157,7 +159,7 @@ export default function CartPage() {
                 >
                   -
                 </button>
-                <span>{item.quantity}</span>
+                <span className="text-gray-900">{item.quantity}</span>
                 <button
                   onClick={() => increaseQuantity(item.id)}
                   className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"

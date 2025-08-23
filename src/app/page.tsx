@@ -1,7 +1,8 @@
 import Link from 'next/link';
-
 const buttonClasses = `
-  inline-block
+  block
+  mx-auto
+  w-1/5
   text-white
   font-semibold
   rounded-2xl
@@ -13,19 +14,16 @@ const buttonClasses = `
   duration-300
   ease-in-out
   text-center
-  w-full
-  sm:w-auto
-  text-sm
- 
+  mt-10
 `;
 
 export default function Home() {
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-2">Welcome to IStore</h1>
+    <div className="max-w-4xl mx-auto p-6">
+      <h2 className="text-3xl font-bold mb-2">Welcome to IStore</h2>
       <p className="text-gray-400 mb-4">Your one-stop shop for all things tech!</p>
 
-      <div className="flex flex-wrap gap-4 mt-4">
+      <div className="flex flex-wrap gap-x-10 gap-y-10 mt-6">
         <Link href="/about" className={buttonClasses}>
           About Us
         </Link>
