@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import type { AppDispatch } from '@/redux/store'; // імпорт типу dispatch
+import type { AppDispatch } from '@/redux/store';
 import { login } from '@/redux/UserAuth/operations';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,10 +13,12 @@ interface LoginFormValues {
   email: string;
   password: string;
 }
+
 type LoginResult = Awaited<ReturnType<typeof login>>;
+
 export default function Login() {
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>(); // типізуємо dispatch
+  const dispatch = useDispatch<AppDispatch>();
 
   const initialValues: LoginFormValues = {
     email: '',
@@ -35,11 +37,15 @@ export default function Login() {
     { setSubmitting }: FormikHelpers<LoginFormValues>,
   ) => {
     try {
+      // Виконуємо dispatch з правильною типізацією
       const resultAction: LoginResult = await dispatch(login(values));
 
       if (resultAction.meta.requestStatus === 'fulfilled') {
         const userRole = resultAction.payload.data.user.role;
 
+        toast.success('Вхід успішний');
+
+        // Редирект залежно від ролі
         if (userRole === 'admin') {
           router.push('/admin');
         } else {
@@ -50,6 +56,7 @@ export default function Login() {
       }
     } catch (error) {
       toast.error('Помилка при вході. Спробуй ще раз.');
+      console.error('Login error:', error);
     } finally {
       setSubmitting(false);
     }
