@@ -1,33 +1,64 @@
 'use client';
 
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '@/redux/store'; // імпорт типу dispatch
+import { login } from '@/redux/UserAuth/operations';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function login() {
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
+
+export default function Login() {
   const router = useRouter();
-  const initialValues = {
-    login: '',
+  const dispatch = useDispatch<AppDispatch>(); // типізуємо dispatch
+
+  const initialValues: LoginFormValues = {
+    email: '',
     password: '',
   };
-  const validationSchema = Yup.object({
-    login: Yup.string()
-      .min(3, 'Username must be at least 3 characters')
-      .required('Username is required'),
-    password: Yup.string()
 
+  const validationSchema = Yup.object({
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
       .required('Password is required'),
   });
 
-  const handleSubmit = (values: typeof initialValues) => {
-    console.log('Form data:', values);
-    router.push('/products');
+  const handleSubmit = async (
+    values: LoginFormValues,
+    { setSubmitting }: FormikHelpers<LoginFormValues>,
+  ) => {
+    try {
+      const resultAction = await dispatch(login(values));
+
+      if (resultAction.meta.requestStatus === 'fulfilled') {
+        const userRole = resultAction.payload.data.user.role;
+
+        if (userRole === 'admin') {
+          router.push('/admin');
+        } else {
+          router.push('/products');
+        }
+      } else {
+        toast.error('Невірний логін або пароль');
+      }
+    } catch (error) {
+      toast.error('Помилка при вході. Спробуй ще раз.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4 text-red">Login</h2>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <h2 className="text-xl font-bold mb-4 text-red-600">Login</h2>
 
       <Formik
         initialValues={initialValues}
@@ -35,11 +66,11 @@ export default function login() {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <Form className="flex flex-col gap-4 p-6 rounded shadow-md">
+          <Form className="flex flex-col gap-4 p-6 rounded shadow-md border">
             <div>
-              <label htmlFor="username">Login</label>
-              <Field type="text" name="login" className="border p-2 w-full rounded" />
-              <ErrorMessage name="login" component="div" className="text-red-500 text-sm" />
+              <label htmlFor="email">Email</label>
+              <Field type="email" name="email" className="border p-2 w-full rounded" />
+              <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
             </div>
 
             <div>
