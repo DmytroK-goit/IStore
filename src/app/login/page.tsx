@@ -14,8 +14,6 @@ interface LoginFormValues {
   password: string;
 }
 
-type LoginResult = Awaited<ReturnType<typeof login>>;
-
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
@@ -37,15 +35,12 @@ export default function Login() {
     { setSubmitting }: FormikHelpers<LoginFormValues>,
   ) => {
     try {
-      // Виконуємо dispatch з правильною типізацією
       const resultAction = await dispatch(login(values));
 
-      if (resultAction.meta.requestStatus === 'fulfilled') {
+      if (login.fulfilled.match(resultAction)) {
         const userRole = resultAction.payload.data.user.role;
-
         toast.success('Вхід успішний');
 
-        // Редирект залежно від ролі
         if (userRole === 'admin') {
           router.push('/admin');
         } else {
