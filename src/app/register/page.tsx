@@ -3,10 +3,11 @@
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { login, registerUser } from '@/redux/UserAuth/operations';
+import type { AppDispatch } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { login, registerUser } from '@/redux/UserAuth/operations';
 
 interface RegisterFormValues {
   email: string;
@@ -14,12 +15,8 @@ interface RegisterFormValues {
   name: string;
 }
 
-// Типізація результатів dispatch
-type RegisterResult = Awaited<ReturnType<typeof registerUser>>;
-type LoginResult = Awaited<ReturnType<typeof login>>;
-
 export default function Register() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const initialValues: RegisterFormValues = {
@@ -41,16 +38,18 @@ export default function Register() {
     { setSubmitting }: FormikHelpers<RegisterFormValues>,
   ) => {
     try {
-      const resultRegister: RegisterResult = await dispatch(registerUser(values));
+      // Виконуємо dispatch registerUser
+      const resultAction = await dispatch(registerUser(values));
 
-      if (resultRegister.meta.requestStatus === 'fulfilled') {
+      // Перевірка через match
+      if (registerUser.fulfilled.match(resultAction)) {
         toast.success('Реєстрація успішна');
 
-        const loginResult: LoginResult = await dispatch(
+        const loginResult = await dispatch(
           login({ email: values.email, password: values.password }),
         );
 
-        if (loginResult.meta.requestStatus === 'fulfilled') {
+        if (login.fulfilled.match(loginResult)) {
           const userRole = loginResult.payload.data.user.role;
           router.push(userRole === 'admin' ? '/admin' : '/products');
         } else {
