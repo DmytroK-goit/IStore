@@ -38,7 +38,7 @@ export default function Login() {
   ) => {
     try {
       // Виконуємо dispatch з правильною типізацією
-      const resultAction: LoginResult = await dispatch(login(values));
+      const resultAction = await dispatch(login(values));
 
       if (resultAction.meta.requestStatus === 'fulfilled') {
         const userRole = resultAction.payload.data.user.role;
