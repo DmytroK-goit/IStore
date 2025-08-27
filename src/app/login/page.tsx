@@ -13,7 +13,7 @@ interface LoginFormValues {
   email: string;
   password: string;
 }
-
+type LoginResult = Awaited<ReturnType<typeof login>>;
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>(); // типізуємо dispatch
@@ -35,7 +35,7 @@ export default function Login() {
     { setSubmitting }: FormikHelpers<LoginFormValues>,
   ) => {
     try {
-      const resultAction = await dispatch(login(values));
+      const resultAction: LoginResult = await dispatch(login(values));
 
       if (resultAction.meta.requestStatus === 'fulfilled') {
         const userRole = resultAction.payload.data.user.role;
