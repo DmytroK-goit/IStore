@@ -47,11 +47,11 @@ export default function SoldItemsPage() {
   if (orders.length === 0) return <p>No sold items yet.</p>;
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">Sold Orders</h2>
-      <div className="space-y-6">
+    <div className="p-6 ">
+      <h2 className="text-4xl font-bold mb-6">Sold Orders</h2>
+      <div className="space-y-6 ">
         {orders.map((order, idx) => (
-          <div key={idx} className="border rounded-xl p-4 bg-white shadow-md space-y-3">
+          <div key={idx} className="border rounded-xl p-4 shadow-md space-y-3 ">
             <h3 className="text-lg font-semibold mb-2">Order #{idx + 1}</h3>
 
             {/* Products */}
@@ -70,8 +70,8 @@ export default function SoldItemsPage() {
             <p className="font-bold mb-4">Total: ${order.total}</p>
 
             {/* Address */}
-            <div className="bg-gray-50 p-3 rounded-md">
-              <h4 className="font-semibold mb-1">Shipping Details:</h4>
+            <div className=" p-3 rounded-md">
+              <h4 className="font-semibold mb-1 text-neutral-600 text-4xl">Shipping Details:</h4>
               <p>
                 {order.address.name} {order.address.surname}
               </p>
@@ -81,7 +81,7 @@ export default function SoldItemsPage() {
                 {order.address.apartment && `, Apt. ${order.address.apartment}`}
               </p>
               {order.address.comment && (
-                <p className="italic text-gray-600">Comment: {order.address.comment}</p>
+                <p className="italic text-gray-800">Comment: {order.address.comment}</p>
               )}
             </div>
 

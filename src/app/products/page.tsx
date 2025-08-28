@@ -1,19 +1,41 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { products } from '@/data/products';
 
-type CartItem = { id: number; quantity: number };
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { fetchProducts } from '@/redux/Products/operations';
+import {
+  selectProducts,
+  selectProductsLoading,
+  selectProductsError,
+} from '@/redux/Products/selectors';
+
+type CartItem = { id: string; quantity: number };
 
 export default function ProductsPage() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const products = useSelector(selectProducts);
+  const isLoading = useSelector(selectProductsLoading);
+  const error = useSelector(selectProductsError);
+  console.log('Products:', products);
+
+  // Local state
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [cart, setCart] = useState<CartItem[]>([]);
 
+  // Load products from backend
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  // Load cart from localStorage
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) setCart(JSON.parse(storedCart));
   }, []);
 
-  const addToCart = (id: number) => {
+  const addToCart = (id: string) => {
     const existing = cart.find((item) => item.id === id);
     let updatedCart: CartItem[];
     if (existing) {
@@ -28,6 +50,7 @@ export default function ProductsPage() {
     alert('Product added to cart!');
   };
 
+  // Categories
   const categories = ['All', ...new Set(products.map((p) => p.category))];
   const filteredProducts =
     selectedCategory === 'All' ? products : products.filter((p) => p.category === selectedCategory);
@@ -35,6 +58,10 @@ export default function ProductsPage() {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">Products</h2>
+
+      {/* LOADING & ERROR */}
+      {isLoading && <p className="text-gray-500">Loading products...</p>}
+      {error && <p className="text-red-500">Error: {error}</p>}
 
       {/* Фільтр категорій */}
       <div className="flex flex-wrap gap-3 mb-6">
@@ -57,21 +84,19 @@ export default function ProductsPage() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filteredProducts.map((product) => {
           const quantityInCart = cart.find((item) => item.id === product.id)?.quantity || 0;
-          const outOfStock = product.amount === 0;
+          const outOfStock = product.quantity === 0;
 
           return (
             <div
               key={product.id}
               className={`border rounded-2xl shadow-md p-4 flex flex-col transition ${
-                outOfStock
-                  ? 'bg-gray-100 opacity-70 cursor-not-allowed'
-                  : 'bg-white hover:shadow-lg'
+                outOfStock ? 'bg-gray-100 opacity-70 cursor-not-allowed' : ' hover:shadow-lg'
               }`}
             >
               <div className="w-full h-40 bg-gray-200 flex items-center justify-center rounded-xl mb-4 overflow-hidden">
-                {product.image ? (
+                {product.img ? (
                   <img
-                    src={product.image}
+                    src={product.img}
                     alt={product.name}
                     className="object-cover w-full h-full"
                   />
@@ -82,19 +107,9 @@ export default function ProductsPage() {
 
               <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
               <p className="text-sm text-gray-500 mb-1">Category: {product.category}</p>
-              <p className="text-gray-700 mb-2 flex-grow">{product.description}</p>
               <p className="font-bold text-lg mb-2">${product.price}</p>
-              <p className="text-sm text-gray-500 mb-4">In stock: {product.amount}</p>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {product.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              <p className="text-sm text-gray-500 mb-4">In stock: {product.quantity}</p>
+
               <div className="flex justify-center mt-4">
                 <button
                   onClick={() => !outOfStock && addToCart(product.id)}

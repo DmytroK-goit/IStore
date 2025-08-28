@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { currentUser, login, logout, refresh, registerUser, updateUser } from './operations.ts';
+import { login, logout, registerUser } from './operations.ts';
 
 const initialState = {
   isLoadingLogin: false,

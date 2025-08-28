@@ -3,7 +3,7 @@ import SoldItemsPage from '@/components/soldItem/soldItem';
 
 export default function AdminPage() {
   return (
-    <div>
+    <div className="flex items-center">
       <AddItem />
       <SoldItemsPage />
     </div>
