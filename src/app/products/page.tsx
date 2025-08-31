@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import { AppDispatch } from '@/redux/store';
 import { fetchProducts } from '@/redux/Products/operations';
 import {
   selectProducts,
@@ -14,43 +14,40 @@ type CartItem = { id: string; quantity: number };
 
 export default function ProductsPage() {
   const dispatch = useDispatch<AppDispatch>();
-
   const products = useSelector(selectProducts);
+  console.log('Products from Redux:', products);
   const isLoading = useSelector(selectProductsLoading);
   const error = useSelector(selectProductsError);
-  console.log('Products:', products);
 
-  // Local state
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  // Load products from backend
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  // Load cart from localStorage
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) setCart(JSON.parse(storedCart));
   }, []);
 
-  const addToCart = (id: string) => {
-    const existing = cart.find((item) => item.id === id);
+  const addToCart = (_id: string) => {
+    const existing = cart.find((item) => item.id === _id);
     let updatedCart: CartItem[];
+
     if (existing) {
       updatedCart = cart.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+        item.id === _id ? { ...item, quantity: item.quantity + 1 } : item,
       );
     } else {
-      updatedCart = [...cart, { id, quantity: 1 }];
+      updatedCart = [...cart, { id: _id, quantity: 1 }];
     }
+
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     alert('Product added to cart!');
   };
 
-  // Categories
   const categories = ['All', ...new Set(products.map((p) => p.category))];
   const filteredProducts =
     selectedCategory === 'All' ? products : products.filter((p) => p.category === selectedCategory);
@@ -59,11 +56,9 @@ export default function ProductsPage() {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">Products</h2>
 
-      {/* LOADING & ERROR */}
       {isLoading && <p className="text-gray-500">Loading products...</p>}
       {error && <p className="text-red-500">Error: {error}</p>}
 
-      {/* Фільтр категорій */}
       <div className="flex flex-wrap gap-3 mb-6">
         {categories.map((cat) => (
           <button
@@ -80,17 +75,16 @@ export default function ProductsPage() {
         ))}
       </div>
 
-      {/* Продукти */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filteredProducts.map((product) => {
-          const quantityInCart = cart.find((item) => item.id === product.id)?.quantity || 0;
+          const quantityInCart = cart.find((item) => item.id === product._id)?.quantity || 0;
           const outOfStock = product.quantity === 0;
 
           return (
             <div
               key={product.id}
               className={`border rounded-2xl shadow-md p-4 flex flex-col transition ${
-                outOfStock ? 'bg-gray-100 opacity-70 cursor-not-allowed' : ' hover:shadow-lg'
+                outOfStock ? 'bg-gray-100 opacity-70 cursor-not-allowed' : 'hover:shadow-lg'
               }`}
             >
               <div className="w-full h-40 bg-gray-200 flex items-center justify-center rounded-xl mb-4 overflow-hidden">
@@ -112,7 +106,7 @@ export default function ProductsPage() {
 
               <div className="flex justify-center mt-4">
                 <button
-                  onClick={() => !outOfStock && addToCart(product.id)}
+                  onClick={() => !outOfStock && addToCart(product._id)}
                   disabled={outOfStock}
                   className={`w-1/2 rounded-xl transition ${
                     outOfStock

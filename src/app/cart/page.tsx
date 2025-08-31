@@ -1,12 +1,27 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { products } from '@/data/products';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { selectProducts } from '@/redux/Products/selectors';
+import { fetchProducts } from '@/redux/Products/operations';
+import { AppDispatch } from '@/redux/store';
 
-type CartItem = { id: number; quantity: number };
+type CartItem = { id: string; quantity: number };
+
+export interface Product {
+  _id?: string;
+  id?: string;
+  name: string;
+  price: number;
+  category: string;
+  quantity: number;
+  date: string;
+  img: string;
+}
+
 type SoldItem = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   quantity: number;
@@ -23,61 +38,66 @@ interface SoldAddress {
   comment?: string;
 }
 
-export default function CartPage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [detailedItems, setDetailedItems] = useState<
-    ((typeof products)[0] & { quantity: number })[]
-  >([]);
+const getProductId = (p: Product) => String(p._id ?? p.id);
 
-  // завантаження з localStorage
+export default function CartPage() {
+  const dispatch = useDispatch<AppDispatch>();
+  const products = useSelector(selectProducts);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [detailedItems, setDetailedItems] = useState<(Product & { quantity: number })[]>([]);
+
+  useEffect(() => {
+    if (!products || products.length === 0) {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, products]);
+
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
       const parsedCart: CartItem[] = JSON.parse(storedCart);
       setCartItems(parsedCart);
-      setDetailedItems(
-        parsedCart.map((ci) => {
-          const product = products.find((p) => p.id === ci.id);
-          return { ...product, quantity: ci.quantity };
-        }) as any,
-      );
     }
   }, []);
 
-  // синхронізація
   useEffect(() => {
+    if (!products || products.length === 0) return;
     if (cartItems.length === 0) {
       localStorage.removeItem('cart');
       setDetailedItems([]);
       return;
     }
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-    setDetailedItems(
-      cartItems.map((ci) => {
-        const product = products.find((p) => p.id === ci.id);
-        return { ...product, quantity: ci.quantity };
-      }) as any,
-    );
-  }, [cartItems]);
 
-  const increaseQuantity = (id: number) => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+
+    const updatedDetailed = cartItems
+      .map((ci) => {
+        const product = products.find((p) => getProductId(p) === String(ci.id));
+        if (!product) return null;
+        return { ...product, quantity: ci.quantity };
+      })
+      .filter(Boolean) as (Product & { quantity: number })[];
+
+    setDetailedItems(updatedDetailed);
+  }, [cartItems, products]);
+
+  const increaseQuantity = (id: string) => {
     setCartItems((prev) =>
       prev.map((item) => {
-        if (item.id === id) {
-          const product = products.find((p) => p.id === item.id);
-          if (!product) return item;
-          if (item.quantity < product.amount) {
-            return { ...item, quantity: item.quantity + 1 };
-          } else {
-            alert(`Cannot add more than ${product.amount} of this product`);
-          }
+        if (item.id !== id) return item;
+        const product = products.find((p) => getProductId(p) === id);
+        if (!product) return item;
+        if (item.quantity < product.quantity) {
+          return { ...item, quantity: item.quantity + 1 };
+        } else {
+          alert(`Cannot add more than ${product.quantity} of this product`);
         }
         return item;
       }),
     );
   };
 
-  const decreaseQuantity = (id: number) => {
+  const decreaseQuantity = (id: string) => {
     setCartItems((prev) =>
       prev
         .map((item) => (item.id === id ? { ...item, quantity: item.quantity - 1 } : item))
@@ -102,9 +122,9 @@ export default function CartPage() {
     if (cartItems.length === 0) return;
 
     const soldItems: SoldItem[] = cartItems.map((ci) => {
-      const product = products.find((p) => p.id === ci.id)!;
+      const product = products.find((p) => getProductId(p) === String(ci.id))!;
       return {
-        id: product.id,
+        id: getProductId(product),
         name: product.name,
         price: product.price,
         quantity: ci.quantity,
@@ -137,16 +157,17 @@ export default function CartPage() {
 
   return (
     <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* Cart Items */}
       <div>
         <h2 className="text-2xl font-bold mb-6">Cart</h2>
         <div className="space-y-4">
           {detailedItems.map((item) => (
             <div
-              key={item.id}
+              key={getProductId(item)}
               className="flex justify-between items-center border rounded-xl p-4 bg-white shadow-md"
             >
               <div>
-                <h3 className="font-semibold">{item.name}</h3>
+                <h3 className="font-semibold text-gray-800">{item.name}</h3>
                 <p className="text-sm text-gray-500">{item.category}</p>
                 <p className="text-gray-700">
                   ${item.price} × {item.quantity} = ${item.price * item.quantity}
@@ -154,14 +175,14 @@ export default function CartPage() {
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => decreaseQuantity(item.id)}
+                  onClick={() => decreaseQuantity(getProductId(item))}
                   className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                 >
                   -
                 </button>
                 <span className="text-gray-900">{item.quantity}</span>
                 <button
-                  onClick={() => increaseQuantity(item.id)}
+                  onClick={() => increaseQuantity(getProductId(item))}
                   className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
                 >
                   +
@@ -175,7 +196,7 @@ export default function CartPage() {
         </div>
       </div>
 
-      {/* ADDRESS FORM */}
+      {/* Delivery Form */}
       <div>
         <h2 className="text-2xl font-bold mb-6">Delivery details</h2>
         <Formik
@@ -194,79 +215,23 @@ export default function CartPage() {
         >
           {({ isSubmitting }) => (
             <Form className="space-y-3">
-              <div>
-                <label htmlFor="name" className="block font-medium text-gray-400">
-                  Name
-                </label>
-                <Field
-                  id="name"
-                  name="name"
-                  placeholder="First name"
-                  className="w-full border p-2 rounded"
-                />
-                <ErrorMessage name="name" component="div" className="text-red-500 text-sm" />
-              </div>
-              <div>
-                <label htmlFor="surname" className="block font-medium text-gray-400">
-                  Surname
-                </label>
-                <Field
-                  name="surname"
-                  placeholder="Last name"
-                  className="w-full border p-2 rounded"
-                />
-                <ErrorMessage name="surname" component="div" className="text-red-500 text-sm" />
-              </div>
-              <div>
-                <label htmlFor="phone" className="block font-medium text-gray-400">
-                  Phone
-                </label>
-                <Field name="phone" placeholder="Phone" className="w-full border p-2 rounded" />
-                <ErrorMessage name="phone" component="div" className="text-red-500 text-sm" />
-              </div>
-              <div>
-                <label htmlFor="city" className="block font-medium text-gray-400">
-                  City
-                </label>
-                <Field name="city" placeholder="City" className="w-full border p-2 rounded" />
-                <ErrorMessage name="city" component="div" className="text-red-500 text-sm" />
-              </div>
-              <div>
-                <label htmlFor="street" className="block font-medium text-gray-400">
-                  Street
-                </label>
-                <Field name="street" placeholder="Street" className="w-full border p-2 rounded" />
-                <ErrorMessage name="street" component="div" className="text-red-500 text-sm" />
-              </div>
-              <div>
-                <label htmlFor="house" className="block font-medium text-gray-400">
-                  House
-                </label>
-                <Field name="house" placeholder="House" className="w-full border p-2 rounded" />
-                <ErrorMessage name="house" component="div" className="text-red-500 text-sm" />
-              </div>
-              <div>
-                <label htmlFor="apartment" className="block font-medium text-gray-400">
-                  Apartment
-                </label>
-                <Field
-                  name="apartment"
-                  placeholder="Apartment"
-                  className="w-full border p-2 rounded"
-                />
-              </div>
-              <div>
-                <label htmlFor="comment" className="block font-medium text-gray-400">
-                  Comment
-                </label>
-                <Field
-                  as="textarea"
-                  name="comment"
-                  placeholder="Comment"
-                  className="w-full border p-2 rounded"
-                />
-              </div>
-
+              {['name', 'surname', 'phone', 'city', 'street', 'house', 'apartment', 'comment'].map(
+                (field) => (
+                  <div key={field}>
+                    <label htmlFor={field} className="block font-medium text-gray-400">
+                      {field.charAt(0).toUpperCase() + field.slice(1)}
+                    </label>
+                    <Field
+                      as={field === 'comment' ? 'textarea' : 'input'}
+                      id={field}
+                      name={field}
+                      placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                      className="w-full border p-2 rounded"
+                    />
+                    <ErrorMessage name={field} component="div" className="text-red-500 text-sm" />
+                  </div>
+                ),
+              )}
               <button
                 type="submit"
                 disabled={isSubmitting}
