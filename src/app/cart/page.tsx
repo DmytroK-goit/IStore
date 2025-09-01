@@ -6,19 +6,9 @@ import * as Yup from 'yup';
 import { selectProducts } from '@/redux/Products/selectors';
 import { fetchProducts } from '@/redux/Products/operations';
 import { AppDispatch } from '@/redux/store';
+import { Product } from '@/types/product';
 
 type CartItem = { id: string; quantity: number };
-
-export interface Product {
-  _id?: string;
-  id?: string;
-  name: string;
-  price: number;
-  category: string;
-  quantity: number;
-  date: string;
-  img: string;
-}
 
 type SoldItem = {
   id: string;
@@ -38,7 +28,7 @@ interface SoldAddress {
   comment?: string;
 }
 
-const getProductId = (p: Product) => String(p._id ?? p.id);
+const getProductId = (p: Product) => String(p._id ?? p._id);
 
 export default function CartPage() {
   const dispatch = useDispatch<AppDispatch>();
