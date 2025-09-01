@@ -1,15 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { istore } from '../UserAuth/operations';
-
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-  quantity: number;
-  date: string;
-  img: string;
-}
+import { Product } from '@/types/product';
 
 interface ProductsState {
   items: Product[];
