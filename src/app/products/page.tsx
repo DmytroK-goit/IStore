@@ -5,17 +5,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { fetchProducts } from '@/redux/Products/operations';
 import {
-  selectProducts,
   selectProductsLoading,
   selectProductsError,
+  selectProducts,
 } from '@/redux/Products/selectors';
 
 type CartItem = { id: string; quantity: number };
+type Product = {
+  _id: string;
+  name: string;
+  category: string;
+  price: number;
+  quantity: number;
+  img?: string;
+};
 
 export default function ProductsPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const products = useSelector(selectProducts);
-  console.log('Products from Redux:', products);
+  const products = useSelector(selectProducts) as Product[];
   const isLoading = useSelector(selectProductsLoading);
   const error = useSelector(selectProductsError);
 
@@ -82,7 +89,7 @@ export default function ProductsPage() {
 
           return (
             <div
-              key={product.id}
+              key={product._id}
               className={`border rounded-2xl shadow-md p-4 flex flex-col transition ${
                 outOfStock ? 'bg-gray-100 opacity-70 cursor-not-allowed' : 'hover:shadow-lg'
               }`}
