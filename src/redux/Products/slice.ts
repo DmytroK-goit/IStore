@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchProducts } from './operations';
+import { addProduct, fetchProducts } from './operations';
 import { Product } from '@/types/product';
 
 interface ProductsState {
@@ -31,6 +31,18 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message ?? 'Unknown error';
+      })
+      .addCase(addProduct.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(addProduct.fulfilled, (state, action: PayloadAction<Product>) => {
+        state.isLoading = false;
+        state.items.push(action.payload);
+      })
+      .addCase(addProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       });
   },
 });

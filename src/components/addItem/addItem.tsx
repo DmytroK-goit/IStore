@@ -2,31 +2,57 @@
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { addProduct } from '@/redux/Products/operations';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddItem() {
+  const dispatch = useDispatch<AppDispatch>();
+
   const initialValues = {
-    nameItem: '',
+    name: '',
     category: '',
     price: '',
     description: '',
-    amount: '',
-    image: null as File | null,
+    quantity: '',
+    img: null as File | null,
   };
 
   const validationSchema = Yup.object({
-    nameItem: Yup.string().required('Required'),
+    name: Yup.string().required('Required'),
     category: Yup.string().required('Required'),
     price: Yup.number()
       .typeError('Must be a number')
       .positive('Must be positive')
       .required('Required'),
     description: Yup.string().min(5, 'Too short').required('Required'),
-    amount: Yup.number().typeError('Must be a number').min(1, 'At least 1').required('Required'),
-    image: Yup.mixed().required('Image is required'),
+    quantity: Yup.number().typeError('Must be a number').min(1, 'At least 1').required('Required'),
+    img: Yup.mixed(),
   });
 
-  const handleSubmit = (values: typeof initialValues) => {
-    console.log('Form data:', values);
+  const handleSubmit = async (values: typeof initialValues, { resetForm }: any) => {
+    try {
+      const formData: FormData = new FormData();
+      formData.append('name', values.name);
+      formData.append('category', values.category);
+      formData.append('price', values.price.toString());
+      formData.append('description', values.description);
+      formData.append('quantity', values.quantity.toString());
+      if (values.img) formData.append('img', values.img);
+
+      const resultAction = await dispatch(addProduct(formData));
+
+      if (addProduct.fulfilled.match(resultAction)) {
+        toast.success('Product added successfully');
+        resetForm();
+      } else {
+        toast.error((resultAction.payload as string) || 'Failed to add product');
+      }
+    } catch (error) {
+      toast.error('An error occurred');
+    }
   };
 
   return (
@@ -42,8 +68,8 @@ export default function AddItem() {
           <Form className="space-y-4">
             <div>
               <label className="block mb-1 font-medium">Name</label>
-              <Field name="nameItem" type="text" className="w-full border p-2 rounded" />
-              <ErrorMessage name="nameItem" component="div" className="text-red-500 text-sm" />
+              <Field name="name" type="text" className="w-full border p-2 rounded" />
+              <ErrorMessage name="name" component="div" className="text-red-500 text-sm" />
             </div>
 
             <div>
@@ -70,20 +96,20 @@ export default function AddItem() {
             </div>
 
             <div>
-              <label className="block mb-1 font-medium">Amount</label>
-              <Field name="amount" type="number" className="w-full border p-2 rounded" />
-              <ErrorMessage name="amount" component="div" className="text-red-500 text-sm" />
+              <label className="block mb-1 font-medium">Quantity</label>
+              <Field name="quantity" type="number" className="w-full border p-2 rounded" />
+              <ErrorMessage name="quantity" component="div" className="text-red-500 text-sm" />
             </div>
 
             <div>
               <label className="block mb-1 font-medium">Image</label>
               <input
                 type="file"
-                name="image"
-                onChange={(e) => setFieldValue('image', e.currentTarget.files?.[0] || null)}
+                name="img"
+                onChange={(e) => setFieldValue('img', e.currentTarget.files?.[0] || null)}
                 className="w-full border p-2 rounded"
               />
-              <ErrorMessage name="image" component="div" className="text-red-500 text-sm" />
+              <ErrorMessage name="img" component="div" className="text-red-500 text-sm" />
             </div>
 
             <button
