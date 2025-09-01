@@ -9,16 +9,9 @@ import {
   selectProductsError,
   selectProducts,
 } from '@/redux/Products/selectors';
+import { Product } from '@/types/product';
 
 type CartItem = { id: string; quantity: number };
-type Product = {
-  _id: string;
-  name: string;
-  category: string;
-  price: number;
-  quantity: number;
-  img?: string;
-};
 
 export default function ProductsPage() {
   const dispatch = useDispatch<AppDispatch>();
