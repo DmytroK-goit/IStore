@@ -29,7 +29,7 @@ export default function AddItem() {
       .required('Required'),
     description: Yup.string().min(5, 'Too short').required('Required'),
     quantity: Yup.number().typeError('Must be a number').min(1, 'At least 1').required('Required'),
-    img: Yup.mixed(),
+    img: Yup.mixed().nullable(),
   });
 
   const handleSubmit = async (values: typeof initialValues, { resetForm }: any) => {

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { istore } from '../UserAuth/operations';
 import { Product } from '@/types/product';
+import { toast } from 'react-toastify';
 
 interface ProductsState {
   items: Product[];
@@ -36,6 +37,7 @@ export const addProduct = createAsyncThunk<Product, FormData>(
       });
       return response.data;
     } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to add product');
       return rejectWithValue(err.response?.data?.message || 'Failed to add product');
     }
   },
