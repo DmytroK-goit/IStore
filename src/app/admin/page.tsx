@@ -3,6 +3,7 @@ import AddItem from '@/components/addItem/addItem';
 import SoldItemsPage from '@/components/soldItem/soldItem';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ContactUs } from '@/components/contactUs/contactUs';
 
 export default function AdminPage() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function AdminPage() {
       </div>
 
       <AddItem />
+      <ContactUs />
       <SoldItemsPage />
     </div>
   );

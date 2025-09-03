@@ -1,9 +1,22 @@
 'use client';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { addContactUsMessage } from '@/redux/ContactUs/operations';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+interface ContactFormValues {
+  name: string;
+  email: string;
+  message: string;
+}
 
 export default function ContactUs() {
-  const initialValues = { name: '', email: '', message: '' };
+  const dispatch = useDispatch<AppDispatch>();
+
+  const initialValues: ContactFormValues = { name: '', email: '', message: '' };
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Name is required'),
@@ -11,14 +24,26 @@ export default function ContactUs() {
     message: Yup.string().required('Message is required'),
   });
 
-  const handleSubmit = (values: typeof initialValues, { resetForm }: { resetForm: () => void }) => {
-    console.log('Form data:', values);
-    alert('Message sent!');
-    resetForm();
+  const handleSubmit = async (
+    values: ContactFormValues,
+    { resetForm }: FormikHelpers<ContactFormValues>,
+  ) => {
+    try {
+      const resultAction = await dispatch(addContactUsMessage(values));
+      if (addContactUsMessage.fulfilled.match(resultAction)) {
+        toast.success('Message sent successfully!');
+        resetForm();
+      } else {
+        toast.error('Failed to send message');
+      }
+    } catch (error) {
+      toast.error('Something went wrong');
+    }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
+      <ToastContainer position="top-right" autoClose={3000} />
       <h2 className="text-3xl font-bold mb-2">Contact Us</h2>
       <p className="text-gray-400 mb-6">
         We would love to hear from you! Please reach out with any questions or feedback.

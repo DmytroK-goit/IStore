@@ -11,7 +11,9 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.11.0",
+    "cookies-next": "^6.1.0",
     "formik": "^2.4.6",
+    "jwt-decode": "^4.0.0",
     "next": "15.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
