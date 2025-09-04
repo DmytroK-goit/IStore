@@ -79,3 +79,11 @@ export const refresh = createAsyncThunk('auth/refresh', async (_, thunkApi) => {
     return thunkApi.rejectWithValue(error.message);
   }
 });
+export const fetchProfile = createAsyncThunk('fetchProfile', async (_, thunkApi) => {
+  try {
+    const { data } = await istore.get('/auth/profile');
+    return data;
+  } catch (err: any) {
+    return thunkApi.rejectWithValue(err.message);
+  }
+});

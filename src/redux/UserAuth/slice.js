@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, logout, registerUser } from './operations.ts';
+import { fetchProfile, login, logout, registerUser } from './operations.ts';
 
 const initialState = {
   isLoadingLogin: false,
@@ -34,7 +34,11 @@ const slice = createSlice({
       .addCase(login.pending, (state) => {
         state.isLoadingLogin = true;
       })
-
+      .addCase(fetchProfile.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isLoggedIn = true;
+        state.isLoadingLogin = false;
+      })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.token = null;

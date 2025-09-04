@@ -1,32 +1,14 @@
 import './globals.css';
 import Link from 'next/link';
 import { Providers } from '../providers';
+import { Header } from '@/components/header/header';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="bg-gray-900 text-white flex flex-col min-h-screen ">
         <Providers>
-          <header className="flex justify-between items-center px-6 h-14 bg-gray-800 border-b border-gray-700">
-            <h1 className="text-xl font-bold text-yellow-400">MyShop</h1>
-            <nav className="flex gap-6">
-              <Link href="/" className="hover:underline">
-                Home
-              </Link>
-              <Link href="/products" className="hover:underline">
-                Shop
-              </Link>
-              <Link href="/cart" className="hover:underline">
-                Cart
-              </Link>
-              <Link href="/about" className="hover:underline">
-                About
-              </Link>
-              <Link href="/admin" className="hover:underline">
-                Admin
-              </Link>
-            </nav>
-          </header>
+          <Header />
 
           <main
             className="flex-1 p-5 bg-cover bg-center bg-no-repeat"
