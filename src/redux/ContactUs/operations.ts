@@ -11,7 +11,7 @@ export const addContactUsMessage = createAsyncThunk(
   ) => {
     try {
       const { data } = await istore.post('/contactUs/addContactUs', { name, email, message });
-
+      toast.success('Message sent successfully');
       return data;
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Помилка при відправці повідомлення');
@@ -27,7 +27,7 @@ export const fetchContactUsMessage = createAsyncThunk(
       const { data } = await istore.get('/contactUs/');
       return data;
     } catch (error: any) {
-      toast.error('Не вдалося отримати повідомлення');
+      toast.error('The message could not be received');
       return rejectWithValue(error.response?.data || error.message);
     }
   },
@@ -38,7 +38,7 @@ export const dellContactUsMessage = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       await istore.delete(`/contactUs/${id}`);
-      toast.success('Повідомлення видалено');
+      toast.success('Message read');
       return id;
     } catch (error: any) {
       toast.error('Не вдалося видалити повідомлення');

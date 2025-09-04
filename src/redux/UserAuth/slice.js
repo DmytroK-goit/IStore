@@ -10,8 +10,7 @@ const initialState = {
     email: '',
     role: '',
   },
-  token: '',
-  userCount: '',
+
   isLoggedIn: false,
   isRefreshing: false,
 };
@@ -46,18 +45,6 @@ const slice = createSlice({
         state.isLoadingLogin = false;
       })
 
-      // .addCase(refresh.pending, (state) => {
-      //   state.isRefreshing = true;
-      // })
-      // .addCase(refresh.fulfilled, (state, action) => {
-      //   state.user = action.payload.user;
-      //   state.token = action.payload.data.accessToken;
-      //   state.isLoggedIn = true;
-      //   state.isRefreshing = false;
-      // })
-      // .addCase(refresh.rejected, (state) => {
-      //   state.isRefreshing = false;
-      // })
       .addCase(login.rejected, (state, action) => {
         state.isLoadingLogin = false;
         state.isLoggedIn = false;
@@ -68,17 +55,6 @@ const slice = createSlice({
         console.error('Registration failed', action.error);
         state.isLoggedIn = false;
       });
-    // .addCase(updateUser.pending, (state) => {
-    //   state.updateStatus = 'pending';
-    // })
-    // .addCase(updateUser.fulfilled, (state, action) => {
-    //   state.user = { ...state.user, ...action.payload };
-    //   state.updateStatus = 'success';
-    //   state.isLoggedIn = true;
-    // })
-    // .addCase(currentUser.fulfilled, (state, action) => {
-    //   state.user = action.payload.data;
-    // });
   },
 });
 export const authSlice = slice.reducer;

@@ -12,7 +12,8 @@ istore.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      toast.error('Сесія завершилась. Будь ласка, увійдіть знову.');
+      toast.error('Your session has expired. Please log in again.');
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   },
@@ -32,10 +33,10 @@ export interface RegisterCredentials {
 export const login = createAsyncThunk('login', async (credentials: LoginCredentials, thunkApi) => {
   try {
     const { data } = await istore.post('/auth/login', credentials);
-    toast.success('Вхід успішний');
+    toast.success('Login is successful');
     return data;
   } catch (error: any) {
-    toast.error('Невірний логін або пароль');
+    toast.error('Incorrect login or password');
     return thunkApi.rejectWithValue(error.response?.data || error.message);
   }
 });
@@ -45,15 +46,15 @@ export const registerUser = createAsyncThunk(
   async (credentials: RegisterCredentials, thunkApi) => {
     try {
       const { data } = await istore.post('/auth/register', credentials);
-      toast.success('Реєстрація успішна');
+      toast.success('Registration is successful');
 
       await thunkApi.dispatch(login({ email: credentials.email, password: credentials.password }));
       return data;
     } catch (error: any) {
       if (error.response?.status === 409) {
-        toast.error('Email уже використовується. Спробуй інший');
+        toast.error('Email is already in use. Try another one.');
       } else {
-        toast.error('Помилка при реєстрації');
+        toast.error('Error during registration');
       }
       return thunkApi.rejectWithValue(error.response?.data || error.message);
     }
@@ -63,7 +64,7 @@ export const registerUser = createAsyncThunk(
 export const logout = createAsyncThunk('logout', async (_, thunkApi) => {
   try {
     await istore.post('/auth/logout');
-    toast.success('Вихід успішний');
+    toast.success('Exit is successful');
   } catch (error: any) {
     toast.error(error.message || 'Logout failed');
     return thunkApi.rejectWithValue(error.message);
@@ -75,7 +76,6 @@ export const refresh = createAsyncThunk('auth/refresh', async (_, thunkApi) => {
     const { data } = await istore.get('/auth/refresh');
     return data;
   } catch (error: any) {
-    toast.error('Помилка оновлення сесії');
     return thunkApi.rejectWithValue(error.message);
   }
 });

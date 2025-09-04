@@ -44,14 +44,17 @@ export default function SoldItemsPage() {
     localStorage.setItem('sold', JSON.stringify(updatedOrders));
   };
 
-  if (orders.length === 0) return <p>No sold items yet.</p>;
-
   return (
-    <div className="p-6 ">
+    <div className="mt-8">
       <h2 className="text-4xl font-bold mb-6">Sold Orders</h2>
-      <div className="space-y-6 ">
+      {orders.length === 0 && <p>No sold items yet.</p>}
+
+      <div className="space-y-6">
         {orders.map((order, idx) => (
-          <div key={idx} className="border rounded-xl p-4 shadow-md space-y-3 ">
+          <div
+            key={idx}
+            className="border rounded-xl p-4 shadow-md space-y-3 bg-gray-800 bg-opacity-30"
+          >
             <h3 className="text-lg font-semibold mb-2">Order #{idx + 1}</h3>
 
             {/* Products */}

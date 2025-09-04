@@ -35,6 +35,7 @@ export const addProduct = createAsyncThunk<Product, FormData>(
           'Content-Type': 'multipart/form-data',
         },
       });
+      toast.success('Product added successfully');
       return response.data;
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Failed to add product');

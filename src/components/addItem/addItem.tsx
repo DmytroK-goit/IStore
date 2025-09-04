@@ -56,7 +56,7 @@ export default function AddItem() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 shadow-lg rounded-xl">
+    <div className="p-6 shadow-lg rounded-xl bg-zinc-700">
       <h2 className="text-2xl font-bold mb-4 text-center">Add Item</h2>
 
       <Formik

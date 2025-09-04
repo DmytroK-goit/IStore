@@ -12,14 +12,16 @@ export default function AdminPage() {
     <div className="p-6 flex flex-col gap-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Admin Panel</h1>
-        <Link href="/" className="text-blue-500 underline">
-          Go to Home
-        </Link>
       </div>
 
-      <AddItem />
-      <ContactUs />
-      <SoldItemsPage />
+      <div className="flex gap-12 ">
+        <AddItem />
+
+        <div className="flex flex-col gap-6">
+          <ContactUs />
+          <SoldItemsPage />
+        </div>
+      </div>
     </div>
   );
 }

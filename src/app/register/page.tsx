@@ -26,11 +26,13 @@ export default function Register() {
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email('Неправильний формат email').required('Email обов’язковий'),
+    email: Yup.string().email('Incorrect email format').required('Email is required'),
     password: Yup.string()
-      .min(6, 'Пароль має бути не менше 6 символів')
-      .required('Пароль обов’язковий'),
-    name: Yup.string().min(2, 'Ім’я має бути не менше 2 символів').required('Ім’я обов’язкове'),
+      .min(6, 'Password must be at least 6 characters long.')
+      .required('Password is required'),
+    name: Yup.string()
+      .min(2, 'The name must be at least 2 characters long.')
+      .required('Name is required'),
   });
 
   const handleSubmit = async (
@@ -38,12 +40,9 @@ export default function Register() {
     { setSubmitting }: FormikHelpers<RegisterFormValues>,
   ) => {
     try {
-      // Виконуємо dispatch registerUser
       const resultAction = await dispatch(registerUser(values));
-
-      // Перевірка через match
       if (registerUser.fulfilled.match(resultAction)) {
-        toast.success('Реєстрація успішна');
+        toast.success('Registration is successful');
 
         const loginResult = await dispatch(
           login({ email: values.email, password: values.password }),
@@ -53,15 +52,12 @@ export default function Register() {
           const userRole = loginResult.payload.data.user.role;
           router.push(userRole === 'admin' ? '/admin' : '/products');
         } else {
-          toast.error('Не вдалося увійти після реєстрації. Спробуйте увійти вручну.');
           router.push('/login');
         }
       } else {
-        toast.error('Не вдалося зареєструватися. Спробуйте ще раз.');
       }
     } catch (error) {
-      toast.error('Помилка при реєстрації. Спробуйте ще раз.');
-      console.error('Registration error:', error);
+      toast.error('Error while registering. Please try again.');
     } finally {
       setSubmitting(false);
     }

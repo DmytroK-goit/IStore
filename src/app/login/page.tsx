@@ -39,19 +39,15 @@ export default function Login() {
 
       if (login.fulfilled.match(resultAction)) {
         const userRole = resultAction.payload.data.user.role;
-        toast.success('Вхід успішний');
-
         if (userRole === 'admin') {
           router.push('/admin');
         } else {
           router.push('/products');
         }
       } else {
-        toast.error('Невірний логін або пароль');
       }
     } catch (error) {
-      toast.error('Помилка при вході. Спробуй ще раз.');
-      console.error('Login error:', error);
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setSubmitting(false);
     }
