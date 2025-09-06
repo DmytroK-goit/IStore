@@ -13,7 +13,6 @@ istore.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       toast.error('Your session has expired. Please log in again.');
-      window.location.href = '/login';
     }
     return Promise.reject(error);
   },

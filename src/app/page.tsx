@@ -1,9 +1,4 @@
-'use client';
-import { AppDispatch } from '@/redux/store';
-import { fetchProfile } from '@/redux/UserAuth/operations';
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 const buttonClasses = `
   block
   mx-auto
@@ -23,14 +18,13 @@ const buttonClasses = `
 `;
 
 export default function Home() {
-  const dispatch = useDispatch<AppDispatch>();
-  useEffect(() => {
-    dispatch(fetchProfile());
-  }, [dispatch]);
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-5xl font-bold mb-2 text-black">Welcome to IStore</h2>
-      <p className="text-gray-800 mb-4">Your one-stop shop for all things tech!</p>
+      <h1 className="text-5xl font-semibold mb-2 text-red-200 mt-14">
+        IStore – Your Tech Marketplace
+      </h1>
+      <p className="text-3xl font-bold mb-2 text-neutral-900 mt-10">Welcome to IStore</p>
+      <p className="text-gray-300 mb-4 mt-10">Your one-stop shop for all things tech!</p>
 
       <div className="flex flex-wrap gap-x-10 gap-y-10 mt-6">
         <Link href="/about" className={buttonClasses}>
