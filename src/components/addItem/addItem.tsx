@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddItem() {
   const dispatch = useDispatch<AppDispatch>();
-
+  const categories = ['Auto', 'Food', 'Health', 'Transport', 'Education', 'Electronics'];
   const initialValues = {
     name: '',
     category: '',
@@ -74,7 +74,14 @@ export default function AddItem() {
 
             <div>
               <label className="block mb-1 font-medium">Category</label>
-              <Field name="category" type="text" className="w-full border p-2 rounded" />
+              <Field name="category" as="select" className="w-full border p-2 rounded bg-inherit">
+                <option value="">Select category</option>
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </Field>
               <ErrorMessage name="category" component="div" className="text-red-500 text-sm" />
             </div>
 

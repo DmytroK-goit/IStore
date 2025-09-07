@@ -1,14 +1,15 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { selectProducts } from '@/redux/Products/selectors';
 import { fetchProducts } from '@/redux/Products/operations';
 import { AppDispatch } from '@/redux/store';
 import { Product } from '@/types/product';
-
-type CartItem = { id: string; quantity: number };
+import { fetchCart, addToCart, removeFromCart } from '@/redux/Cart/operations';
+import { selectCartItems } from '@/redux/Cart/selectors';
+import { selectProducts } from '@/redux/Products/selectors';
+import { CartItem } from '@/types/cart';
 
 type SoldItem = {
   id: string;
@@ -17,6 +18,7 @@ type SoldItem = {
   quantity: number;
   date: string;
 };
+
 interface SoldAddress {
   name: string;
   surname: string;
@@ -28,71 +30,42 @@ interface SoldAddress {
   comment?: string;
 }
 
-const getProductId = (p: Product) => String(p._id ?? p._id);
-
 export default function CartPage() {
   const dispatch = useDispatch<AppDispatch>();
   const products = useSelector(selectProducts);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const cart: CartItem[] = useSelector(selectCartItems);
+
   const [detailedItems, setDetailedItems] = useState<(Product & { quantity: number })[]>([]);
 
   useEffect(() => {
-    if (!products || products.length === 0) {
-      dispatch(fetchProducts());
-    }
+    if (!products || products.length === 0) dispatch(fetchProducts());
+    dispatch(fetchCart());
   }, [dispatch, products]);
 
   useEffect(() => {
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-      const parsedCart: CartItem[] = JSON.parse(storedCart);
-      setCartItems(parsedCart);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!products || products.length === 0) return;
-    if (cartItems.length === 0) {
-      localStorage.removeItem('cart');
+    const cartItemsArray = cart || [];
+    if (!products || cartItemsArray.length === 0) {
       setDetailedItems([]);
       return;
     }
 
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-
-    const updatedDetailed = cartItems
+    const updatedDetailed = cartItemsArray
       .map((ci) => {
-        const product = products.find((p) => getProductId(p) === String(ci.id));
+        const product = products.find((p) => p._id === ci.productId);
         if (!product) return null;
         return { ...product, quantity: ci.quantity };
       })
       .filter(Boolean) as (Product & { quantity: number })[];
 
     setDetailedItems(updatedDetailed);
-  }, [cartItems, products]);
-
-  const increaseQuantity = (id: string) => {
-    setCartItems((prev) =>
-      prev.map((item) => {
-        if (item.id !== id) return item;
-        const product = products.find((p) => getProductId(p) === id);
-        if (!product) return item;
-        if (item.quantity < product.quantity) {
-          return { ...item, quantity: item.quantity + 1 };
-        } else {
-          alert(`Cannot add more than ${product.quantity} of this product`);
-        }
-        return item;
-      }),
-    );
+  }, [cart, products]);
+  console.log(detailedItems);
+  const increaseQuantity = (productId: string) => {
+    dispatch(addToCart({ productId, quantity: 1 }));
   };
 
-  const decreaseQuantity = (id: string) => {
-    setCartItems((prev) =>
-      prev
-        .map((item) => (item.id === id ? { ...item, quantity: item.quantity - 1 } : item))
-        .filter((item) => item.quantity > 0),
-    );
+  const decreaseQuantity = (productId: string) => {
+    dispatch(removeFromCart(productId));
   };
 
   const total = detailedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -109,12 +82,13 @@ export default function CartPage() {
   });
 
   const handleSubmit = (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
-    if (cartItems.length === 0) return;
+    const cartItemsArray = cart || [];
+    if (cartItemsArray.length === 0) return;
 
-    const soldItems: SoldItem[] = cartItems.map((ci) => {
-      const product = products.find((p) => getProductId(p) === String(ci.id))!;
+    const soldItems: SoldItem[] = cartItemsArray.map((ci) => {
+      const product = products.find((p) => p._id === ci.productId)!;
       return {
-        id: getProductId(product),
+        id: product._id,
         name: product.name,
         price: product.price,
         quantity: ci.quantity,
@@ -122,21 +96,15 @@ export default function CartPage() {
       };
     });
 
-    const order = {
-      items: soldItems,
-      address: values,
-      total,
-    };
-
+    const order = { items: soldItems, address: values, total };
     const existingSold = JSON.parse(localStorage.getItem('sold') || '[]');
     localStorage.setItem('sold', JSON.stringify([...existingSold, order]));
 
-    setCartItems([]);
     resetForm();
     alert('Order placed successfully!');
   };
 
-  if (cartItems.length === 0) {
+  if (!cart || cart.length === 0) {
     return (
       <div className="p-6">
         <h2 className="text-2xl font-bold mb-6">Cart</h2>
@@ -153,7 +121,7 @@ export default function CartPage() {
         <div className="space-y-4">
           {detailedItems.map((item) => (
             <div
-              key={getProductId(item)}
+              key={item._id}
               className="flex justify-between items-center border rounded-xl p-4 bg-white shadow-md"
             >
               <div>
@@ -165,14 +133,14 @@ export default function CartPage() {
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => decreaseQuantity(getProductId(item))}
+                  onClick={() => decreaseQuantity(item._id)}
                   className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                 >
                   -
                 </button>
                 <span className="text-gray-900">{item.quantity}</span>
                 <button
-                  onClick={() => increaseQuantity(getProductId(item))}
+                  onClick={() => increaseQuantity(item._id)}
                   className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
                 >
                   +

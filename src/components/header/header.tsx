@@ -26,7 +26,7 @@ export const Header = () => {
       <Link href="/products" className="text-xl font-bold text-yellow-400">
         MyShop
       </Link>
-      <p className="text-3xl text-neutral-400 ">{user.name}</p>
+      <p className="text-3xl text-neutral-400 ">{user?.name || 'Guest'}</p>
       <nav className="flex gap-6 items-center">
         <Link href="/" className="hover:underline text-white">
           Home

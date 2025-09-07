@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
@@ -10,8 +9,7 @@ import {
   selectProducts,
 } from '@/redux/Products/selectors';
 import { Product } from '@/types/product';
-
-type CartItem = { id: string; quantity: number };
+import { addToCart as addToCartThunk } from '@/redux/Cart/operations';
 
 export default function ProductsPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,32 +18,17 @@ export default function ProductsPage() {
   const error = useSelector(selectProductsError);
 
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  useEffect(() => {
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) setCart(JSON.parse(storedCart));
-  }, []);
-
-  const addToCart = (_id: string) => {
-    const existing = cart.find((item) => item.id === _id);
-    let updatedCart: CartItem[];
-
-    if (existing) {
-      updatedCart = cart.map((item) =>
-        item.id === _id ? { ...item, quantity: item.quantity + 1 } : item,
-      );
-    } else {
-      updatedCart = [...cart, { id: _id, quantity: 1 }];
+  const handleAddToCart = async (productId: string, quantity: number) => {
+    try {
+      await dispatch(addToCartThunk({ productId, quantity })).unwrap();
+    } catch (err) {
+      console.error(err);
     }
-
-    setCart(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
-    alert('Product added to cart!');
   };
 
   const categories = ['All', ...new Set(products.map((p) => p.category))];
@@ -77,7 +60,6 @@ export default function ProductsPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filteredProducts.map((product) => {
-          const quantityInCart = cart.find((item) => item.id === product._id)?.quantity || 0;
           const outOfStock = product.quantity === 0;
 
           return (
@@ -106,7 +88,7 @@ export default function ProductsPage() {
 
               <div className="flex justify-center mt-4">
                 <button
-                  onClick={() => !outOfStock && addToCart(product._id)}
+                  onClick={() => !outOfStock && handleAddToCart(product._id, 1)}
                   disabled={outOfStock}
                   className={`w-1/2 rounded-xl transition ${
                     outOfStock
@@ -114,9 +96,7 @@ export default function ProductsPage() {
                       : 'bg-emerald-500 text-white hover:bg-emerald-600'
                   }`}
                 >
-                  {outOfStock
-                    ? 'Out of Stock'
-                    : `Add to Cart ${quantityInCart > 0 ? `(${quantityInCart})` : ''}`}
+                  {outOfStock ? 'Out of Stock' : 'Add to Cart'}
                 </button>
               </div>
             </div>

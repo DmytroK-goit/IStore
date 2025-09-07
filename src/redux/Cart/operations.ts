@@ -4,9 +4,13 @@ import { toast } from 'react-toastify';
 
 export const addToCart = createAsyncThunk(
   'cart/addToCart',
-  async (_id: string, { rejectWithValue }) => {
+  async ({ productId, quantity }: { productId: string; quantity: number }, { rejectWithValue }) => {
     try {
-      const response = await istore.post('/cart/addToCard', { _id });
+      const response = await istore.post(
+        '/cart/addToCart',
+        { productId, quantity },
+        { withCredentials: true },
+      );
       toast.success('Product added to cart');
       return response.data;
     } catch (err: any) {
@@ -19,7 +23,7 @@ export const addToCart = createAsyncThunk(
 export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWithValue }) => {
   try {
     const response = await istore.get('/cart');
-    return response.data;
+    return response.data.items;
   } catch (err: any) {
     return rejectWithValue(err.response?.data?.message || 'Failed to fetch cart');
   }
