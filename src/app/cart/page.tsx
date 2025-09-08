@@ -35,7 +35,7 @@ export default function CartPage() {
   const products = useSelector(selectProducts);
   const cart: CartItem[] = useSelector(selectCartItems);
 
-  const [detailedItems, setDetailedItems] = useState<(Product & { quantity: number })[]>([]);
+  const [detailedItems, setDetailedItems] = useState<(Product & { cartQuantity: number })[]>([]);
 
   useEffect(() => {
     if (!products || products.length === 0) dispatch(fetchProducts());
@@ -53,32 +53,25 @@ export default function CartPage() {
       .map((ci) => {
         const product = products.find((p) => p._id === ci.productId);
         if (!product) return null;
-        return { ...product, quantity: ci.quantity };
+        return { ...product, cartQuantity: ci.quantity };
       })
-      .filter(Boolean) as (Product & { quantity: number })[];
+      .filter(Boolean) as (Product & { cartQuantity: number })[];
 
     setDetailedItems(updatedDetailed);
   }, [cart, products]);
-  console.log(products);
-  // const increaseQuantity = (productId: string) => {
-  //   dispatch(addToCart({ productId, quantity: 1 }));
-  // };
 
-  // const decreaseQuantity = (productId: string) => {
-  //   dispatch(removeFromCart(productId));
-  // };
   const handleQuantityChange = (
     productId: string,
     currentQuantity: number,
     change: number,
-    quantity: number,
+    stock: number,
   ) => {
     const newQuantity = currentQuantity + change;
-    if (newQuantity < 1 || newQuantity > quantity) return;
+    if (newQuantity < 1 || newQuantity > stock) return;
     dispatch(setCartItemQuantity({ productId, quantity: newQuantity }));
   };
 
-  const total = detailedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = detailedItems.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Required'),
@@ -138,19 +131,23 @@ export default function CartPage() {
                 <h3 className="font-semibold text-gray-800">{item.name}</h3>
                 <p className="text-sm text-gray-500">{item.category}</p>
                 <p className="text-gray-700">
-                  ${item.price} × {item.quantity} = ${item.price * item.quantity}
+                  ${item.price} × {item.cartQuantity} = ${item.price * item.cartQuantity}
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => handleQuantityChange(item._id, item.quantity, -1, item.quantity)}
+                  onClick={() =>
+                    handleQuantityChange(item._id, item.cartQuantity, -1, item.quantity)
+                  }
                   className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                 >
                   -
                 </button>
-                <span className="text-gray-900">{item.quantity}</span>
+                <span className="text-gray-900">{item.cartQuantity}</span>
                 <button
-                  onClick={() => handleQuantityChange(item._id, item.quantity, +1, item.quantity)}
+                  onClick={() =>
+                    handleQuantityChange(item._id, item.cartQuantity, +1, item.quantity)
+                  }
                   className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
                 >
                   +
