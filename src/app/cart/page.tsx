@@ -9,7 +9,7 @@ import { Product } from '@/types/product';
 import { fetchCart, addToCart, removeFromCart } from '@/redux/Cart/operations';
 import { selectCartItems } from '@/redux/Cart/selectors';
 import { selectProducts } from '@/redux/Products/selectors';
-import { CartItem } from '@/types/cart';
+import { CartItem } from '@/redux/Cart/sliсe';
 
 type SoldItem = {
   id: string;
