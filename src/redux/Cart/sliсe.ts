@@ -70,7 +70,7 @@ const cartSlice = createSlice({
       })
       .addCase(removeFromCart.fulfilled, (state, action: PayloadAction<string>) => {
         state.isLoading = false;
-        state.items = state.items.filter((item) => item.productId !== action.payload);
+        state.items = state.items.filter((item) => item._id !== action.payload);
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.isLoading = false;

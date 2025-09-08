@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { fetchProducts } from '@/redux/Products/operations';
 import { AppDispatch } from '@/redux/store';
 import { Product } from '@/types/product';
-import { fetchCart, addToCart, removeFromCart } from '@/redux/Cart/operations';
+import { fetchCart, removeFromCart } from '@/redux/Cart/operations';
 import { selectCartItems } from '@/redux/Cart/selectors';
 import { selectProducts } from '@/redux/Products/selectors';
 import { CartItem, setCartItemQuantity } from '@/redux/Cart/sliсe';
@@ -48,16 +48,20 @@ export default function CartPage() {
       setDetailedItems([]);
       return;
     }
-
-    const updatedDetailed = cartItemsArray
+    console.log('Cart:', cart);
+    const updatedDetailed = cart
       .map((ci) => {
         const product = products.find((p) => p._id === ci.productId);
         if (!product) return null;
-        return { ...product, cartQuantity: ci.quantity };
+        console.log('Mapping cart item:', ci._id);
+        return {
+          ...product,
+          cartQuantity: ci.quantity,
+          cartItemId: ci._id,
+        };
       })
-      .filter(Boolean) as (Product & { cartQuantity: number })[];
-
-    setDetailedItems(updatedDetailed);
+      .filter(Boolean);
+    setDetailedItems(updatedDetailed as any);
   }, [cart, products]);
 
   const handleQuantityChange = (
@@ -106,7 +110,9 @@ export default function CartPage() {
     resetForm();
     alert('Order placed successfully!');
   };
-
+  const handleDelCartItem = (cartItemId: string) => {
+    dispatch(removeFromCart(cartItemId));
+  };
   if (!cart || cart.length === 0) {
     return (
       <div className="p-6">
@@ -128,6 +134,9 @@ export default function CartPage() {
               className="flex justify-between items-center border rounded-xl p-4 bg-white shadow-md"
             >
               <div>
+                <button className="bg-red-500" onClick={() => handleDelCartItem(item.cartItemId)}>
+                  Del
+                </button>
                 <h3 className="font-semibold text-gray-800">{item.name}</h3>
                 <p className="text-sm text-gray-500">{item.category}</p>
                 <p className="text-gray-700">

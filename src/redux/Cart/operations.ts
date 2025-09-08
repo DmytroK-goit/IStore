@@ -31,11 +31,11 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWi
 
 export const removeFromCart = createAsyncThunk(
   'cart/removeFromCart',
-  async (_id: string, { rejectWithValue }) => {
+  async (cartItemId: string, { rejectWithValue }) => {
     try {
-      const response = await istore.delete(`/cart/${_id}`);
+      const response = await istore.delete(`/cart/${cartItemId}`);
       toast.success('Product removed from cart');
-      return response.data;
+      return cartItemId;
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Failed to remove product from cart');
       return rejectWithValue(err.response?.data?.message || 'Failed to remove product from cart');
