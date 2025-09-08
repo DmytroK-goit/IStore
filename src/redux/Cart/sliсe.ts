@@ -20,7 +20,19 @@ const initialState: CartState = {
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
-  reducers: {},
+  reducers: {
+    setCartItemQuantity: (
+      state,
+      action: PayloadAction<{ productId: string; quantity: number }>,
+    ) => {
+      const { productId, quantity } = action.payload;
+      const item = state.items.find((i) => i._id === productId);
+      if (item) {
+        item.quantity = quantity;
+      }
+    },
+  },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchCart.pending, (state) => {
@@ -61,4 +73,5 @@ const cartSlice = createSlice({
       });
   },
 });
+export const { setCartItemQuantity } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;

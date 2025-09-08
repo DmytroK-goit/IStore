@@ -9,7 +9,7 @@ import { Product } from '@/types/product';
 import { fetchCart, addToCart, removeFromCart } from '@/redux/Cart/operations';
 import { selectCartItems } from '@/redux/Cart/selectors';
 import { selectProducts } from '@/redux/Products/selectors';
-import { CartItem } from '@/redux/Cart/sliсe';
+import { CartItem, setCartItemQuantity } from '@/redux/Cart/sliсe';
 
 type SoldItem = {
   id: string;
@@ -59,13 +59,23 @@ export default function CartPage() {
 
     setDetailedItems(updatedDetailed);
   }, [cart, products]);
-  console.log(detailedItems);
-  const increaseQuantity = (productId: string) => {
-    dispatch(addToCart({ productId, quantity: 1 }));
-  };
+  console.log(products);
+  // const increaseQuantity = (productId: string) => {
+  //   dispatch(addToCart({ productId, quantity: 1 }));
+  // };
 
-  const decreaseQuantity = (productId: string) => {
-    dispatch(removeFromCart(productId));
+  // const decreaseQuantity = (productId: string) => {
+  //   dispatch(removeFromCart(productId));
+  // };
+  const handleQuantityChange = (
+    productId: string,
+    currentQuantity: number,
+    change: number,
+    quantity: number,
+  ) => {
+    const newQuantity = currentQuantity + change;
+    if (newQuantity < 1 || newQuantity > quantity) return;
+    dispatch(setCartItemQuantity({ productId, quantity: newQuantity }));
   };
 
   const total = detailedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -133,14 +143,14 @@ export default function CartPage() {
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => decreaseQuantity(item._id)}
+                  onClick={() => handleQuantityChange(item._id, item.quantity, -1, item.quantity)}
                   className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                 >
                   -
                 </button>
                 <span className="text-gray-900">{item.quantity}</span>
                 <button
-                  onClick={() => increaseQuantity(item._id)}
+                  onClick={() => handleQuantityChange(item._id, item.quantity, +1, item.quantity)}
                   className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
                 >
                   +
