@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { addToCart, fetchCart, removeFromCart } from './operations';
 export interface CartItem {
   _id: string;
+  productId: string;
   name: string;
   price: number;
   quantity: number;
-  productId: string;
 }
 interface CartState {
   items: CartItem[];
@@ -26,7 +26,7 @@ const cartSlice = createSlice({
       action: PayloadAction<{ productId: string; quantity: number }>,
     ) => {
       const { productId, quantity } = action.payload;
-      const item = state.items.find((i) => i._id === productId);
+      const item = state.items.find((i) => i.productId === productId);
       if (item) {
         item.quantity = quantity;
       }
@@ -53,7 +53,12 @@ const cartSlice = createSlice({
       })
       .addCase(addToCart.fulfilled, (state, action: PayloadAction<CartItem>) => {
         state.isLoading = false;
-        state.items.push(action.payload);
+        const existing = state.items.find((i) => i.productId === action.payload.productId);
+        if (existing) {
+          existing.quantity = action.payload.quantity;
+        } else {
+          state.items.push(action.payload);
+        }
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.isLoading = false;
@@ -65,7 +70,7 @@ const cartSlice = createSlice({
       })
       .addCase(removeFromCart.fulfilled, (state, action: PayloadAction<string>) => {
         state.isLoading = false;
-        state.items = state.items.filter((item) => item._id !== action.payload);
+        state.items = state.items.filter((item) => item.productId !== action.payload);
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.isLoading = false;
@@ -73,5 +78,6 @@ const cartSlice = createSlice({
       });
   },
 });
+
 export const { setCartItemQuantity } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
