@@ -139,7 +139,10 @@ export default function CartPage() {
               className="flex justify-between items-center border rounded-xl p-4 bg-white shadow-md"
             >
               <div>
-                <button className="bg-red-500" onClick={() => handleDelCartItem(item.cartItemId)}>
+                <button
+                  className="bg-red-500"
+                  onClick={() => dispatch(removeFromCart(item.cartItemId))}
+                >
                   Del
                 </button>
                 <h3 className="font-semibold text-gray-800">{item.name}</h3>
