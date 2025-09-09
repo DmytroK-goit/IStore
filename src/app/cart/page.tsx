@@ -30,12 +30,17 @@ interface SoldAddress {
   comment?: string;
 }
 
+export interface DetailedCartItem extends Product {
+  cartQuantity: number;
+  cartItemId: string;
+}
+
 export default function CartPage() {
   const dispatch = useDispatch<AppDispatch>();
   const products = useSelector(selectProducts);
   const cart: CartItem[] = useSelector(selectCartItems);
 
-  const [detailedItems, setDetailedItems] = useState<(Product & { cartQuantity: number })[]>([]);
+  const [detailedItems, setDetailedItems] = useState<DetailedCartItem[]>([]);
 
   useEffect(() => {
     if (!products || products.length === 0) dispatch(fetchProducts());
