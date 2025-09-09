@@ -137,6 +137,7 @@ export default function CartPage() {
             <div
               key={item._id}
               className="flex justify-between items-center border rounded-xl p-4 bg-white shadow-md"
+              onClick={() => console.log(item._id)}
             >
               <div>
                 <button
