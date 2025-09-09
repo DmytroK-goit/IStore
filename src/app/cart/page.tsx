@@ -53,12 +53,11 @@ export default function CartPage() {
       setDetailedItems([]);
       return;
     }
-    console.log('Cart:', cart);
+
     const updatedDetailed = cart
       .map((ci) => {
         const product = products.find((p) => p._id === ci.productId);
         if (!product) return null;
-        console.log('Mapping cart item:', ci._id);
         return {
           ...product,
           cartQuantity: ci.quantity,
@@ -115,9 +114,7 @@ export default function CartPage() {
     resetForm();
     alert('Order placed successfully!');
   };
-  const handleDelCartItem = (cartItemId: string) => {
-    dispatch(removeFromCart(cartItemId));
-  };
+
   if (!cart || cart.length === 0) {
     return (
       <div className="p-6">
@@ -137,14 +134,13 @@ export default function CartPage() {
             <div
               key={item._id}
               className="flex justify-between items-center border rounded-xl p-4 bg-white shadow-md"
-              onClick={() => console.log(item._id)}
             >
               <div>
                 <button
-                  className="bg-red-500"
+                  className="bg-red-500 w-16 rounded-2xl  hover:bg-red-700"
                   onClick={() => dispatch(removeFromCart(item.cartItemId))}
                 >
-                  Del
+                  Delete
                 </button>
                 <h3 className="font-semibold text-gray-800">{item.name}</h3>
                 <p className="text-sm text-gray-500">{item.category}</p>
