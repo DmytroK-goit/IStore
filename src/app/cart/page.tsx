@@ -114,7 +114,6 @@ export default function CartPage() {
   //   resetForm();
   // };
   const handleSubmit = (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
-   
     dispatch(createOrder({ address: values }));
     resetForm();
   };
