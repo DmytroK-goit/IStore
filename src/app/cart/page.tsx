@@ -113,11 +113,19 @@ export default function CartPage() {
   //   dispatch(createOrder(order));
   //   resetForm();
   // };
+  // const handleSubmit = (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
+  //   dispatch(createOrder({ address: values }));
+  //   resetForm();
+  // };
   const handleSubmit = (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
-    dispatch(createOrder({ address: values }));
+    const items = cart.map((ci) => ({
+      productId: ci.productId,
+      quantity: ci.quantity, // саме ця кількість з корзини
+    }));
+
+    dispatch(createOrder({ address: values, items }));
     resetForm();
   };
-
   if (!cart || cart.length === 0) {
     return (
       <div className="p-6">
