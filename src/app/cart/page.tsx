@@ -93,30 +93,6 @@ export default function CartPage() {
     comment: Yup.string(),
   });
 
-  // const handleSubmit = (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
-  //   const cartItemsArray = cart || [];
-  //   if (cartItemsArray.length === 0) return;
-
-  //   const soldItems: SoldItem[] = cartItemsArray.map((ci) => {
-  //     const product = products.find((p) => p._id === ci.productId)!;
-  //     return {
-  //       id: product._id,
-  //       name: product.name,
-  //       price: product.price,
-  //       quantity: ci.quantity,
-  //       date: new Date().toISOString(),
-  //     };
-  //   });
-
-  //   const order = { items: soldItems, address: values, total };
-  //   console.log(order);
-  //   dispatch(createOrder(order));
-  //   resetForm();
-  // };
-  // const handleSubmit = (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
-  //   dispatch(createOrder({ address: values }));
-  //   resetForm();
-  // };
   const handleSubmit = (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
     const items = cart.map((ci) => ({
       productId: ci.productId,

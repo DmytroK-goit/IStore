@@ -1,7 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { allOrder, updateOrderStatus } from '@/redux/Order/operations';
+import { selectAllOrders } from '@/redux/Order/selectors';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
 
-type SoldProduct = {
+export type SoldProduct = {
   id: number;
   name: string;
   price: number;
@@ -9,7 +13,7 @@ type SoldProduct = {
   date: string;
 };
 
-type Address = {
+export type Address = {
   name: string;
   surname: string;
   phone: string;
@@ -20,42 +24,43 @@ type Address = {
   comment?: string;
 };
 
-type SoldOrder = {
+export type OrderStatus = 'creating' | 'processing' | 'shipped' | 'delivered';
+
+export type SoldOrder = {
+  _id: string;
   items: SoldProduct[];
   address: Address;
   total: number;
+  status: OrderStatus;
+  createdAt: string;
 };
 
 export default function SoldItemsPage() {
-  const [orders, setOrders] = useState<SoldOrder[]>([]);
-
+  const dispatch = useDispatch<AppDispatch>();
+  const orderItems: SoldOrder[] = useSelector(selectAllOrders);
   useEffect(() => {
-    const stored = localStorage.getItem('sold');
-    console.log('Loaded sold items:', stored);
-    if (stored) setOrders(JSON.parse(stored));
-  }, []);
+    dispatch(allOrder());
+  }, [dispatch, orderItems]);
 
-  const markAsSent = (index: number) => {
-    if (!confirm('Mark this order as sent?')) return;
-
-    const updatedOrders = [...orders];
-    updatedOrders.splice(index, 1);
-    setOrders(updatedOrders);
-    localStorage.setItem('sold', JSON.stringify(updatedOrders));
+  const changeOrderStatus = (id: string, status: OrderStatus) => {
+    console.log(status);
+    dispatch(updateOrderStatus({ id, status }));
   };
 
   return (
     <div className="mt-8">
       <h2 className="text-4xl font-bold mb-6">Sold Orders</h2>
-      {orders.length === 0 && <p>No sold items yet.</p>}
+      {orderItems.length === 0 && <p>No sold items yet.</p>}
 
       <div className="space-y-6">
-        {orders.map((order, idx) => (
+        {orderItems.map((order, idx) => (
           <div
-            key={idx}
+            key={order._id}
             className="border rounded-xl p-4 shadow-md space-y-3 bg-gray-800 bg-opacity-30"
           >
-            <h3 className="text-lg font-semibold mb-2">Order #{idx + 1}</h3>
+            <h3 className="text-lg font-semibold mb-2">
+              Order #{idx + 1} ({order.status})
+            </h3>
 
             {/* Products */}
             <div className="space-y-2 mb-4">
@@ -73,8 +78,8 @@ export default function SoldItemsPage() {
             <p className="font-bold mb-4">Total: ${order.total}</p>
 
             {/* Address */}
-            <div className=" p-3 rounded-md">
-              <h4 className="font-semibold mb-1 text-neutral-600 text-4xl">Shipping Details:</h4>
+            <div className="p-3 rounded-md">
+              <h4 className="font-semibold mb-1 text-neutral-600 text-2xl">Shipping Details:</h4>
               <p>
                 {order.address.name} {order.address.surname}
               </p>
@@ -88,12 +93,20 @@ export default function SoldItemsPage() {
               )}
             </div>
 
-            <button
-              onClick={() => markAsSent(idx)}
-              className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-            >
-              Mark as Sent
-            </button>
+            {/* Status selector */}
+            <div className="mt-4">
+              <label className="mr-2 font-medium">Change Status:</label>
+              <select
+                value={order.status}
+                onChange={(e) => changeOrderStatus(order._id, e.target.value as OrderStatus)}
+                className="px-3 py-2 border rounded bg-gray-700 text-white"
+              >
+                <option value="creating">Creating</option>
+                <option value="processing">Processing</option>
+                <option value="shipped">Shipped</option>
+                <option value="delivered">Delivered</option>
+              </select>
+            </div>
           </div>
         ))}
       </div>

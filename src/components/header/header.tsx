@@ -40,6 +40,9 @@ export const Header = () => {
         <Link href="/about" className="hover:underline text-white">
           About
         </Link>
+        <Link href="/myProfile" className="hover:underline text-white">
+          My Profile
+        </Link>
 
         {role === 'admin' && (
           <Link href="/admin" className="hover:underline text-white">
