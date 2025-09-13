@@ -9,13 +9,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export const Header = () => {
   const user = useSelector(selectUser);
-  const role = user?.role || 'user';
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
     dispatch(fetchProfile());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const handleLogout = () => {
     dispatch(logout() as any);
     router.push('/products');
@@ -26,7 +27,7 @@ export const Header = () => {
       <Link href="/products" className="text-xl font-bold text-yellow-400">
         MyShop
       </Link>
-      <p className="text-3xl text-neutral-400 ">{user?.name || 'Guest'}</p>
+      <p className="text-3xl text-neutral-400">{user?.name || 'Guest'}</p>
       <nav className="flex gap-6 items-center">
         <Link href="/" className="hover:underline text-white">
           Home
@@ -40,23 +41,28 @@ export const Header = () => {
         <Link href="/about" className="hover:underline text-white">
           About
         </Link>
-        <Link href="/myProfile" className="hover:underline text-white">
-          My Profile
-        </Link>
 
-        {role === 'admin' && (
+        {user && (
+          <Link href="/myProfile" className="hover:underline text-white">
+            My Profile
+          </Link>
+        )}
+
+        {user?.role === 'admin' && (
           <Link href="/admin" className="hover:underline text-white">
             Admin
           </Link>
         )}
 
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-        >
-          Logout
-        </button>
+        {user && (
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+          >
+            Logout
+          </button>
+        )}
       </nav>
     </header>
   );
