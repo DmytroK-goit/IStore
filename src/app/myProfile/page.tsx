@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export default function MyProfile() {
   const dispatch = useDispatch<AppDispatch>();
-  const orderItems: SoldOrder[] = useSelector(selectMyOrders) || []; // масив за замовчуванням
-  console.log(orderItems);
+  const orderItems: SoldOrder[] = useSelector(selectMyOrders) || [];
+
   useEffect(() => {
     dispatch(myOrder());
   }, [dispatch]);
@@ -20,7 +20,7 @@ export default function MyProfile() {
   }
 
   return (
-    <div className="mt-8 space-y-6">
+    <div className="grid xs:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 mt-8 space-y-6 space-x-3">
       {orderItems.map((order, idx) => (
         <div
           key={order._id}

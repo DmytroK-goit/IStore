@@ -48,15 +48,15 @@ export default function SoldItemsPage() {
   };
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 ">
       <h2 className="text-4xl font-bold mb-6">Sold Orders</h2>
       {orderItems.length === 0 && <p>No sold items yet.</p>}
 
-      <div className="space-y-6">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {orderItems.map((order, idx) => (
           <div
             key={order._id}
-            className="border rounded-xl p-4 shadow-md space-y-3 bg-gray-800 bg-opacity-30"
+            className="w-full border rounded-xl p-4 shadow-md space-y-3 bg-gray-800 bg-opacity-40 "
           >
             <h3 className="text-lg font-semibold mb-2">
               Order #{idx + 1} ({order.status})

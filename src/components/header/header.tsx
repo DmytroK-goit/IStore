@@ -23,9 +23,12 @@ export const Header = () => {
   };
 
   return (
-    <header className="flex justify-between items-center px-6 h-14 bg-gray-800 border-b border-gray-700">
+    <header
+      className="flex justify-between items-center px-6 h-14 bg-cover bg-center"
+      style={{ backgroundImage: "url('/img/bg_header.jpg')" }}
+    >
       <Link href="/products" className="text-xl font-bold text-yellow-400">
-        MyShop
+        ISTORE
       </Link>
       <p className="text-3xl text-neutral-400">{user?.name || 'Guest'}</p>
       <nav className="flex gap-6 items-center">
@@ -42,7 +45,7 @@ export const Header = () => {
           About
         </Link>
 
-        {user && (
+        {user && user.role !== 'user' && (
           <Link href="/myProfile" className="hover:underline text-white">
             My Profile
           </Link>
