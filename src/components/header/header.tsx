@@ -30,8 +30,8 @@ export const Header = () => {
       <Link href="/products" className="text-xl font-bold text-yellow-400">
         ISTORE
       </Link>
-      <p className="text-xl sm:text-3xl text-neutral-400">{user?.name || 'Guest'}</p>
-      <nav className="flex gap-6 items-center mb-2">
+      <p className="text-xl sm:text-3xl text-neutral-400 line-clamp-2">{user?.name || 'Guest'}</p>
+      <nav className="flex gap-4 items-center mb-2">
         <Link href="/" className="hover:underline text-white">
           Home
         </Link>

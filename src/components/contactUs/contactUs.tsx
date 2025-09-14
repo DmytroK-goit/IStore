@@ -33,21 +33,17 @@ export const ContactUs = () => {
       {messages.length === 0 ? (
         <p>No messages yet.</p>
       ) : (
-        <ul className="grid grid-cols-2 gap-6 items-stretch">
+        <ul className="grid grid-cols-1 gap-6 items-stretch sm:grid-cols-2 lg:grid-cols-4">
           {messages.map((msg) => (
             <li
               key={msg._id}
               className="p-4 border rounded shadow-sm flex flex-col justify-between h-full"
             >
               <div>
-                <p>
-                  <strong>Name:</strong> {msg.name}
-                </p>
-                <p>
-                  <strong>Email:</strong> {msg.email}
-                </p>
-                <p>
-                  <strong>Message:</strong> {msg.message}
+                <p className="text-xs sm:text-2xl">Name:{msg.name}</p>
+                <p className="text-xs truncate max-w-full">Email: {msg.email}</p>
+                <p className="line-clamp-6 group-hover:line-clamp-none text-xs">
+                  Message: {msg.message}
                 </p>
               </div>
               <button
