@@ -28,16 +28,16 @@ export const ContactUs = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="w-full">
       <h2 className="text-4xl font-bold mb-4">Contact Messages</h2>
       {messages.length === 0 ? (
         <p>No messages yet.</p>
       ) : (
-        <ul className="space-y-4">
+        <ul className="grid grid-cols-2 gap-6 items-stretch">
           {messages.map((msg) => (
             <li
               key={msg._id}
-              className="p-4 border rounded shadow-sm flex justify-between items-start"
+              className="p-4 border rounded shadow-sm flex flex-col justify-between h-full"
             >
               <div>
                 <p>
@@ -52,7 +52,7 @@ export const ContactUs = () => {
               </div>
               <button
                 onClick={() => handleReadMessages(msg._id)}
-                className="ml-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
               >
                 Read
               </button>

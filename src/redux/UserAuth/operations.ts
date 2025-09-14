@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { Flip, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const istore = axios.create({
@@ -32,10 +32,10 @@ export interface RegisterCredentials {
 export const login = createAsyncThunk('login', async (credentials: LoginCredentials, thunkApi) => {
   try {
     const { data } = await istore.post('/auth/login', credentials);
-    toast.success('Login is successful');
+    toast.success('Login is successful', { transition: Flip });
     return data;
   } catch (error: any) {
-    toast.error('Incorrect login or password');
+    toast.error('Incorrect login or password', { transition: Flip });
     return thunkApi.rejectWithValue(error.response?.data || error.message);
   }
 });
@@ -45,7 +45,7 @@ export const registerUser = createAsyncThunk(
   async (credentials: RegisterCredentials, thunkApi) => {
     try {
       const { data } = await istore.post('/auth/register', credentials);
-      toast.success('Registration is successful');
+      toast.success('Registration is successful', { transition: Flip });
 
       await thunkApi.dispatch(login({ email: credentials.email, password: credentials.password }));
       return data;
@@ -53,7 +53,7 @@ export const registerUser = createAsyncThunk(
       if (error.response?.status === 409) {
         toast.error('Email is already in use. Try another one.');
       } else {
-        toast.error('Error during registration');
+        toast.error('Error during registration', { transition: Flip });
       }
       return thunkApi.rejectWithValue(error.response?.data || error.message);
     }
@@ -63,7 +63,7 @@ export const registerUser = createAsyncThunk(
 export const logout = createAsyncThunk('logout', async (_, thunkApi) => {
   try {
     await istore.post('/auth/logout');
-    toast.success('Exit is successful');
+    toast.success('Exit is successful', { transition: Flip });
   } catch (error: any) {
     toast.error(error.message || 'Logout failed');
     return thunkApi.rejectWithValue(error.message);

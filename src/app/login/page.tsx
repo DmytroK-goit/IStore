@@ -55,7 +55,6 @@ export default function Login() {
 
   return (
     <div className="p-6 max-w-md mx-auto">
-      <ToastContainer position="top-right" autoClose={3000} />
       <h2 className="text-xl font-bold mb-4 text-red-600">Login</h2>
 
       <Formik

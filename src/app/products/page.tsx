@@ -10,6 +10,7 @@ import {
 } from '@/redux/Products/selectors';
 import { Product } from '@/types/product';
 import { addToCart as addToCartThunk } from '@/redux/Cart/operations';
+import { toast } from 'react-toastify';
 
 export default function ProductsPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -62,7 +63,7 @@ export default function ProductsPage() {
         </div>
 
         {/* Products */}
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
           {filteredProducts.map((product) => {
             const outOfStock = product.quantity === 0;
 
@@ -72,7 +73,7 @@ export default function ProductsPage() {
                 style={{
                   backgroundImage: `url(${outOfStock ? '/img/bg_no_item.jpg' : '/img/bg_for_item.jpg'})`,
                 }}
-                className={`bg-cover border rounded-2xl shadow-md p-4 flex flex-col transition ${
+                className={`max-h-[400px] bg-cover border rounded-2xl shadow-md p-4 flex flex-col transition justify-between${
                   outOfStock ? 'bg-gray-100 opacity-70 cursor-not-allowed' : 'hover:shadow-lg'
                 }`}
               >

@@ -15,7 +15,6 @@ interface ContactFormValues {
 
 export default function ContactUs() {
   const dispatch = useDispatch<AppDispatch>();
-
   const initialValues: ContactFormValues = { name: '', email: '', message: '' };
 
   const validationSchema = Yup.object({

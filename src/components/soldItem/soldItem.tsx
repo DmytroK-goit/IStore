@@ -43,7 +43,6 @@ export default function SoldItemsPage() {
   }, [dispatch, orderItems]);
 
   const changeOrderStatus = (id: string, status: OrderStatus) => {
-    console.log(status);
     dispatch(updateOrderStatus({ id, status }));
   };
 
