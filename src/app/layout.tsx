@@ -1,10 +1,21 @@
+'use client';
 import './globals.css';
 import Link from 'next/link';
 import { Providers } from '../providers';
 import { Header } from '@/components/header/header';
 import { Flip, ToastContainer } from 'react-toastify';
+import { usePathname } from 'next/navigation';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  const bgImage =
+    pathname === '/contactUs'
+      ? "url('/img/BGcontactUs.jpg')"
+      : pathname === '/products'
+        ? "url('/img/BGShop.jpg')"
+        : "url('/img/bg-store.jpg')";
+
   return (
     <html lang="en">
       <body className="bg-gray-900 text-white flex flex-col min-h-screen ">
@@ -14,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <main
             className="flex-1 p-5 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/img/bg-store.jpg')" }}
+            style={{ backgroundImage: bgImage }}
           >
             {children}
           </main>

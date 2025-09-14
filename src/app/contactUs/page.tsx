@@ -41,10 +41,10 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6 bg-white opacity-90 rounded-lg shadow-md">
       <ToastContainer position="top-right" autoClose={3000} />
-      <h2 className="text-3xl font-bold mb-2">Contact Us</h2>
-      <p className="text-gray-400 mb-6">
+      <h2 className="text-3xl font-bold mb-2 text-gray-800">Contact Us</h2>
+      <p className="text-gray-600 mb-6">
         We would love to hear from you! Please reach out with any questions or feedback.
       </p>
 
@@ -63,7 +63,7 @@ export default function ContactUs() {
                 id="name"
                 name="name"
                 placeholder="Your Name"
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900"
               />
               <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
             </div>
@@ -77,7 +77,7 @@ export default function ContactUs() {
                 id="email"
                 name="email"
                 placeholder="you@example.com"
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900"
               />
               <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
             </div>
@@ -92,7 +92,7 @@ export default function ContactUs() {
                 name="message"
                 rows={4}
                 placeholder="Your message..."
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900"
               />
               <ErrorMessage name="message" component="div" className="text-red-500 text-sm mt-1" />
             </div>

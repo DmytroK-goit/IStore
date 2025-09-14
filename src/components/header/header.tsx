@@ -45,7 +45,7 @@ export const Header = () => {
           About
         </Link>
 
-        {user && user.role !== 'user' && (
+        {user && user.role === 'user' && (
           <Link href="/myProfile" className="hover:underline text-white">
             My Profile
           </Link>
