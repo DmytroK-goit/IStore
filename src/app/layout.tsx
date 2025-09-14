@@ -30,9 +30,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </main>
 
-          <footer className="flex flex-col items-center justify-center gap-2 h-20 bg-gray-800 border-t border-gray-700">
+          <footer
+            className="flex flex-col items-center justify-center gap-2 h-20 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/img/bg_footer.jpg')" }}
+          >
             <p className="text-sm text-gray-400">
-              © {new Date().getFullYear()} MyShop. All rights reserved.
+              © {new Date().getFullYear()} ISTORE. All rights reserved.
             </p>
             <Link href="/contactUs" className="text-sm text-yellow-400 hover:underline">
               Contact Us

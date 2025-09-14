@@ -68,6 +68,15 @@ export default function About() {
           </a>
         </p>
       </section>
+      <section className="space-y-3">
+        <h2 className="text-2xl font-semibold mb-2">💡 Note</h2>
+        <p className="text-lg leading-relaxed">
+          This project is currently a <span className="font-semibold">pet project</span>, created
+          for learning and showcasing purposes. However, it has been built with scalability in mind
+          and can be transformed into a
+          <span className="font-semibold">fully commercial platform</span> at any moment.
+        </p>
+      </section>
     </main>
   );
 }

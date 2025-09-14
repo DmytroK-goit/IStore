@@ -24,14 +24,14 @@ export const Header = () => {
 
   return (
     <header
-      className="flex justify-between items-center px-6 h-14 bg-cover bg-center"
+      className="flex flex-col sm:flex-row justify-between sm:items-center px-6 sm:h-20 bg-cover bg-center "
       style={{ backgroundImage: "url('/img/bg_header.jpg')" }}
     >
       <Link href="/products" className="text-xl font-bold text-yellow-400">
         ISTORE
       </Link>
-      <p className="text-3xl text-neutral-400">{user?.name || 'Guest'}</p>
-      <nav className="flex gap-6 items-center">
+      <p className="text-xl sm:text-3xl text-neutral-400">{user?.name || 'Guest'}</p>
+      <nav className="flex gap-6 items-center mb-2">
         <Link href="/" className="hover:underline text-white">
           Home
         </Link>
@@ -61,7 +61,7 @@ export const Header = () => {
           <button
             type="button"
             onClick={handleLogout}
-            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+            className="px-2 sm:px-4 sm:py-2 bg-red-600 text-white rounded hover:bg-red-700 transition "
           >
             Logout
           </button>
