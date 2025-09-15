@@ -25,7 +25,7 @@ export const ContactUs = () => {
   };
 
   if (loading) return <div>Loading messages...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <div>Error: {'Something went wrong'}</div>;
 
   return (
     <div className="w-full">

@@ -6,7 +6,6 @@ export const createOrder = createAsyncThunk(
   'order/createOrder',
   async (orderData: any, { rejectWithValue }) => {
     try {
-      console.log(orderData);
       const res = await istore.post('/sold/addToOrder', orderData);
       toast.success('Order place successfully');
       return res.data;
@@ -19,16 +18,16 @@ export const createOrder = createAsyncThunk(
 
 export const myOrder = createAsyncThunk('sold/my', async (_, { rejectWithValue }) => {
   try {
-    const response = await istore.get('/sold/my');
-    return response.data;
+    const { data } = await istore.get('/sold/my');
+    return data;
   } catch (err: any) {
     return rejectWithValue(err.response?.data?.message || 'Failed to fetch cart');
   }
 });
 export const allOrder = createAsyncThunk('sold/all', async (_, { rejectWithValue }) => {
   try {
-    const response = await istore.get('/sold/all');
-    return response.data;
+    const { data } = await istore.get('/sold/all');
+    return data;
   } catch (err: any) {
     return rejectWithValue(err.response?.data?.message || 'Failed to fetch cart');
   }
