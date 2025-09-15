@@ -61,7 +61,7 @@ export const Header = () => {
           <button
             type="button"
             onClick={handleLogout}
-            className="px-2 sm:px-4 sm:py-2 bg-red-600 text-white rounded hover:bg-red-700 transition "
+            className="cursor-pointer px-2 sm:px-4 sm:py-2 bg-red-600 text-white rounded hover:bg-red-700 transition "
           >
             Logout
           </button>

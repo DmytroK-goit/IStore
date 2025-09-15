@@ -19,7 +19,7 @@ export default function ProductsPage() {
 
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [page, setPage] = useState(1);
-  const limit = 9;
+  const limit = 12;
 
   const filteredProducts =
     selectedCategory === 'All' ? products : products.filter((p) => p.category === selectedCategory);
@@ -60,7 +60,7 @@ export default function ProductsPage() {
                 setSelectedCategory(cat);
                 setPage(1);
               }}
-              className={`px-4 py-2 rounded-xl border transition text-left ${
+              className={`cursor-pointer px-4 py-2 rounded-xl border transition text-left ${
                 selectedCategory === cat
                   ? 'bg-emerald-500 text-white border-emerald-500'
                   : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
@@ -82,7 +82,7 @@ export default function ProductsPage() {
                   style={{
                     backgroundImage: `url(${outOfStock ? '/img/bg_no_item.jpg' : '/img/bg_for_item.jpg'})`,
                   }}
-                  className={`max-h-[400px] bg-cover border rounded-2xl shadow-md p-4 flex flex-col transition justify-between ${
+                  className={`max-h-[400px] bg-cover bg-no-repeat border rounded-2xl shadow-md p-4 flex flex-col transition justify-between ${
                     outOfStock ? 'bg-gray-100 opacity-70 cursor-not-allowed' : 'hover:shadow-lg'
                   }`}
                 >
@@ -102,13 +102,13 @@ export default function ProductsPage() {
                   <button
                     onClick={() => !outOfStock && handleAddToCart(product._id, 1)}
                     disabled={outOfStock}
-                    className={`w-full py-2 rounded-xl transition ${
+                    className={`w-full cursor-pointer py-2 rounded-xl transition  ${
                       outOfStock
-                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed disabled:cursor-not-allowed'
                         : 'bg-emerald-500 text-white hover:bg-emerald-600'
                     }`}
                   >
-                    {outOfStock ? 'Out of Stock' : 'Add to Cart'}
+                    {outOfStock ? 'Out of Stock. Expected' : 'Add to Cart'}
                   </button>
                 </div>
               );
@@ -120,7 +120,7 @@ export default function ProductsPage() {
               <button
                 onClick={() => setPage((p) => p - 1)}
                 disabled={page === 1}
-                className="px-4 py-2 rounded-xl border bg-white hover:bg-gray-100 disabled:opacity-50 text-black"
+                className="cursor-pointer px-4 py-2 rounded-xl border bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed text-black"
               >
                 Prev
               </button>
@@ -129,7 +129,7 @@ export default function ProductsPage() {
                 <button
                   key={i + 1}
                   onClick={() => setPage(i + 1)}
-                  className={`px-3 py-1 rounded-lg  text-black ${
+                  className={`cursor-pointer px-3 py-1 rounded-lg  text-black ${
                     page === i + 1
                       ? 'bg-emerald-500 text-white'
                       : 'bg-white border hover:bg-gray-100'
@@ -142,7 +142,7 @@ export default function ProductsPage() {
               <button
                 onClick={() => setPage((p) => p + 1)}
                 disabled={page === totalPages}
-                className="px-4 py-2 rounded-xl border bg-white hover:bg-gray-100 disabled:opacity-50  text-black"
+                className="cursor-pointer px-4 py-2 rounded-xl border bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed text-black"
               >
                 Next
               </button>

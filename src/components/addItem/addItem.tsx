@@ -56,7 +56,10 @@ export default function AddItem() {
   };
 
   return (
-    <div className="p-6 shadow-lg rounded-xl bg-zinc-700 h-3/4 w-3/4">
+    <div
+      className="p-6 shadow-lg rounded-xl bg-zinc-700 h-3/4 bg-cover bg-center sm:w-3/4 w-1/4"
+      style={{ backgroundImage: "url('/img/BG_add_item.jpg')" }}
+    >
       <h2 className="text-2xl font-bold mb-4 text-center">Add Item</h2>
 
       <Formik
@@ -77,7 +80,7 @@ export default function AddItem() {
               <Field name="category" as="select" className="w-full border p-2 rounded bg-inherit">
                 <option value="">Select category</option>
                 {categories.map((cat) => (
-                  <option key={cat} value={cat}>
+                  <option key={cat} value={cat} className="bg-amber-200">
                     {cat}
                   </option>
                 ))}
@@ -121,7 +124,7 @@ export default function AddItem() {
 
             <button
               type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+              className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded"
             >
               Submit
             </button>
