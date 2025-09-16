@@ -3,11 +3,9 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [],
+    domains: ['i-store-lyart.vercel.app'],
   },
-  experimental: {
-    optimizeCss: true,
-  },
+
   compress: true,
   poweredByHeader: false,
 };
