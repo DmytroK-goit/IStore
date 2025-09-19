@@ -26,13 +26,16 @@ export default function ProductPage() {
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+
       <img
         src={product.img || '/img/no_item.jpg'}
         alt={product.name}
         className="w-80 h-80 object-cover rounded-xl border mb-6"
       />
+
       <p className="text-gray-500">Category: {product.category}</p>
-      <p className="text-lg font-bold">${product.price}</p>
+      <p className="text-lg font-bold mb-2">${product.price}</p>
+      <p className="whitespace-pre-line mb-4">{product.description || ''}</p>
       <p className="text-sm text-gray-500">In stock: {product.quantity}</p>
     </div>
   );
