@@ -10,10 +10,13 @@ import {
 } from '@/redux/Products/selectors';
 import { Product } from '@/types/product';
 import { addToCart as addToCartThunk } from '@/redux/Cart/operations';
+import { useRouter } from 'next/navigation';
 
 export default function ProductsPage() {
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const products = useSelector(selectProducts) as Product[];
+  console.log(products);
   const isLoading = useSelector(selectProductsLoading);
   const error = useSelector(selectProductsError);
 
@@ -79,11 +82,12 @@ export default function ProductsPage() {
               return (
                 <div
                   key={product._id}
+                  onClick={() => router.push(`/products/${product._id}`)}
                   style={{
                     backgroundImage: `url(${outOfStock ? '/img/bg_no_item.jpg' : '/img/bg_for_item.jpg'})`,
                   }}
-                  className={`max-h-[400px] bg-cover bg-no-repeat border rounded-2xl shadow-md p-4 flex flex-col transition justify-between ${
-                    outOfStock ? 'bg-gray-100 opacity-70 cursor-not-allowed' : 'hover:shadow-lg'
+                  className={`max-h-[400px] bg-cover bg-no-repeat border rounded-2xl shadow-md p-4 flex flex-col transition justify-between cursor-pointer ${
+                    outOfStock ? 'bg-gray-100 opacity-70' : 'hover:shadow-lg'
                   }`}
                 >
                   <div className="w-full h-40 bg-gray-200 flex items-center justify-center rounded-xl mb-4 overflow-hidden">
