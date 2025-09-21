@@ -4,19 +4,26 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { addProduct } from '@/redux/Products/operations';
+import { addProduct, updateProduct } from '@/redux/Products/operations';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Product } from '@/types/product';
 
-export default function AddItem() {
+interface AddItemProps {
+  product?: Product | null;
+}
+
+export default function AddItem({ product }: AddItemProps) {
   const dispatch = useDispatch<AppDispatch>();
+
   const categories = ['Auto', 'Food', 'Health', 'Transport', 'Education', 'Electronics'];
+
   const initialValues = {
-    name: '',
-    category: '',
-    price: '',
-    description: '',
-    quantity: '',
+    name: product?.name || '',
+    category: product?.category || '',
+    price: product?.price?.toString() || '',
+    description: product?.description || '',
+    quantity: product?.quantity?.toString() || '',
     img: null as File | null,
   };
 
@@ -41,14 +48,10 @@ export default function AddItem() {
       formData.append('description', values.description);
       formData.append('quantity', values.quantity.toString());
       if (values.img) formData.append('img', values.img);
-
-      const resultAction = await dispatch(addProduct(formData));
-
-      if (addProduct.fulfilled.match(resultAction)) {
-        toast.success('Product added successfully');
-        resetForm();
+      if (product) {
+        await dispatch(updateProduct({ id: product._id, updatedData: formData }));
       } else {
-        toast.error((resultAction.payload as string) || 'Failed to add product');
+        await dispatch(addProduct(formData));
       }
     } catch (error) {
       toast.error('An error occurred');
@@ -60,9 +63,12 @@ export default function AddItem() {
       className="p-6 shadow-lg rounded-xl bg-zinc-700 h-3/4 bg-cover bg-center sm:w-3/4 w-1/4"
       style={{ backgroundImage: "url('/img/BG_add_item.jpg')" }}
     >
-      <h2 className="text-2xl font-bold mb-4 text-center">Add Item</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">
+        {product ? 'Update Item' : 'Add Item'}
+      </h2>
 
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -126,7 +132,7 @@ export default function AddItem() {
               type="submit"
               className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded"
             >
-              Submit
+              {product ? 'Update' : 'Add'}
             </button>
           </Form>
         )}

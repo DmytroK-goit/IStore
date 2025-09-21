@@ -1,7 +1,7 @@
 'use client';
 import { allOrder, updateOrderStatus } from '@/redux/Order/operations';
 import { selectAllOrders } from '@/redux/Order/selectors';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 
@@ -38,12 +38,19 @@ export type SoldOrder = {
 export default function SoldItemsPage() {
   const dispatch = useDispatch<AppDispatch>();
   const orderItems: SoldOrder[] = useSelector(selectAllOrders);
+  const [openOrders, setOpenOrders] = useState<Record<string, boolean>>({});
   useEffect(() => {
     dispatch(allOrder());
   }, [dispatch, orderItems]);
 
   const changeOrderStatus = (id: string, status: OrderStatus) => {
     dispatch(updateOrderStatus({ id, status }));
+  };
+  const toggleOrder = (id: string) => {
+    setOpenOrders((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
   };
 
   return (
