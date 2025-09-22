@@ -48,7 +48,7 @@ export default function ProductsPage() {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">ITEMS</h2>
+      <h2 className="text-2xl font-bold mb-6">ISTORE</h2>
 
       {isLoading && <p className="text-gray-500">Loading products...</p>}
       {error && <p className="text-red-500">Error: {error}</p>}
