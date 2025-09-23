@@ -5,6 +5,7 @@ import { Providers } from '../providers';
 import { Header } from '@/components/header/header';
 import { Flip, ToastContainer } from 'react-toastify';
 import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -16,6 +17,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         ? "url('/img/BGShop.jpg')"
         : "url('/img/bg-store.jpg')";
 
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.jsdelivr.net/npm/react-toastify/dist/ReactToastify.min.css';
+    link.media = 'print';
+    link.onload = () => {
+      link.media = 'all';
+    };
+    document.head.appendChild(link);
+  }, []);
+
   return (
     <html lang="en">
       <head>
@@ -26,6 +38,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="font/ttf"
           crossOrigin="anonymous"
         />
+
+        <link rel="preload" href="/_next/static/css/715be398208dca58.css" as="style" />
+        <link rel="preload" href="/_next/static/css/b1b5a542.css" as="style" />
       </head>
       <body className="bg-gray-900 text-white flex flex-col min-h-screen ">
         <Providers>
