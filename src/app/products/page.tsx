@@ -92,7 +92,7 @@ export default function ProductsPage() {
                   <div className="w-full h-40 bg-gray-200 flex items-center justify-center rounded-xl mb-4 overflow-hidden cursor-pointer">
                     <img
                       onClick={() => router.push(`/products/${product._id}`)}
-                      src={product.img || '/img/no_item.jpg'}
+                      src={product.img || '/img/no_item.webp'}
                       alt={product.name || 'No Image'}
                       className="object-cover w-full h-full"
                     />

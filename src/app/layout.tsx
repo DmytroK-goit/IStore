@@ -41,7 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <footer
             className="flex flex-col items-center justify-center gap-2 h-20 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/img/bg_footer.jpg')" }}
+            style={{ backgroundImage: "url('/img/bg_footer.webp')" }}
           >
             <p className="text-sm text-gray-400">
               © {new Date().getFullYear()} ISTORE. All rights reserved.

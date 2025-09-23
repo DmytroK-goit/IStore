@@ -12,10 +12,10 @@ export const Header = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(() => {
-    dispatch(fetchProfile());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchProfile());
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const handleLogout = () => {
     dispatch(logout() as any);
@@ -25,7 +25,7 @@ export const Header = () => {
   return (
     <header
       className="flex flex-col sm:flex-row justify-between sm:items-center px-6 sm:h-20 bg-cover bg-center "
-      style={{ backgroundImage: "url('/img/bg_header.jpg')" }}
+      style={{ backgroundImage: "url('/img/bg_header.webp')" }}
     >
       <Link href="/products" className="text-xl font-bold text-yellow-400">
         ISTORE
