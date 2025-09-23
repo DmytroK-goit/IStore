@@ -13,8 +13,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     pathname === '/contactUs'
       ? "url('/img/BGcontactUs.jpg')"
       : pathname === '/products'
-        ? "url('/img/BGShop.jpg')"
-        : "url('/img/bg-store.jpg')";
+        ? "url('/img/BGShop.webp')"
+        : "url('/img/bg-store.webp')";
 
   return (
     <html lang="en">
