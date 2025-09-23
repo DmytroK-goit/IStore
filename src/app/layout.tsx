@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
 
         <link rel="preload" href="/_next/static/css/715be398208dca58.css" as="style" />
-        <link rel="preload" href="/_next/static/css/b1b5a542.css" as="style" />
+        <link rel="preload" href="/_next/static/css/b1b5a54257709856.css" as="style" />
       </head>
       <body className="bg-gray-900 text-white flex flex-col min-h-screen ">
         <Providers>
