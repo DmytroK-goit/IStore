@@ -11,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   const bgImage =
     pathname === '/contactUs'
-      ? "url('/img/BGcontactUs.jpg')"
+      ? "url('/img/BGcontactUs.webp')"
       : pathname === '/products'
         ? "url('/img/BGShop.webp')"
         : "url('/img/bg-store.webp')";
@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           crossOrigin="anonymous"
         />
       </head>
-      <body className="bg-gray-900 text-white flex flex-col min-h-screen ">
+      <body className=" text-white flex flex-col min-h-screen ">
         <Providers>
           <ToastContainer position="top-right" autoClose={3000} transition={Flip} />
           <Header />

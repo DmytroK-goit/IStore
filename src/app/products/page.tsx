@@ -83,7 +83,7 @@ export default function ProductsPage() {
                 <div
                   key={product._id}
                   style={{
-                    backgroundImage: `url(${outOfStock ? '/img/bg_no_item.jpg' : '/img/bg_for_item.jpg'})`,
+                    backgroundImage: `url(${outOfStock ? '/img/bg_no_item.webp' : '/img/bg_for_item.webp'})`,
                   }}
                   className={`max-h-[400px] bg-cover bg-no-repeat border rounded-2xl shadow-md p-4 flex flex-col transition justify-between ${
                     outOfStock ? 'bg-gray-100 opacity-70' : 'hover:shadow-lg'
