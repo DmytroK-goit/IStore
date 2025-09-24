@@ -60,7 +60,7 @@ export default function AddItem({ product }: AddItemProps) {
 
   return (
     <div
-      className="p-6 shadow-lg rounded-xl bg-zinc-700 h-3/4 bg-cover bg-center sm:w-1/4 w-1/4"
+      className="w-3/4 p-6 shadow-lg rounded-xl bg-zinc-700 h-3/4 bg-cover bg-center sm:w-1/4 "
       style={{ backgroundImage: "url('/img/BG_add_item.webp')" }}
     >
       <h2 className="text-2xl font-bold mb-4 text-center">
@@ -80,13 +80,18 @@ export default function AddItem({ product }: AddItemProps) {
               <Field name="name" type="text" className="w-full border p-2 rounded" />
               <ErrorMessage name="name" component="div" className="text-red-500 text-sm" />
             </div>
-
             <div>
               <label className="block mb-1 font-medium">Category</label>
-              <Field name="category" as="select" className="w-full border p-2 rounded bg-inherit">
-                <option value="">Select category</option>
+              <Field
+                name="category"
+                as="select"
+                className="w-full border p-2 rounded bg-white text-black"
+              >
+                <option value="" className="text-black">
+                  Select category
+                </option>
                 {categories.map((cat) => (
-                  <option key={cat} value={cat} className="bg-amber-200">
+                  <option key={cat} value={cat} className="text-black bg-white">
                     {cat}
                   </option>
                 ))}

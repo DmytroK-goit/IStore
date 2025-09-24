@@ -14,13 +14,13 @@ function InitProfile() {
     dispatch(fetchProfile());
   }, [dispatch]);
 
-  return null; 
+  return null;
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
-      <InitProfile /> 
+      <InitProfile />
       {children}
       <ToastContainer position="top-right" autoClose={2000} />
     </Provider>

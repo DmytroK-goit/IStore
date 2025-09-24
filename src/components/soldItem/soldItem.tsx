@@ -62,13 +62,12 @@ export default function SoldItemsPage() {
         {orderItems.map((order, idx) => (
           <div
             key={order._id}
-            className="w-full border rounded-xl p-4 shadow-md space-y-3 bg-gray-800 bg-opacity-40 "
+            className="w-full border rounded-xl p-4 shadow-md space-y-3 bg-gray-800 bg-opacity-40 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-500 "
           >
             <h3 className="text-lg font-semibold mb-2">
               Order #{idx + 1} ({order.status})
             </h3>
 
-            {/* Products */}
             <div className="space-y-2 mb-4">
               {order.items.map((item, i) => (
                 <div key={i} className="flex justify-between">
@@ -80,10 +79,8 @@ export default function SoldItemsPage() {
               ))}
             </div>
 
-            {/* Total */}
             <p className="font-bold mb-4">Total: ${order.total}</p>
 
-            {/* Address */}
             <div className="p-3 rounded-md">
               <h4 className="font-semibold mb-1 text-neutral-600 text-2xl">Shipping Details:</h4>
               <p>
@@ -99,7 +96,6 @@ export default function SoldItemsPage() {
               )}
             </div>
 
-            {/* Status selector */}
             <div className="mt-4">
               <label className="mr-2 font-medium">Change Status:</label>
               <select

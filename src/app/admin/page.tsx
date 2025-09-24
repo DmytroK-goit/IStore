@@ -19,22 +19,25 @@ export default function AdminPage() {
     <div className="p-6 flex flex-col gap-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Admin Panel</h1>
-        <Link
-          href="/admin/contactUs"
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
-        >
-          View Contact Us Messages
-        </Link>
-        <Link
-          href="/admin/orders"
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
-        >
-          View Orders
-        </Link>
+        <div className="flex gap-4">
+          {' '}
+          <Link
+            href="/admin/contactUs"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
+          >
+            View Contact Us Messages
+          </Link>
+          <Link
+            href="/admin/orders"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
+          >
+            View Orders
+          </Link>
+        </div>
       </div>
 
       <div className="p-6 flex flex-col gap-6">
-        <div className="flex gap-12">
+        <div className="flex flex-col gap-12 sm:flex-row">
           <AddItem product={selectedProduct} />
           <AdminListStore onSelectProduct={handleSelectProduct} />
         </div>

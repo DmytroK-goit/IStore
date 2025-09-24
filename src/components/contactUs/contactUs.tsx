@@ -37,7 +37,7 @@ export const ContactUs = () => {
           {messages.map((msg) => (
             <li
               key={msg._id}
-              className="p-4 border rounded shadow-sm flex flex-col justify-between h-full"
+              className="p-4 border rounded shadow-sm flex flex-col justify-between h-full bg-gradient-to-r from-gray-800 via-gray-700 to-gray-500 "
             >
               <div>
                 <p className="text-xs sm:text-2xl">Name:{msg.name}</p>

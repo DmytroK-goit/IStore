@@ -31,36 +31,39 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
   const categories = ['All', ...new Set(products.map((p) => p.category))];
 
   return (
-    <>
+    <div className="flex flex-col">
       <h2 className="text-xl font-bold mb-4 text-center">Products</h2>
-      <div className="rounded-lg shadow-lg flex gap-6">
-        {/* Categories filter */}
+      <div className="rounded-lg shadow-lg ">
         <div className="flex flex-col gap-4 w-full max-w-40 mb-6">
           <p className="text-2xl font-bold mb-2">Categories</p>
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`cursor-pointer px-4 py-2 rounded-xl border transition text-left ${
-                selectedCategory === cat
-                  ? 'bg-emerald-500 text-white border-emerald-500'
-                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+          <ul className="flex flex-row gap-2">
+            {categories.map((cat) => (
+              <li key={cat}>
+                <button
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`cursor-pointer px-4 py-2 rounded-xl border transition text-left ${
+                    selectedCategory === cat
+                      ? 'bg-emerald-500 text-white border-emerald-500'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                  }`}
+                >
+                  {cat}
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Products list */}
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredProducts.map((product) => (
             <li
               key={product._id}
-              className="flex justify-between items-center p-3 rounded-md border border-gray-600 bg-gray-600 max-h-30 max-w-70"
+              className="flex justify-between items-center p-3 rounded-md border border-gray-700 
+             bg-gradient-to-r from-gray-800 via-gray-700 to-gray-500 
+             max-h-50 max-w-70 shadow-md "
             >
               <div>
-                <p className="font-semibold">{product.name}</p>
+                <p className="font-semibold text-white">{product.name}</p>
                 <p className="text-sm text-gray-300">${product.price}</p>
                 <p className="text-sm text-gray-300">Count: {product.quantity}</p>
               </div>
@@ -68,13 +71,13 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
               <div className="flex flex-col gap-2">
                 <button
                   onClick={() => onSelectProduct(product)}
-                  className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer"
+                  className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer transition"
                 >
                   Update
                 </button>
                 <button
                   onClick={() => handleDelete(product._id)}
-                  className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer"
+                  className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer transition"
                 >
                   Delete
                 </button>
@@ -83,6 +86,6 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
           ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 }
