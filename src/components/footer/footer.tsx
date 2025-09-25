@@ -21,7 +21,7 @@ export const Footer = () => {
           </Link>
         </div>
         <Link href="/products" className="text-xl font-bold text-yellow-400">
-          <Image src="/img/istore.png" alt="Logo" width={100} height={100}></Image>
+          <Image src="/img/istore.png" alt="Logo" width={200} height={200}></Image>
         </Link>
 
         <address className="not-italic text-gray-300">

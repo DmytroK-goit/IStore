@@ -25,11 +25,11 @@ export const Header = () => {
 
   return (
     <header
-      className="flex flex-col sm:flex-row justify-between sm:items-center px-6 sm:h-20 bg-cover bg-center "
+      className="flex flex-col sm:flex-row justify-between sm:items-center px-6 sm:h-20 bg-cover bg-center transparent-bg-30"
       style={{ backgroundImage: "url('/img/bg_header.webp')" }}
     >
       <Link href="/products" className="text-xl font-bold text-yellow-400">
-        <Image src="/img/istore.png" alt="Logo" width={100} height={100}></Image>
+        <Image src="/img/istore.png" alt="Logo" width={150} height={150}></Image>
       </Link>
       <p className="text-xl sm:text-3xl text-neutral-400 line-clamp-2 truncate w-30">
         {user?.name || 'Guest'}
