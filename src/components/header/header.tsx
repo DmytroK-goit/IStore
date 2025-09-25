@@ -4,7 +4,7 @@ import { fetchProfile, logout } from '@/redux/UserAuth/operations';
 import { selectUser } from '@/redux/UserAuth/selectors';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 
 export const Header = () => {
@@ -30,7 +30,9 @@ export const Header = () => {
       <Link href="/products" className="text-xl font-bold text-yellow-400">
         ISTORE
       </Link>
-      <p className="text-xl sm:text-3xl text-neutral-400 line-clamp-2">{user?.name || 'Guest'}</p>
+      <p className="text-xl sm:text-3xl text-neutral-400 line-clamp-2 truncate w-30">
+        {user?.name || 'Guest'}
+      </p>
       <nav className="flex gap-4 items-center mb-2">
         <Link href="/" className="hover:underline text-white">
           Home
@@ -41,9 +43,7 @@ export const Header = () => {
         <Link href="/cart" className="hover:underline text-white">
           Cart
         </Link>
-        <Link href="/about" className="hover:underline text-white">
-          About
-        </Link>
+       
 
         {user && user.role === 'user' && (
           <Link href="/myProfile" className="hover:underline text-white">

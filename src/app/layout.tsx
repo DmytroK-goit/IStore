@@ -5,6 +5,7 @@ import { Providers } from '../providers';
 import { Header } from '@/components/header/header';
 import { Flip, ToastContainer } from 'react-toastify';
 import { usePathname } from 'next/navigation';
+import { Footer } from '@/components/footer/footer';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -38,18 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             {children}
           </main>
-
-          <footer
-            className="flex flex-col items-center justify-center gap-2 h-20 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/img/bg_footer.webp')" }}
-          >
-            <p className="text-sm text-gray-400">
-              © {new Date().getFullYear()} ISTORE. All rights reserved.
-            </p>
-            <Link href="/contactUs" className="text-sm text-yellow-400 hover:underline">
-              Contact Us
-            </Link>
-          </footer>
+          <Footer />
         </Providers>
       </body>
     </html>
