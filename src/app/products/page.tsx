@@ -101,7 +101,11 @@ export default function ProductsPage() {
                   <h3 className="text-xl font-semibold mb-1">{product.name}</h3>
                   <p className="text-sm text-gray-500 mb-1">Category: {product.category}</p>
                   <p className="font-bold text-lg mb-1">${product.price}</p>
-                  <p className="text-sm text-gray-500 mb-2">In stock: {product.quantity}</p>
+                  {product.quantity === 0 ? (
+                    <p className="text-sm text-red-500 font-medium">Product is out of stock</p>
+                  ) : product.quantity < 10 ? (
+                    <p className="text-sm text-orange-400 font-medium">Product is running out</p>
+                  ) : null}
 
                   <button
                     onClick={() => !outOfStock && handleAddToCart(product._id, 1)}
