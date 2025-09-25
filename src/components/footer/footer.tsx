@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { MapPin, Home, Phone } from 'lucide-react';
+import Image from 'next/image';
 
 export const Footer = () => {
   return (
@@ -19,6 +20,9 @@ export const Footer = () => {
             About Us
           </Link>
         </div>
+        <Link href="/products" className="text-xl font-bold text-yellow-400">
+          <Image src="/img/istore.png" alt="Logo" width={100} height={100}></Image>
+        </Link>
 
         <address className="not-italic text-gray-300">
           <ul className="space-y-2">
