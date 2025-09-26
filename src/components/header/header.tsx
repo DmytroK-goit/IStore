@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export const Header = () => {
   const user = useSelector(selectUser);
+  console.log('User in Header:', user);
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -57,7 +58,7 @@ export const Header = () => {
           </Link>
         )}
 
-        {user && (
+        {user.email !== '' && (
           <button
             type="button"
             onClick={handleLogout}
