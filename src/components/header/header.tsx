@@ -58,7 +58,7 @@ export const Header = () => {
           </Link>
         )}
 
-        {user.email !== '' && (
+        {user?.email !== '' && (
           <button
             type="button"
             onClick={handleLogout}
