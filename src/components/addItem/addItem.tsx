@@ -16,7 +16,7 @@ interface AddItemProps {
 export default function AddItem({ product }: AddItemProps) {
   const dispatch = useDispatch<AppDispatch>();
 
-  const categories = ['Auto', 'Food', 'Health', 'Transport', 'Education', 'Electronics'];
+  const categories = ['Laptop', 'Phone', 'Accessories', 'Power banks', 'Monitors', 'Electronics'];
 
   const initialValues = {
     name: product?.name || '',
@@ -50,8 +50,10 @@ export default function AddItem({ product }: AddItemProps) {
       if (values.img) formData.append('img', values.img);
       if (product) {
         await dispatch(updateProduct({ id: product._id, updatedData: formData }));
+        resetForm();
       } else {
         await dispatch(addProduct(formData));
+        resetForm();
       }
     } catch (error) {
       toast.error('An error occurred');
