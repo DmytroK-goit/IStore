@@ -42,7 +42,7 @@ export default function Home() {
           Shop
         </Link>
 
-        {!user && (
+        {user?.email === '' && (
           <>
             <Link href="/login" className={buttonClasses}>
               Login
