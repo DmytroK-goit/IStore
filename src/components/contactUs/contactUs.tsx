@@ -40,10 +40,14 @@ export const ContactUs = () => {
               className="p-4 border rounded shadow-sm flex flex-col justify-between h-full bg-gradient-to-r from-gray-800 via-gray-700 to-gray-500 "
             >
               <div>
-                <p className="text-xs sm:text-2xl">Name:{msg.name}</p>
-                <p className="text-xs truncate max-w-full">Email: {msg.email}</p>
-                <p className="line-clamp-6 group-hover:line-clamp-none text-xs">
-                  Message: {msg.message}
+                <p className="text-sm">
+                  <span className="font-bold">Name:</span> {msg.name}
+                </p>
+                <p className="text-sm truncate max-w-full">
+                  <span className="font-bold">Email:</span> {msg.email}
+                </p>
+                <p className="text-sm line-clamp-6 group-hover:line-clamp-none normal-case">
+                  <span className="font-bold">Message:</span> {msg.message}
                 </p>
               </div>
               <button
