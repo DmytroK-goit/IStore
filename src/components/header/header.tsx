@@ -35,6 +35,9 @@ export const Header = () => {
       <p className="text-xl sm:text-3xl text-neutral-400 line-clamp-2 truncate w-30">
         {user?.name || 'Guest'}
       </p>
+      {!user?.email && (
+        <p className="text-sm text-red-400 italic">You need to log in to make purchases</p>
+      )}
       <nav className="flex gap-4 items-center mb-2">
         <Link href="/" className="hover:underline text-white">
           Home
