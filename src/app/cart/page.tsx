@@ -11,14 +11,7 @@ import { selectCartItems } from '@/redux/Cart/selectors';
 import { selectProducts } from '@/redux/Products/selectors';
 import { CartItem, setCartItemQuantity } from '@/redux/Cart/sliсe';
 import { createOrder } from '@/redux/Order/operations';
-
-type SoldItem = {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  date: string;
-};
+import Payment from '@/components/payment/payment';
 
 interface SoldAddress {
   name: string;
@@ -42,6 +35,8 @@ export default function CartPage() {
   const cart: CartItem[] = useSelector(selectCartItems);
 
   const [detailedItems, setDetailedItems] = useState<DetailedCartItem[]>([]);
+  const [showPayment, setShowPayment] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     if (!products || products.length === 0) dispatch(fetchProducts());
@@ -49,8 +44,7 @@ export default function CartPage() {
   }, [dispatch, products]);
 
   useEffect(() => {
-    const cartItemsArray = cart || [];
-    if (!products || cartItemsArray.length === 0) {
+    if (!products || cart.length === 0) {
       setDetailedItems([]);
       return;
     }
@@ -66,7 +60,8 @@ export default function CartPage() {
         };
       })
       .filter(Boolean);
-    setDetailedItems(updatedDetailed as any);
+
+    setDetailedItems(updatedDetailed as DetailedCartItem[]);
   }, [cart, products]);
 
   const handleQuantityChange = (
@@ -93,15 +88,22 @@ export default function CartPage() {
     comment: Yup.string(),
   });
 
-  const handleSubmit = (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
+  const handleSubmit = async (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
     const items = cart.map((ci) => ({
       productId: ci.productId,
-      quantity: ci.quantity, // саме ця кількість з корзини
+      quantity: ci.quantity,
     }));
 
-    dispatch(createOrder({ address: values, items }));
+    setIsProcessing(true);
+    setShowPayment(true);
+
+    await dispatch(createOrder({ address: values, items }));
+    await dispatch(fetchCart());
+
     resetForm();
+    setIsProcessing(false);
   };
+
   if (!cart || cart.length === 0) {
     return (
       <div className="p-6">
@@ -113,10 +115,10 @@ export default function CartPage() {
 
   return (
     <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-      {/* Cart Items */}
+      {/* Cart Section */}
       <div>
         <h2 className="text-2xl font-bold mb-6">Cart</h2>
-        <div className="space-y-4">
+        <div className="">
           {detailedItems.map((item) => (
             <div
               key={item._id}
@@ -124,7 +126,7 @@ export default function CartPage() {
             >
               <div>
                 <button
-                  className="bg-red-500 w-16 rounded-2xl  hover:bg-red-700"
+                  className="bg-red-500 w-16 rounded-2xl hover:bg-red-700"
                   onClick={() => dispatch(removeFromCart(item.cartItemId))}
                 >
                   Delete
@@ -160,9 +162,13 @@ export default function CartPage() {
         <div className="mt-6 text-right">
           <p className="text-xl font-bold">Total: ${total}</p>
         </div>
+
+        {/* Payment Section */}
+        {showPayment && <Payment />}
+        {isProcessing && <p className="text-gray-500 mt-2">Processing your order...</p>}
       </div>
 
-      {/* Delivery Form */}
+      {/* Delivery Details Section */}
       <div>
         <h2 className="text-2xl font-bold mb-6">Delivery details</h2>
         <Formik
@@ -200,7 +206,7 @@ export default function CartPage() {
               )}
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isProcessing}
                 className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 w-full"
               >
                 Place Order
