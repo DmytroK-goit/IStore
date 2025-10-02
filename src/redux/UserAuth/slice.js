@@ -20,7 +20,7 @@ const slice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state) => {
         state.isLoggedIn = true;
       })
       .addCase(login.fulfilled, (state, action) => {

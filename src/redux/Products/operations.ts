@@ -14,10 +14,10 @@ const initialState: ProductsState = {
   isLoading: false,
   error: null,
 };
-interface UpdateProductArgs {
-  id: string;
-  formData: FormData;
-}
+// interface UpdateProductArgs {
+//   id: string;
+//   formData: FormData;
+// }
 
 export const fetchProducts = createAsyncThunk<Product[]>(
   'products/',
