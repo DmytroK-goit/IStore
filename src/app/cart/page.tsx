@@ -11,7 +11,7 @@ import { selectCartItems } from '@/redux/Cart/selectors';
 import { selectProducts } from '@/redux/Products/selectors';
 import { CartItem, setCartItemQuantity } from '@/redux/Cart/sliсe';
 import { createOrder } from '@/redux/Order/operations';
-import Payment from '@/components/payment/payment';
+import PaymentModal from '@/components/paymentModal/paymentModal';
 
 interface SoldAddress {
   name: string;
@@ -35,8 +35,8 @@ export default function CartPage() {
   const cart: CartItem[] = useSelector(selectCartItems);
 
   const [detailedItems, setDetailedItems] = useState<DetailedCartItem[]>([]);
-  const [showPayment, setShowPayment] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pendingValues, setPendingValues] = useState<SoldAddress | null>(null);
 
   useEffect(() => {
     if (!products || products.length === 0) dispatch(fetchProducts());
@@ -88,20 +88,29 @@ export default function CartPage() {
     comment: Yup.string(),
   });
 
-  const handleSubmit = async (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
+  const handleSubmit = (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
+    setPendingValues(values);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirm = async () => {
+    if (!pendingValues) return;
+
     const items = cart.map((ci) => ({
       productId: ci.productId,
       quantity: ci.quantity,
     }));
-
-    setIsProcessing(true);
-    setShowPayment(true);
-
-    await dispatch(createOrder({ address: values, items }));
+    console.log('Creating order with:', { address: pendingValues, items });
+    await dispatch(createOrder({ address: pendingValues, items }));
     await dispatch(fetchCart());
 
-    resetForm();
-    setIsProcessing(false);
+    setIsModalOpen(false);
+    setPendingValues(null);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setPendingValues(null);
   };
 
   if (!cart || cart.length === 0) {
@@ -162,10 +171,6 @@ export default function CartPage() {
         <div className="mt-6 text-right">
           <p className="text-xl font-bold">Total: ${total}</p>
         </div>
-
-        {/* Payment Section */}
-        {showPayment && <Payment />}
-        {isProcessing && <p className="text-gray-500 mt-2">Processing your order...</p>}
       </div>
 
       {/* Delivery Details Section */}
@@ -206,7 +211,7 @@ export default function CartPage() {
               )}
               <button
                 type="submit"
-                disabled={isSubmitting || isProcessing}
+                disabled={isSubmitting}
                 className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 w-full"
               >
                 Place Order
@@ -214,6 +219,8 @@ export default function CartPage() {
             </Form>
           )}
         </Formik>
+
+        {isModalOpen && <PaymentModal onConfirm={handleConfirm} onCancel={handleCancel} />}
       </div>
     </div>
   );
