@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import Cleave from 'cleave.js/react';
+import InputMask from 'react-input-mask';
 
 function luhnCheck(cardNumberDigits: string) {
   let sum = 0;
@@ -66,51 +66,53 @@ export default function Payment() {
   };
 
   return (
-    <div className="flex  p-4">
+    <div className="flex p-4">
       <form onSubmit={handleSubmit} className="w-full max-w-md p-6 rounded-xl shadow">
         <h2 className="text-2xl font-bold mb-4 text-center">Оплата карткою</h2>
 
+        {/* Номер картки */}
         <label className="block mb-2 text-sm font-medium">Номер картки</label>
-        <Cleave
-          className="w-full border rounded p-2 mb-3"
-          placeholder="0000-0000-0000-0000"
-          options={{
-            creditCard: true,
-            delimiter: '-',
-            blocks: [4, 4, 4, 4],
-          }}
+        <InputMask
+          mask="9999-9999-9999-9999"
           value={cardNumber}
-          onChange={(e: any) => setCardNumber(e.target.value)}
-        />
+          onChange={(e) => setCardNumber(e.target.value)}
+        >
+          {(inputProps: any) => (
+            <input
+              {...inputProps}
+              className="w-full border rounded p-2 mb-3"
+              placeholder="0000-0000-0000-0000"
+            />
+          )}
+        </InputMask>
 
+        {/* Термін + CVV */}
         <div className="flex gap-2 mb-3">
           <div className="flex-1">
             <label className="block mb-2 text-sm font-medium">Термін (MM/YY)</label>
-            <Cleave
-              className="w-full border rounded p-2"
-              placeholder="MM/YY"
-              options={{
-                date: true,
-                datePattern: ['m', 'y'],
-              }}
-              value={expiry}
-              onChange={(e: any) => setExpiry(e.target.value)}
-            />
+            <InputMask mask="99/99" value={expiry} onChange={(e) => setExpiry(e.target.value)}>
+              {(inputProps: any) => (
+                <input {...inputProps} className="w-full border rounded p-2" placeholder="MM/YY" />
+              )}
+            </InputMask>
           </div>
 
           <div style={{ width: 120 }}>
             <label className="block mb-2 text-sm font-medium">CVV</label>
-            <input
-              type="text"
-              inputMode="numeric"
+            <InputMask
+              mask="9999"
+              maskChar={null}
               value={cvv}
-              onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
-              placeholder="123"
-              className="w-full border rounded p-2"
-            />
+              onChange={(e) => setCvv(e.target.value)}
+            >
+              {(inputProps: any) => (
+                <input {...inputProps} className="w-full border rounded p-2" placeholder="123" />
+              )}
+            </InputMask>
           </div>
         </div>
 
+        {/* Ім'я на картці */}
         <label className="block mb-2 text-sm font-medium">Ім'я на картці</label>
         <input
           type="text"

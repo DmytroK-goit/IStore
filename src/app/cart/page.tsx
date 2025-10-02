@@ -124,7 +124,6 @@ export default function CartPage() {
 
   return (
     <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-      {/* Cart Section */}
       <div>
         <h2 className="text-2xl font-bold mb-6">Cart</h2>
         <div className="">
@@ -172,8 +171,6 @@ export default function CartPage() {
           <p className="text-xl font-bold">Total: ${total}</p>
         </div>
       </div>
-
-      {/* Delivery Details Section */}
       <div>
         <h2 className="text-2xl font-bold mb-6">Delivery details</h2>
         <Formik
