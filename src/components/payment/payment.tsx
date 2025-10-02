@@ -28,37 +28,37 @@ export default function Payment() {
 
     const digits = cardNumber.replace(/\D/g, '');
     if (digits.length !== 16) {
-      alert('Введіть повний номер картки (16 цифр).');
+      // alert('Введіть повний номер картки (16 цифр).');
       return;
     }
     if (!luhnCheck(digits)) {
-      alert('Невірний номер картки (Luhn).');
+      // alert('Невірний номер картки (Luhn).');
       return;
     }
     if (!/^\d{2}\/\d{2}$/.test(expiry)) {
-      alert('Введіть термін у форматі MM/YY.');
+      // alert('Введіть термін у форматі MM/YY.');
       return;
     }
     const [mmStr, yyStr] = expiry.split('/');
     const mm = Number(mmStr);
     const yy = Number(yyStr);
     if (mm < 1 || mm > 12) {
-      alert('Невірний місяць у терміні.');
+      // alert('Невірний місяць у терміні.');
       return;
     }
     const now = new Date();
     const currentYear = now.getFullYear() % 100;
     const currentMonth = now.getMonth() + 1;
     if (yy < currentYear || (yy === currentYear && mm < currentMonth)) {
-      alert('Термін картки минув.');
+      // alert('Термін картки минув.');
       return;
     }
     if (!/^\d{3,4}$/.test(cvv)) {
-      alert('CVV має бути 3 або 4 цифри.');
+      // alert('CVV має бути 3 або 4 цифри.');
       return;
     }
     if (!nameOnCard.trim()) {
-      alert("Вкажіть ім'я на картці.");
+      // alert("Вкажіть ім'я на картці.");
       return;
     }
 
@@ -70,7 +70,6 @@ export default function Payment() {
       <form onSubmit={handleSubmit} className="w-full max-w-md p-6 rounded-xl shadow">
         <h2 className="text-2xl font-bold mb-4 text-center">Оплата карткою</h2>
 
-        {/* Номер картки */}
         <label className="block mb-2 text-sm font-medium">Номер картки</label>
         <InputMask
           mask="9999-9999-9999-9999"
@@ -86,7 +85,6 @@ export default function Payment() {
           )}
         </InputMask>
 
-        {/* Термін + CVV */}
         <div className="flex gap-2 mb-3">
           <div className="flex-1">
             <label className="block mb-2 text-sm font-medium">Термін (MM/YY)</label>
@@ -112,7 +110,6 @@ export default function Payment() {
           </div>
         </div>
 
-        {/* Ім'я на картці */}
         <label className="block mb-2 text-sm font-medium">Ім'я на картці</label>
         <input
           type="text"
