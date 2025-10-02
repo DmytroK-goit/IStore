@@ -58,7 +58,7 @@ export default function Payment() {
       return;
     }
     if (!nameOnCard.trim()) {
-      // alert("Вкажіть ім'я на картці.");
+      // alert("Вкажіть ім"я на картці.");
       return;
     }
 
@@ -110,7 +110,7 @@ export default function Payment() {
           </div>
         </div>
 
-        <label className="block mb-2 text-sm font-medium">Ім'я на картці</label>
+        <label className="block mb-2 text-sm font-medium">Ім"я на картці</label>
         <input
           type="text"
           value={nameOnCard}
