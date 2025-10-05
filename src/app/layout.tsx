@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className=" text-white flex flex-col min-h-screen ">
         <Providers>
-          <ToastContainer position="top-right" autoClose={3000} transition={Flip} />
+          <ToastContainer position="top-right" autoClose={1500} transition={Flip} />
           <Header />
 
           <main

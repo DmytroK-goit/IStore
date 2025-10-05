@@ -22,16 +22,14 @@ function luhnCheck(cardNumberDigits: string) {
 }
 
 export default function PaymentModal({ onConfirm, onCancel }: PaymentModalProps) {
-  const [cardNumber, setCardNumber] = useState(''); // formatted with spaces for UI
-  const [expiry, setExpiry] = useState(''); // MM/YY
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiry, setExpiry] = useState('');
   const [cvv, setCvv] = useState('');
   const [nameOnCard, setNameOnCard] = useState('');
 
-  // helper: digits-only values
   const cardDigits = useMemo(() => cardNumber.replace(/\D/g, ''), [cardNumber]);
   const expiryDigits = useMemo(() => expiry.replace(/\D/g, ''), [expiry]);
 
-  // Validation state and messages
   const [touched, setTouched] = useState({
     card: false,
     expiry: false,
@@ -65,8 +63,7 @@ export default function PaymentModal({ onConfirm, onCancel }: PaymentModalProps)
             return '';
           })())) ||
     '';
-  const cvvError =
-    (touched.cvv && (!/^\d{3,4}$/.test(cvv) ? 'CVV must be 3 or 4 digits' : '')) || '';
+  const cvvError = (touched.cvv && (!/^\d{3,4}$/.test(cvv) ? 'CVV must be 3 digits' : '')) || '';
   const nameError = (touched.name && (!nameOnCard.trim() ? 'Name required' : '')) || '';
 
   const isFormValid =
@@ -79,11 +76,7 @@ export default function PaymentModal({ onConfirm, onCancel }: PaymentModalProps)
     /^\d{3,4}$/.test(cvv) &&
     nameOnCard.trim();
 
-  // formatting helpers
-  const formatCardNumber = (digits: string) => {
-    // group by 4
-    return digits.replace(/(\d{4})/g, '$1 ').trim();
-  };
+  const formatCardNumber = (digits: string) => digits.replace(/(\d{4})/g, '$1 ').trim();
 
   const handleCardChange = (raw: string) => {
     const digits = raw.replace(/\D/g, '').slice(0, 16);
@@ -91,12 +84,9 @@ export default function PaymentModal({ onConfirm, onCancel }: PaymentModalProps)
   };
 
   const handleExpiryChange = (raw: string) => {
-    const digits = raw.replace(/\D/g, '').slice(0, 4); // mm + yy
-    if (digits.length <= 2) {
-      setExpiry(digits);
-    } else {
-      setExpiry(digits.slice(0, 2) + '/' + digits.slice(2));
-    }
+    const digits = raw.replace(/\D/g, '').slice(0, 4);
+    if (digits.length <= 2) setExpiry(digits);
+    else setExpiry(digits.slice(0, 2) + '/' + digits.slice(2));
   };
 
   const handleCvvChange = (raw: string) => {
@@ -104,87 +94,107 @@ export default function PaymentModal({ onConfirm, onCancel }: PaymentModalProps)
   };
 
   const handleConfirmClick = () => {
-    // mark all touched so errors show if something is missing
     setTouched({ card: true, expiry: true, cvv: true, name: true });
-
     if (!isFormValid) return;
-
-    // All good -> call parent confirm
     onConfirm();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 p-4">
-      <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl text-center">
-        <h2 className="text-lg font-bold mb-2 text-gray-800">Confirm order</h2>
-        <p className="mb-4 text-gray-600">Enter card details to confirm (mock)</p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md p-4">
+      <div className="relative bg-white/10 border border-white/20 rounded-2xl p-6 w-full max-w-md shadow-2xl text-center overflow-hidden backdrop-blur-xl">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-90"
+          style={{ backgroundImage: "url('/img/bg_payment_modal.jpg')" }}
+        />
 
-        <form className="text-left" onSubmit={(e) => e.preventDefault()}>
-          <label className="block mb-1 text-sm font-medium color-black">Card number</label>
-          <input
-            inputMode="numeric"
-            value={cardNumber}
-            onChange={(e) => handleCardChange(e.target.value)}
-            onBlur={() => setTouched((s) => ({ ...s, card: true }))}
-            placeholder="4242 4242 4242 4242"
-            className="w-full p-2 border rounded mb-1 bg-gray-500 color-white"
-          />
-          {cardError && <div className="text-xs text-red-500 mb-2">{cardError}</div>}
+        <img
+          src="/img/mastercard.png"
+          alt="Mastercard"
+          className="absolute top-1 right-2 w-18 drop-shadow-xl rotate- opacity-0 animate-fade-in z-20"
+        />
 
-          <div className="flex gap-2 mb-1">
-            <div className="flex-1">
-              <label className="block mb-1 text-sm font-medium color-black">Expiry (MM/YY)</label>
-              <input
-                inputMode="numeric"
-                value={expiry}
-                onChange={(e) => handleExpiryChange(e.target.value)}
-                onBlur={() => setTouched((s) => ({ ...s, expiry: true }))}
-                placeholder="12/34"
-                className="w-full p-2 border rounded  bg-gray-500 color-white"
-              />
-              {expiryError && <div className="text-xs text-red-500 mt-1">{expiryError}</div>}
+        {/* Content */}
+        <div className="relative z-10">
+          <h2 className="text-lg font-bold mb-2 text-white">Confirm order</h2>
+          <p className="mb-4 text-gray-200">Enter card details to confirm (mock)</p>
+
+          <form className="text-left" onSubmit={(e) => e.preventDefault()}>
+            <label className="block mb-1 text-sm font-medium text-gray-200">Card number</label>
+            <input
+              inputMode="numeric"
+              title='Enter a valid card number, e.g. "4242 4242 4242 4242"'
+              value={cardNumber}
+              onChange={(e) => handleCardChange(e.target.value)}
+              onBlur={() => setTouched((s) => ({ ...s, card: true }))}
+              placeholder="4242 4242 4242 4242"
+              className="w-full p-2 border border-gray-400/50 rounded mb-1 text-gray-900 bg-white/30 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            />
+            {cardError && <div className="text-xs text-red-400 mb-2">{cardError}</div>}
+
+            <div className="flex gap-2 mb-1">
+              <div className="flex-1">
+                <label className="block mb-1 text-sm font-medium text-gray-200">
+                  Expiry (MM/YY)
+                </label>
+                <input
+                  inputMode="numeric"
+                  title='Enter a valid expiry date, e.g. "12/34"'
+                  value={expiry}
+                  onChange={(e) => handleExpiryChange(e.target.value)}
+                  onBlur={() => setTouched((s) => ({ ...s, expiry: true }))}
+                  placeholder="12/34"
+                  className="w-full p-2 border border-gray-400/50 rounded text-gray-900 bg-white/60 focus:ring-2 focus:ring-emerald-500"
+                />
+                {expiryError && <div className="text-xs text-red-400 mt-1">{expiryError}</div>}
+              </div>
+
+              <div style={{ width: 120 }}>
+                <label className="block mb-1 text-sm font-medium text-gray-200">CVV</label>
+                <input
+                  inputMode="numeric"
+                  title='Enter a valid CVV, e.g. "123"'
+                  value={cvv}
+                  onChange={(e) => handleCvvChange(e.target.value)}
+                  onBlur={() => setTouched((s) => ({ ...s, cvv: true }))}
+                  placeholder="123"
+                  className="w-full p-2 border border-gray-400/50 rounded text-gray-900 bg-white/60 focus:ring-2 focus:ring-emerald-500"
+                />
+                {cvvError && <div className="text-xs text-red-400 mt-1">{cvvError}</div>}
+              </div>
             </div>
 
-            <div style={{ width: 120 }}>
-              <label className="block mb-1 text-sm font-medium color-black">CVV</label>
-              <input
-                inputMode="numeric"
-                value={cvv}
-                onChange={(e) => handleCvvChange(e.target.value)}
-                onBlur={() => setTouched((s) => ({ ...s, cvv: true }))}
-                placeholder="123"
-                className="w-full p-2 border rounded  bg-gray-500 color-white"
-              />
-              {cvvError && <div className="text-xs text-red-500 mt-1">{cvvError}</div>}
-            </div>
+            <label className="block mb-1 text-sm font-medium text-gray-200">Name on card</label>
+            <input
+              value={nameOnCard}
+              title="Enter the name as it appears on your card"
+              onChange={(e) => setNameOnCard(e.target.value)}
+              onBlur={() => setTouched((s) => ({ ...s, name: true }))}
+              placeholder="Test User"
+              className="w-full p-2 border border-gray-400/50 rounded mb-2 text-gray-900 bg-white/60 focus:ring-2 focus:ring-emerald-500"
+            />
+            {nameError && <div className="text-xs text-red-400 mb-2">{nameError}</div>}
+          </form>
+
+          <div className="flex justify-center gap-4 mt-3">
+            <button
+              onClick={handleConfirmClick}
+              disabled={!isFormValid}
+              className={`px-4 py-2 rounded-lg text-white ${
+                isFormValid
+                  ? 'bg-emerald-600 hover:bg-emerald-700 cursor-pointer'
+                  : 'bg-gray-400 cursor-not-allowed'
+              }`}
+            >
+              Confirm
+            </button>
+
+            <button
+              onClick={onCancel}
+              className="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 cursor-pointer"
+            >
+              Cancel
+            </button>
           </div>
-
-          <label className="block mb-1 text-sm font-medium color-black">Name on card</label>
-          <input
-            value={nameOnCard}
-            onChange={(e) => setNameOnCard(e.target.value)}
-            onBlur={() => setTouched((s) => ({ ...s, name: true }))}
-            placeholder="Test User"
-            className="w-full p-2 border rounded mb-2  bg-gray-500 color-white"
-          />
-          {nameError && <div className="text-xs text-red-500 mb-2">{nameError}</div>}
-        </form>
-
-        <div className="flex justify-center gap-4 mt-3">
-          <button
-            onClick={handleConfirmClick}
-            disabled={!isFormValid}
-            className={`px-4 py-2 rounded-lg text-white ${isFormValid ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-gray-300 cursor-not-allowed'}`}
-          >
-            Confirm
-          </button>
-
-          <button
-            onClick={onCancel}
-            className="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300"
-          >
-            Cancel
-          </button>
         </div>
       </div>
     </div>
