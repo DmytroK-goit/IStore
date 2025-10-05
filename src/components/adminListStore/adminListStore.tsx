@@ -32,60 +32,59 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
 
   return (
     <div className="flex flex-col">
-      <h2 className="text-xl font-bold mb-4 text-center">Products</h2>
-      <div className="rounded-lg shadow-lg ">
-        <div className="flex flex-col gap-4 w-full max-w-40 mb-6">
-          <p className="text-2xl font-bold mb-2">Categories</p>
-          <ul className="flex flex-row gap-2">
-            {categories.map((cat) => (
-              <li key={cat}>
-                <button
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`cursor-pointer px-4 py-2 rounded-xl border transition text-left ${
+      <h2 className="text-2xl font-bold mb-4 text-center text-emerald-400">Products</h2>
+
+      <div className="flex flex-col gap-4 mb-6">
+        <p className="text-lg font-semibold text-gray-300">Categories</p>
+        <ul className="flex flex-row flex-wrap gap-2">
+          {categories.map((cat) => (
+            <li key={cat}>
+              <button
+                onClick={() => setSelectedCategory(cat)}
+                className={`cursor-pointer px-4 py-2 rounded-xl border font-medium transition-all duration-300 ease-in-out transform
+                  ${
                     selectedCategory === cat
-                      ? 'bg-emerald-500 text-white border-emerald-500'
-                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                      ? 'bg-emerald-500 text-white border-emerald-500 scale-105 shadow-md shadow-emerald-500/30'
+                      : 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700 hover:text-white hover:scale-105 hover:shadow-md hover:shadow-emerald-500/20'
                   }`}
-                >
-                  {cat}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filteredProducts.map((product) => (
-            <li
-              key={product._id}
-              className="flex justify-between items-center p-3 rounded-md border border-gray-700 
-             bg-gradient-to-r from-gray-800 via-gray-700 to-gray-500 
-             max-h-50 max-w-70 shadow-md "
-            >
-              <div>
-                <p className="font-semibold text-white">{product.name}</p>
-                <p className="text-sm text-gray-300">${product.price}</p>
-                <p className="text-sm text-gray-300">Count: {product.quantity}</p>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <button
-                  onClick={() => onSelectProduct(product)}
-                  className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer transition"
-                >
-                  Update
-                </button>
-                <button
-                  onClick={() => handleDelete(product._id)}
-                  className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer transition"
-                >
-                  Delete
-                </button>
-              </div>
+              >
+                {cat}
+              </button>
             </li>
           ))}
         </ul>
       </div>
+
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {filteredProducts.map((product) => (
+          <li
+            key={product._id}
+            className="flex justify-between items-center p-4 rounded-2xl border border-gray-700 
+              bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 shadow-md transition-all duration-300 ease-in-out transform hover:shadow-emerald-500/30 hover:-translate-y-1"
+          >
+            <div>
+              <p className="font-semibold text-emerald-300">{product.name}</p>
+              <p className="text-sm text-gray-300">${product.price}</p>
+              <p className="text-sm text-gray-400">Count: {product.quantity}</p>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={() => onSelectProduct(product)}
+                className="px-3 py-1 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 hover:scale-105 transition-all duration-300 ease-in-out"
+              >
+                Update
+              </button>
+              <button
+                onClick={() => handleDelete(product._id)}
+                className="px-3 py-1 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 hover:scale-105 transition-all duration-300 ease-in-out"
+              >
+                Delete
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

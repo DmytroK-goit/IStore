@@ -22,7 +22,9 @@ export default function ProductPage() {
 
   const product = products.find((p) => p._id === id) as Product | undefined;
   const outOfStock = product?.quantity === 0;
-  if (!product) return <p className="p-6">Product not found...</p>;
+
+  if (!product) return <p className="p-6 text-gray-300">Product not found...</p>;
+
   const handleAddToCart = async (productId: string, quantity: number) => {
     try {
       await dispatch(addToCartThunk({ productId, quantity })).unwrap();
@@ -32,29 +34,44 @@ export default function ProductPage() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+    <div className="min-h-screen  text-gray-100 flex items-center justify-center p-6">
+      <div className="max-w-3xl w-full bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-800 p-8">
+        <h1 className="text-4xl font-bold mb-6 text-emerald-400">{product.name}</h1>
 
-      <img
-        src={product.img || '/img/no_item.jpg'}
-        alt={product.name}
-        className="w-80 h-80 object-cover rounded-xl border mb-6"
-      />
+        <div className="flex flex-col sm:flex-row gap-6">
+          <img
+            src={product.img || '/img/no_item.jpg'}
+            alt={product.name}
+            className="w-full sm:w-80 h-80 object-cover rounded-xl border border-gray-700 shadow-md"
+          />
 
-      <p className="text-gray-900">Category: {product.category}</p>
-      <p className="text-lg font-bold mb-2">${product.price}</p>
-      <p className="whitespace-pre-line mb-4">{product.description || ''}</p>
-      <button
-        onClick={() => !outOfStock && handleAddToCart(product._id, 1)}
-        disabled={outOfStock}
-        className={`w-1/4 cursor-pointer py-2 rounded-xl transition  ${
-          outOfStock
-            ? 'bg-gray-300 text-gray-500 cursor-not-allowed disabled:cursor-not-allowed'
-            : 'bg-emerald-500 text-white hover:bg-emerald-600'
-        }`}
-      >
-        {outOfStock ? 'Out of Stock. Expected' : 'Add to Cart'}
-      </button>
+          <div className="flex flex-col justify-between">
+            <div>
+              <p className="text-gray-400 mb-1">
+                Category: <span className="text-gray-200">{product.category}</span>
+              </p>
+              <p className="text-2xl font-semibold text-emerald-300 mb-3">${product.price}</p>
+              <p className="whitespace-pre-line text-gray-300 mb-6">
+                {product.description || 'No description available.'}
+              </p>
+            </div>
+
+            <button
+              onClick={() => !outOfStock && handleAddToCart(product._id, 1)}
+              disabled={outOfStock}
+              className={`w-full sm:w-48 py-2 rounded-xl font-semibold cursor-pointer 
+    transition-all duration-300 ease-in-out
+    ${
+      outOfStock
+        ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+        : 'bg-emerald-600 text-white hover:bg-emerald-500 hover:scale-105 shadow-md hover:shadow-emerald-500/40'
+    }`}
+            >
+              {outOfStock ? 'Out of Stock' : 'Add to Cart'}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

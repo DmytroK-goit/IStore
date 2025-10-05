@@ -8,6 +8,7 @@ import {
   selectContactUsError,
 } from '@/redux/ContactUs/selectors';
 import type { AppDispatch, RootState } from '@/redux/store';
+import Link from 'next/link';
 
 export const ContactUs = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -24,35 +25,45 @@ export const ContactUs = () => {
     dispatch(dellContactUsMessage(id));
   };
 
-  if (loading) return <div>Loading messages...</div>;
-  if (error) return <div>Error: {'Something went wrong'}</div>;
+  if (loading) return <div className="text-gray-400">Loading messages...</div>;
+  if (error) return <div className="text-red-400">Error: Something went wrong</div>;
 
   return (
-    <div className="w-full">
-      <h2 className="text-4xl font-bold mb-4">Contact Messages</h2>
+    <div className="w-full min-h-screen p-4  text-gray-100">
+      <Link
+        href="/admin"
+        className="flex items-center mb-6 text-emerald-400 font-semibold transition-all duration-300 hover:underline hover:text-emerald-300 hover:translate-x-1"
+      >
+        &larr; Back to Admin Panel
+      </Link>
+
+      <h2 className="text-4xl font-bold mb-6 text-emerald-400">Contact Messages</h2>
+
       {messages.length === 0 ? (
-        <p>No messages yet.</p>
+        <p className="text-gray-400">No messages yet.</p>
       ) : (
-        <ul className="grid grid-cols-1 gap-6 items-stretch sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {messages.map((msg) => (
             <li
               key={msg._id}
-              className="p-4 border rounded shadow-sm flex flex-col justify-between h-full bg-gradient-to-r from-gray-800 via-gray-700 to-gray-500 "
+              className="p-4 border rounded-2xl shadow-md flex flex-col justify-between h-full
+    bg-gradient-to-br from-gray-800 via-gray-700 to-gray-600
+    transition-all duration-300 hover:shadow-emerald-500/40 hover:-translate-y-1"
             >
-              <div>
+              <div className="space-y-2">
                 <p className="text-sm">
-                  <span className="font-bold">Name:</span> {msg.name}
+                  <span className="font-bold text-emerald-300">Name:</span> {msg.name}
                 </p>
                 <p className="text-sm truncate max-w-full">
-                  <span className="font-bold">Email:</span> {msg.email}
+                  <span className="font-bold text-emerald-300">Email:</span> {msg.email}
                 </p>
-                <p className="text-sm line-clamp-6 group-hover:line-clamp-none normal-case">
-                  <span className="font-bold">Message:</span> {msg.message}
+                <p className="text-sm line-clamp-6 group-hover:line-clamp-none">
+                  <span className="font-bold text-emerald-300">Message:</span> {msg.message}
                 </p>
               </div>
               <button
                 onClick={() => handleReadMessages(msg._id)}
-                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 shadow-md transition-all duration-300 cursor-pointer "
               >
                 Read
               </button>

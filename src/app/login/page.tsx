@@ -8,6 +8,7 @@ import type { AppDispatch } from '@/redux/store';
 import { login } from '@/redux/UserAuth/operations';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Link from 'next/link';
 
 interface LoginFormValues {
   email: string;
@@ -18,10 +19,7 @@ export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
-  const initialValues: LoginFormValues = {
-    email: '',
-    password: '',
-  };
+  const initialValues: LoginFormValues = { email: '', password: '' };
 
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -39,14 +37,11 @@ export default function Login() {
 
       if (login.fulfilled.match(resultAction)) {
         const userRole = resultAction.payload.data.user.role;
-        if (userRole === 'admin') {
-          router.push('/admin');
-        } else {
-          router.push('/products');
-        }
+        router.push(userRole === 'admin' ? '/admin' : '/products');
       } else {
+        toast.error('Login failed. Please check your credentials.');
       }
-    } catch (error) {
+    } catch {
       toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setSubmitting(false);
@@ -54,38 +49,69 @@ export default function Login() {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4 text-red-600">Login</h2>
-
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+    <main className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat">
+      <Link
+        href="/"
+        className="absolute top-4 left-4 text-emerald-400 font-semibold transition-all duration-300 hover:underline hover:text-emerald-300 hover:translate-x-1"
       >
-        {({ isSubmitting }) => (
-          <Form className="flex flex-col gap-4 p-6 rounded shadow-md border">
-            <div>
-              <label htmlFor="email">Email</label>
-              <Field type="email" name="email" className="border p-2 w-full rounded" />
-              <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
-            </div>
+        &larr; Back to Home
+      </Link>
+      <div className="backdrop-blur-sm bg-black/60 p-8 rounded-2xl shadow-lg max-w-md w-full mx-4">
+        <h2 className="text-3xl font-bold mb-6 text-yellow-400 text-center">Login to IStore</h2>
 
-            <div>
-              <label htmlFor="password">Password</label>
-              <Field type="password" name="password" className="border p-2 w-full rounded" />
-              <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
-            </div>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form className="flex flex-col gap-5">
+              <div>
+                <label htmlFor="email" className="block text-sm font-semibold text-gray-200 mb-1">
+                  Email
+                </label>
+                <Field
+                  type="email"
+                  name="email"
+                  className="w-full p-3 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-emerald-500 outline-none"
+                  placeholder="Enter your email"
+                />
+                <ErrorMessage name="email" component="div" className="text-red-400 text-sm mt-1" />
+              </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-              {isSubmitting ? 'Submitting...' : 'Login'}
-            </button>
-          </Form>
-        )}
-      </Formik>
-    </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-semibold text-gray-200 mb-1"
+                >
+                  Password
+                </label>
+                <Field
+                  type="password"
+                  name="password"
+                  className="w-full p-3 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-emerald-500 outline-none"
+                  placeholder="Enter your password"
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-red-400 text-sm mt-1"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-emerald-600 hover:bg-emerald-500 transition text-white font-semibold py-3 rounded-lg shadow-md disabled:opacity-50"
+              >
+                {isSubmitting ? 'Logging in...' : 'Login'}
+              </button>
+            </Form>
+          )}
+        </Formik>
+
+        <ToastContainer position="top-right" autoClose={3000} theme="dark" />
+      </div>
+    </main>
   );
 }

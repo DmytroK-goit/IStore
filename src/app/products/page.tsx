@@ -63,11 +63,13 @@ export default function ProductsPage() {
                 setSelectedCategory(cat);
                 setPage(1);
               }}
-              className={`cursor-pointer px-4 py-2 rounded-xl border transition text-left ${
-                selectedCategory === cat
-                  ? 'bg-emerald-500 text-white border-emerald-500'
-                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
-              }`}
+              className={`cursor-pointer px-4 py-2 rounded-xl border font-medium 
+    transition-all duration-300 ease-in-out transform
+    ${
+      selectedCategory === cat
+        ? 'bg-emerald-500 text-white border-emerald-500 scale-105 shadow-md shadow-emerald-500/30'
+        : 'bg-gray-900 text-gray-300 border-gray-700 hover:bg-gray-800 hover:text-white hover:scale-105 hover:shadow-md hover:shadow-emerald-500/20'
+    }`}
             >
               {cat}
             </button>
@@ -85,36 +87,46 @@ export default function ProductsPage() {
                   style={{
                     backgroundImage: `url(${outOfStock ? '/img/bg_no_item.webp' : '/img/bg_for_item.webp'})`,
                   }}
-                  className={`max-h-[400px] bg-cover bg-no-repeat border rounded-2xl shadow-md p-4 flex flex-col transition justify-between ${
-                    outOfStock ? 'bg-gray-100 opacity-70' : 'hover:shadow-lg'
-                  }`}
+                  className={`max-h-[420px] bg-cover bg-no-repeat rounded-2xl shadow-md border border-gray-800 
+    flex flex-col justify-between p-4 transition-all duration-300 ease-in-out transform
+    ${outOfStock ? 'bg-gray-900/60 opacity-70' : 'bg-gray-900 hover:shadow-emerald-500/20 hover:-translate-y-1'}
+  `}
                 >
-                  <div className="w-full h-40 bg-gray-200 flex items-center justify-center rounded-xl mb-4 overflow-hidden cursor-pointer">
+                  <div
+                    className="w-full h-44 bg-gray-800 flex items-center justify-center rounded-xl mb-4 overflow-hidden cursor-pointer border border-gray-700 hover:border-emerald-500 transition-all duration-300"
+                    onClick={() => router.push(`/products/${product._id}`)}
+                  >
                     <img
-                      onClick={() => router.push(`/products/${product._id}`)}
                       src={product.img || '/img/no_item.webp'}
                       alt={product.name || 'No Image'}
-                      className="object-cover w-full h-full"
+                      className={`object-cover w-full h-full ${outOfStock ? 'opacity-50' : 'opacity-100'}`}
                     />
                   </div>
 
-                  <h3 className="text-xl font-semibold mb-1">{product.name}</h3>
-                  <p className="text-sm text-gray-500 mb-1">Category: {product.category}</p>
-                  <p className="font-bold text-lg mb-1">${product.price}</p>
+                  <h3 className="text-xl font-semibold text-emerald-300 mb-1">{product.name}</h3>
+                  <p className="text-sm text-gray-400 mb-1">Category: {product.category}</p>
+                  <p className="font-bold text-lg text-gray-100 mb-1">${product.price}</p>
+
                   {product.quantity === 0 ? (
-                    <p className="text-sm text-red-500 font-medium">Product is out of stock</p>
+                    <p className="text-sm text-red-500 font-medium mb-2">Product is out of stock</p>
                   ) : product.quantity < 10 ? (
-                    <p className="text-sm text-orange-400 font-medium">Product is running out</p>
-                  ) : null}
+                    <p className="text-sm text-orange-400 font-medium mb-2">
+                      Product is running out
+                    </p>
+                  ) : (
+                    <div className="mb-2"></div>
+                  )}
 
                   <button
                     onClick={() => !outOfStock && handleAddToCart(product._id, 1)}
                     disabled={outOfStock}
-                    className={`w-full cursor-pointer py-2 rounded-xl transition  ${
-                      outOfStock
-                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed disabled:cursor-not-allowed'
-                        : 'bg-emerald-500 text-white hover:bg-emerald-600'
-                    }`}
+                    className={`w-full cursor-pointer py-2 rounded-xl font-semibold
+      transition-all duration-300 ease-in-out transform
+      ${
+        outOfStock
+          ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+          : 'bg-emerald-600 text-white hover:bg-emerald-500 hover:scale-105 active:scale-95 shadow-md hover:shadow-emerald-500/40'
+      }`}
                   >
                     {outOfStock ? 'Out of Stock. Expected' : 'Add to Cart'}
                   </button>

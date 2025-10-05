@@ -115,7 +115,7 @@ export default function PaymentModal({ onConfirm, onCancel }: PaymentModalProps)
 
         {/* Content */}
         <div className="relative z-10">
-          <h2 className="text-lg font-bold mb-2 text-white">Confirm order</h2>
+          <h2 className="text-lg font-bold mb-2 text-white">Payment order</h2>
           <p className="mb-4 text-gray-200">Enter card details to confirm (mock)</p>
 
           <form className="text-left" onSubmit={(e) => e.preventDefault()}>
@@ -127,7 +127,7 @@ export default function PaymentModal({ onConfirm, onCancel }: PaymentModalProps)
               onChange={(e) => handleCardChange(e.target.value)}
               onBlur={() => setTouched((s) => ({ ...s, card: true }))}
               placeholder="4242 4242 4242 4242"
-              className="w-full p-2 border border-gray-400/50 rounded mb-1 text-gray-900 bg-white/30 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full p-2 border border-gray-400/50 rounded mb-1 text-gray-400 backdrop-blur-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
             {cardError && <div className="text-xs text-red-400 mb-2">{cardError}</div>}
 
@@ -143,7 +143,7 @@ export default function PaymentModal({ onConfirm, onCancel }: PaymentModalProps)
                   onChange={(e) => handleExpiryChange(e.target.value)}
                   onBlur={() => setTouched((s) => ({ ...s, expiry: true }))}
                   placeholder="12/34"
-                  className="w-full p-2 border border-gray-400/50 rounded text-gray-900 bg-white/60 focus:ring-2 focus:ring-emerald-500"
+                  className="w-full p-2 border border-gray-400/50 rounded text-gray-400 backdrop-blur-lg focus:ring-2 focus:ring-emerald-500"
                 />
                 {expiryError && <div className="text-xs text-red-400 mt-1">{expiryError}</div>}
               </div>
@@ -157,7 +157,7 @@ export default function PaymentModal({ onConfirm, onCancel }: PaymentModalProps)
                   onChange={(e) => handleCvvChange(e.target.value)}
                   onBlur={() => setTouched((s) => ({ ...s, cvv: true }))}
                   placeholder="123"
-                  className="w-full p-2 border border-gray-400/50 rounded text-gray-900 bg-white/60 focus:ring-2 focus:ring-emerald-500"
+                  className="w-full p-2 border border-gray-400/50 rounded text-gray-400 backdrop-blur-lg focus:ring-2 focus:ring-emerald-500"
                 />
                 {cvvError && <div className="text-xs text-red-400 mt-1">{cvvError}</div>}
               </div>
@@ -170,7 +170,7 @@ export default function PaymentModal({ onConfirm, onCancel }: PaymentModalProps)
               onChange={(e) => setNameOnCard(e.target.value)}
               onBlur={() => setTouched((s) => ({ ...s, name: true }))}
               placeholder="Test User"
-              className="w-full p-2 border border-gray-400/50 rounded mb-2 text-gray-900 bg-white/60 focus:ring-2 focus:ring-emerald-500"
+              className="w-full p-2 border border-gray-400/50 rounded mb-2 text-gray-400 backdrop-blur-lg focus:ring-2 focus:ring-emerald-500"
             />
             {nameError && <div className="text-xs text-red-400 mb-2">{nameError}</div>}
           </form>
