@@ -105,13 +105,17 @@ export default function Login() {
                 />
               </div>
 
-              <button
+              <motion.button
+                initial={{ x: 5 }}
+                animate={{ x: 0 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.9 }}
                 type="submit"
                 disabled={isSubmitting}
                 className="bg-emerald-600 hover:bg-emerald-500 transition text-white font-semibold py-3 rounded-lg shadow-md disabled:opacity-50"
               >
                 {isSubmitting ? 'Logging in...' : 'Login'}
-              </button>
+              </motion.button>
             </Form>
           )}
         </Formik>
