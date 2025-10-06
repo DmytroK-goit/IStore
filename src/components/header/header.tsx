@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
+import { motion } from 'framer-motion';
 
 export const Header = () => {
   const user = useSelector(selectUser);
@@ -19,15 +20,15 @@ export const Header = () => {
 
   return (
     <header className="flex flex-col sm:flex-row justify-between items-center px-6 py-4 sm:py-0 bg-gray-950 bg-opacity-90 backdrop-blur-md shadow-md border-b border-gray-800">
-      {/* Логотип */}
-      <Link
-        href="/products"
-        className="flex items-center gap-2 text-xl font-bold text-yellow-400 hover:text-yellow-300 transition"
-      >
-        <Image src="/img/istore.png" alt="Logo" width={120} height={120} priority />
-      </Link>
+      <motion.div animate={{ rotate: 360 }} transition={{ duration: 3 }}>
+        <Link
+          href="/products"
+          className="flex items-center gap-2 text-xl font-bold text-yellow-400 hover:text-yellow-300 transition"
+        >
+          <Image src="/img/istore.png" alt="Logo" width={120} height={120} priority />
+        </Link>
+      </motion.div>
 
-      {/* Ім’я користувача */}
       <div className="flex flex-col items-center sm:items-end text-center sm:text-right">
         <p className="text-lg sm:text-2xl text-gray-300 font-medium truncate max-w-[180px]">
           {user?.name || 'Guest'}
