@@ -39,7 +39,10 @@ export const Header = () => {
       </div>
 
       {/* Навігація */}
-      <nav className="flex flex-wrap justify-center sm:justify-end items-center gap-4 mt-3 sm:mt-0">
+      <motion.nav
+        layout
+        className="flex flex-wrap justify-center sm:justify-end items-center gap-4 mt-3 sm:mt-0"
+      >
         <Link href="/" className="text-gray-200 hover:text-yellow-400 transition">
           Home
         </Link>
@@ -70,7 +73,7 @@ export const Header = () => {
             Logout
           </button>
         )}
-      </nav>
+      </motion.nav>
     </header>
   );
 };
