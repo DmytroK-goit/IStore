@@ -113,7 +113,6 @@ export default function PaymentModal({ onConfirm, onCancel }: PaymentModalProps)
           className="absolute top-1 right-2 w-18 drop-shadow-xl rotate- opacity-0 animate-fade-in z-20"
         />
 
-        {/* Content */}
         <div className="relative z-10">
           <h2 className="text-lg font-bold mb-2 text-white">Payment order</h2>
           <p className="mb-4 text-gray-200">Enter card details to confirm (mock)</p>

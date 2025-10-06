@@ -11,6 +11,7 @@ import {
 import { Product } from '@/types/product';
 import { addToCart as addToCartThunk } from '@/redux/Cart/operations';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 export default function ProductsPage() {
   const router = useRouter();
@@ -54,7 +55,12 @@ export default function ProductsPage() {
       {error && <p className="text-red-500">Error: {error}</p>}
 
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 w-full min-h-screen">
-        <div className="flex flex-col gap-4 w-full md:w-52">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col gap-4 w-full md:w-52"
+        >
           <p className="text-2xl font-bold mb-2">Categories</p>
           {categories.map((cat) => (
             <button
@@ -74,7 +80,7 @@ export default function ProductsPage() {
               {cat}
             </button>
           ))}
-        </div>
+        </motion.div>
 
         <div>
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -82,7 +88,10 @@ export default function ProductsPage() {
               const outOfStock = product.quantity === 0;
 
               return (
-                <div
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.9 }}
                   key={product._id}
                   style={{
                     backgroundImage: `url(${outOfStock ? '/img/bg_no_item.webp' : '/img/bg_for_item.webp'})`,
@@ -130,7 +139,7 @@ export default function ProductsPage() {
                   >
                     {outOfStock ? 'Out of Stock. Expected' : 'Add to Cart'}
                   </button>
-                </div>
+                </motion.div>
               );
             })}
           </div>

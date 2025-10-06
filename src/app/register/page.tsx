@@ -9,6 +9,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login, registerUser } from '@/redux/UserAuth/operations';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 interface RegisterFormValues {
   email: string;
@@ -67,7 +68,12 @@ export default function Register() {
       >
         &larr; Back to Home
       </Link>
-      <div className="backdrop-blur-sm bg-black/60 p-8 rounded-2xl shadow-lg max-w-md w-full mx-4">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="backdrop-blur-sm bg-black/60 p-8 rounded-2xl shadow-lg max-w-md w-full mx-4"
+      >
         <h2 className="text-3xl font-bold mb-6 text-yellow-400 text-center">Register to IStore</h2>
 
         <Formik
@@ -135,7 +141,7 @@ export default function Register() {
         </Formik>
 
         <ToastContainer position="top-right" autoClose={3000} theme="dark" />
-      </div>
+      </motion.div>
     </main>
   );
 }
