@@ -6,13 +6,25 @@ import { useRouter } from 'next/navigation';
 import { ContactUs } from '@/components/contactUs/contactUs';
 import AdminListStore from '@/components/adminListStore/adminListStore';
 import { Product } from '@/types/product';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectUser } from '@/redux/UserAuth/selectors';
 
 export default function AdminPage() {
+  const user = useSelector(selectUser);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user.role !== 'admin') {
+      router.push('/login');
+    }
+  }, [user, router]);
+
+  if (!user) return null;
+
   const handleSelectProduct = (product: Product) => {
-    console.log('Selected product:', product);
     setSelectedProduct(product);
   };
   return (

@@ -43,7 +43,10 @@ export const ContactUs = () => {
       {messages.length === 0 ? (
         <p className="text-gray-400">No messages yet.</p>
       ) : (
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <motion.ul
+          layout
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        >
           {messages.map((msg) => (
             <li
               key={msg._id}
@@ -70,7 +73,7 @@ export const ContactUs = () => {
               </button>
             </li>
           ))}
-        </ul>
+        </motion.ul>
       )}
     </motion.div>
   );

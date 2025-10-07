@@ -43,6 +43,7 @@ const slice = createSlice({
         state.token = null;
         state.isLoggedIn = false;
         state.isLoadingLogin = false;
+        state.items = [];
       })
 
       .addCase(login.rejected, (state, action) => {
