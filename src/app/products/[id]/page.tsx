@@ -34,8 +34,8 @@ export default function ProductPage() {
   };
 
   return (
-    <div className="min-h-screen  text-gray-100 flex items-center justify-center p-6">
-      <div className="max-w-3xl w-full bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-800 p-8">
+    <div className="min-h-screen  text-gray-100 flex items-center justify-center p-6 min-w-3/4">
+      <div className="w-full bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-800 p-8">
         <h1 className="text-4xl font-bold mb-6 text-emerald-400">{product.name}</h1>
 
         <div className="flex flex-col sm:flex-row gap-6">
