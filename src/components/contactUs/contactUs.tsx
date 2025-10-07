@@ -9,6 +9,7 @@ import {
 } from '@/redux/ContactUs/selectors';
 import type { AppDispatch, RootState } from '@/redux/store';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export const ContactUs = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,7 +30,7 @@ export const ContactUs = () => {
   if (error) return <div className="text-red-400">Error: Something went wrong</div>;
 
   return (
-    <div className="w-full min-h-screen p-4  text-gray-100">
+    <motion.div layout className="w-full min-h-screen p-4  text-gray-100">
       <Link
         href="/admin"
         className="flex items-center mb-6 text-emerald-400 font-semibold transition-all duration-300 hover:underline hover:text-emerald-300 hover:translate-x-1"
@@ -71,6 +72,6 @@ export const ContactUs = () => {
           ))}
         </ul>
       )}
-    </div>
+    </motion.div>
   );
 };

@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export type SoldProduct = {
   id: number;
@@ -64,7 +65,7 @@ export default function SoldItemsPage() {
   };
 
   return (
-    <div className="mt-8 p-4 min-h-screen  text-gray-100">
+    <motion.div layout className="mt-8 p-4 min-h-screen  text-gray-100">
       <Link
         href="/admin"
         className="flex items-center mb-6 text-emerald-100 font-semibold transition-all duration-300 hover:underline hover:text-emerald-200 hover:translate-x-1"
@@ -130,6 +131,6 @@ export default function SoldItemsPage() {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }

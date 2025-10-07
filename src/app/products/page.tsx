@@ -11,7 +11,7 @@ import {
 import { Product } from '@/types/product';
 import { addToCart as addToCartThunk } from '@/redux/Cart/operations';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function ProductsPage() {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function ProductsPage() {
 
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [page, setPage] = useState(1);
-  const limit = 12;
+  const limit = 20;
 
   const filteredProducts =
     selectedCategory === 'All' ? products : products.filter((p) => p.category === selectedCategory);
@@ -83,7 +83,7 @@ export default function ProductsPage() {
         </motion.div>
 
         <div>
-          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <motion.div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {paginatedProducts.map((product) => {
               const outOfStock = product.quantity === 0;
 
@@ -142,7 +142,7 @@ export default function ProductsPage() {
                 </motion.div>
               );
             })}
-          </div>
+          </motion.div>
 
           {totalPages > 1 && (
             <div className="flex justify-center items-center gap-4 mt-8">
