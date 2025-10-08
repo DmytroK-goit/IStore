@@ -11,13 +11,13 @@ import {
 import { Product } from '@/types/product';
 import { addToCart as addToCartThunk } from '@/redux/Cart/operations';
 import { useRouter } from 'next/navigation';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { GridLoader } from 'react-spinners';
 
 export default function ProductsPage() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const products = useSelector(selectProducts) as Product[];
-  console.log(products);
   const isLoading = useSelector(selectProductsLoading);
   const error = useSelector(selectProductsError);
 
@@ -51,7 +51,8 @@ export default function ProductsPage() {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">ISTORE</h2>
 
-      {isLoading && <p className="text-gray-500">Loading products...</p>}
+      {/* {isLoading && <p className="text-gray-500">Loading products...</p>} */}
+      {isLoading && <GridLoader />}
       {error && <p className="text-red-500">Error: {error}</p>}
 
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 w-full min-h-screen">
@@ -101,16 +102,44 @@ export default function ProductsPage() {
     ${outOfStock ? 'bg-gray-900/60 opacity-70' : 'bg-gray-900 hover:shadow-emerald-500/20 hover:-translate-y-1'}
   `}
                 >
-                  <div
-                    className="w-full h-44 bg-gray-800 flex items-center justify-center rounded-xl mb-4 overflow-hidden cursor-pointer border border-gray-700 hover:border-emerald-500 transition-all duration-300"
+                  <motion.div
+                    className="relative flex w-full h-48 bg-gray-800 items-center justify-center rounded-xl mb-4 overflow-hidden cursor-pointer border border-gray-700 hover:border-emerald-500 transition-all duration-300"
                     onClick={() => router.push(`/products/${product._id}`)}
+                    whileHover="hover"
                   >
-                    <img
+                    <motion.img
                       src={product.img || '/img/no_item.webp'}
                       alt={product.name || 'No Image'}
-                      className={`object-cover w-full h-full ${outOfStock ? 'opacity-50' : 'opacity-100'}`}
+                      loading="lazy"
+                      className={`object-cover w-full h-full transition-opacity duration-300 ${
+                        outOfStock ? 'opacity-50' : 'opacity-100'
+                      }`}
+                      variants={{
+                        hover: { scale: 1.05 },
+                      }}
+                      transition={{ duration: 0.4, ease: 'easeInOut' }}
                     />
-                  </div>
+
+                    <motion.div
+                      className="absolute inset-0 flex items-center justify-center bg-black/50"
+                      initial={{ opacity: 0, y: 30 }}
+                      variants={{
+                        hover: { opacity: 1, y: 0 },
+                      }}
+                      transition={{ duration: 0.4, ease: 'easeOut' }}
+                    >
+                      <motion.p
+                        className="text-white text-lg font-semibold tracking-wide"
+                        initial={{ opacity: 0 }}
+                        variants={{
+                          hover: { opacity: 1 },
+                        }}
+                        transition={{ delay: 0.1, duration: 0.3 }}
+                      >
+                        Show Details
+                      </motion.p>
+                    </motion.div>
+                  </motion.div>
 
                   <h3 className="text-xl font-semibold text-emerald-300 mb-1">{product.name}</h3>
                   <p className="text-sm text-gray-400 mb-1">Category: {product.category}</p>
