@@ -11,8 +11,9 @@ import {
 import { Product } from '@/types/product';
 import { addToCart as addToCartThunk } from '@/redux/Cart/operations';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { GridLoader } from 'react-spinners';
+import { b } from 'motion/react-client';
 
 export default function ProductsPage() {
   const router = useRouter();
@@ -52,7 +53,21 @@ export default function ProductsPage() {
       <h2 className="text-2xl font-bold mb-6">ISTORE</h2>
 
       {/* {isLoading && <p className="text-gray-500">Loading products...</p>} */}
-      {isLoading && <GridLoader />}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            key="loader"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/30 z-[9999]"
+          >
+            <GridLoader color="#22c55e" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {error && <p className="text-red-500">Error: {error}</p>}
 
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 w-full min-h-screen">
