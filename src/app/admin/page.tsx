@@ -1,9 +1,7 @@
 'use client';
 import AddItem from '@/components/addItem/addItem';
-import SoldItemsPage from '@/components/soldItem/soldItem';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ContactUs } from '@/components/contactUs/contactUs';
 import AdminListStore from '@/components/adminListStore/adminListStore';
 import { Product } from '@/types/product';
 import { useEffect, useState } from 'react';

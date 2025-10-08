@@ -34,7 +34,18 @@ export const Header = () => {
           {user?.name || 'Guest'}
         </p>
         {!user?.email && (
-          <p className="text-sm text-red-400 italic">You need to log in to make purchases</p>
+          <motion.p
+            animate={{ x: [0, -30, 0] }}
+            transition={{
+              repeat: Infinity,
+              repeatType: 'reverse',
+              duration: 2,
+              ease: 'linear',
+            }}
+            className="text-sm text-red-400 italic"
+          >
+            You need to log in to make purchases
+          </motion.p>
         )}
       </div>
 

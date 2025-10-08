@@ -8,6 +8,7 @@ import { fetchProducts } from '@/redux/Products/operations';
 import { selectProducts } from '@/redux/Products/selectors';
 import { Product } from '@/types/product';
 import { addToCart as addToCartThunk } from '@/redux/Cart/operations';
+import { motion } from 'framer-motion';
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -34,7 +35,10 @@ export default function ProductPage() {
   };
 
   return (
-    <div className="min-h-screen  text-gray-100 flex items-center justify-center p-6 min-w-3/4">
+    <motion.div
+      layout
+      className="min-h-screen  text-gray-100 flex items-center justify-center p-6 min-w-3/4"
+    >
       <div className="w-full bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-800 p-8">
         <h1 className="text-4xl font-bold mb-6 text-emerald-400">{product.name}</h1>
 
@@ -56,7 +60,9 @@ export default function ProductPage() {
               </p>
             </div>
 
-            <button
+            <motion.button
+              animate={{ y: [0, -20, 0], opacity: [1, 0.8, 1] }}
+              transition={{ repeat: Infinity, duration: 1, ease: 'easeInOut' }}
               onClick={() => !outOfStock && handleAddToCart(product._id, 1)}
               disabled={outOfStock}
               className={`w-full sm:w-48 py-2 rounded-xl font-semibold cursor-pointer 
@@ -68,10 +74,10 @@ export default function ProductPage() {
     }`}
             >
               {outOfStock ? 'Out of Stock' : 'Add to Cart'}
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
