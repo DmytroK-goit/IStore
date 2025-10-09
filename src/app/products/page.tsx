@@ -15,6 +15,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { GridLoader } from 'react-spinners';
 import { selectUser } from '@/redux/UserAuth/selectors';
 import { Modal } from '@/components/modal/modal';
+import { Pagination } from '@/components/pagination/pagination';
 
 export default function ProductsPage() {
   const [isGuestOpenModal, setIsGuestOpenModal] = useState(false);
@@ -79,24 +80,26 @@ export default function ProductsPage() {
           className="flex flex-col gap-4 w-full md:w-52"
         >
           <p className="text-2xl font-bold mb-2">Categories</p>
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => {
-                setSelectedCategory(cat);
-                setPage(1);
-              }}
-              className={`cursor-pointer px-4 py-2 rounded-xl border font-medium 
+          <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => {
+                  setSelectedCategory(cat);
+                  setPage(1);
+                }}
+                className={`cursor-pointer px-4 py-2 rounded-xl border font-medium 
               transition-all duration-300 ease-in-out transform
               ${
                 selectedCategory === cat
                   ? 'bg-emerald-500 text-white border-emerald-500 scale-105 shadow-md shadow-emerald-500/30'
                   : 'bg-gray-900 text-gray-300 border-gray-700 hover:bg-gray-800 hover:text-white hover:scale-105 hover:shadow-md hover:shadow-emerald-500/20'
               }`}
-            >
-              {cat}
-            </button>
-          ))}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </motion.div>
 
         <div>
@@ -223,6 +226,7 @@ export default function ProductsPage() {
           </button>
         </div>
       </Modal>
+      <Pagination page={page} setPage={setPage} totalPages={totalPages} />
     </div>
   );
 }

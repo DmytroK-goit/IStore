@@ -46,3 +46,27 @@ p {
 .animate-fade-in {
   animation: fade-in 0.8s ease-out forwards;
 }
+html {
+  @apply bg-white text-black transition-colors duration-300;
+}
+
+html.dark {
+  @apply bg-gray-900 text-gray-100;
+}
+:root {
+  --color-bg: #ffffff;
+  --color-text: #000000;
+  --color-card: #f5f5f5;
+}
+
+html.dark {
+  --color-bg: #0f172a;
+  --color-text: #f8fafc;
+  --color-card: #1e293b;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: all 0.3s ease-in-out;
+}

@@ -1,11 +1,11 @@
 'use client';
 import './globals.css';
-import Link from 'next/link';
 import { Providers } from '../providers';
 import { Header } from '@/components/header/header';
 import { Flip, ToastContainer } from 'react-toastify';
 import { usePathname } from 'next/navigation';
 import { Footer } from '@/components/footer/footer';
+import { ThemeProvider } from 'next-themes';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         : "url('/img/bg-store.webp')";
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           rel="preload"
@@ -28,19 +28,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           crossOrigin="anonymous"
         />
       </head>
-      <body className=" text-white flex flex-col min-h-screen ">
-        <Providers>
-          <ToastContainer position="top-right" autoClose={1500} transition={Flip} />
-          <Header />
 
-          <main
-            className="flex-1 p-5 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: bgImage }}
-          >
-            {children}
-          </main>
-          <Footer />
-        </Providers>
+      <body className="text-white flex flex-col min-h-screen">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem={true}
+          disableTransitionOnChange={true}
+        >
+          <Providers>
+            <ToastContainer position="top-right" autoClose={1500} transition={Flip} />
+            <Header />
+
+            <main
+              className="flex-1 p-5 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: bgImage }}
+            >
+              {children}
+            </main>
+
+            <Footer />
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );
