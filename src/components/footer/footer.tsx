@@ -10,7 +10,7 @@ export const Footer = () => {
     >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div className="relative z-10 flex flex-col items-center justify-center gap-8 py-8 px-6">
-        <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:pr-6 md:pl-20">
+        <div className="w-full flex sm:flex-row justify-between items-start md:items-center gap-8 md:pr-6 md:pl-20">
           <div className="flex flex-col gap-4">
             <Link href="/" className="text-sm text-yellow-400 hover:text-yellow-300 transition">
               Home
