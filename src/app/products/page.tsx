@@ -207,17 +207,17 @@ export default function ProductsPage() {
         onClose={() => setIsGuestOpenModal(false)}
         title="Guest Mode"
       >
-        <p className="text-gray-700 dark:text-gray-300 mb-4">
+        <p className="text-gray-300 dark:text-gray-300 mb-4">
           You need to log in to make purchases.
         </p>
 
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-center gap-2">
           <button
             onClick={() => {
               setIsGuestOpenModal(false);
               router.push('/login');
             }}
-            className="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-500 transition w-full "
+            className="px-4 py-2 bg-emerald-600 text-white hover:bg-emerald-800 transition w-3/4 rounded-2xl cursor-pointer text-center "
           >
             Log In
           </button>

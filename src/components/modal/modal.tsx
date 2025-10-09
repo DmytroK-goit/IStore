@@ -31,7 +31,7 @@ export const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
         >
           <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="relative bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 
+            className="relative bg-slate-800 dark:bg-gray-900 text-gray-900 dark:text-gray-100 
                        p-6 sm:p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-200 
                        dark:border-gray-700"
             initial={{ scale: 0.9, opacity: 0, y: 40 }}
@@ -48,10 +48,10 @@ export const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
             <div className="flex justify-center">
               <button
                 onClick={onClose}
-                className="px-6 py-2.5 bg-red-400 text-white font-semibold rounded-xl 
+                className="px-6 py-2.5 bg-red-500 text-white font-semibold rounded-xl 
                 hover:bg-red-700 focus:ring-2 focus:bg-red-500 focus:ring-offset-2
                 active:scale-95 transition-all duration-300 shadow-md 
-                hover:shadow-emerald-500/40"
+                hover:shadow-emerald-500/40 cursor-pointer"
               >
                 Close
               </button>
