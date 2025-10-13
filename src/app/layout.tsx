@@ -6,6 +6,7 @@ import { Flip, ToastContainer } from 'react-toastify';
 import { usePathname } from 'next/navigation';
 import { Footer } from '@/components/footer/footer';
 import { ThemeProvider } from 'next-themes';
+import { CookiesModal } from '@/components/cookiesModal/cookiesModal';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               style={{ backgroundImage: bgImage }}
             >
               {children}
+              <CookiesModal />
             </main>
 
             <Footer />

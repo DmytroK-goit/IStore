@@ -27,6 +27,12 @@ export const Footer = () => {
             >
               About Us
             </Link>
+            <Link
+              href="/privacyPolicy"
+              className="text-sm text-yellow-400 hover:text-yellow-300 transition"
+            >
+              PrivacyPolicy
+            </Link>
           </div>
 
           <Link
