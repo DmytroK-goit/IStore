@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           disableTransitionOnChange={true}
         >
           <Providers>
-            <ToastContainer position="top-right" autoClose={1500} transition={Flip} />
+            <ToastContainer position="top-right" autoClose={1000} transition={Flip} />
             <Header />
 
             <main

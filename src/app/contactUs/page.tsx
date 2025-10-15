@@ -52,7 +52,7 @@ export default function ContactUs() {
 
       <h2 className="text-3xl font-bold mb-3 text-yellow-400">Contact Us</h2>
       <p className="text-gray-400 mb-8">
-        We'd love to hear from you! Send us your message, and we’ll get back to you soon.
+        Send us your message, and we&apos;ll get back to you soon.
       </p>
 
       <Formik
@@ -62,7 +62,6 @@ export default function ContactUs() {
       >
         {({ isSubmitting }) => (
           <Form className="space-y-6">
-            {/* Name */}
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
                 Name
@@ -76,7 +75,6 @@ export default function ContactUs() {
               <ErrorMessage name="name" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
-            {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                 Email
@@ -91,7 +89,6 @@ export default function ContactUs() {
               <ErrorMessage name="email" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
-            {/* Message */}
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">
                 Message
@@ -107,7 +104,6 @@ export default function ContactUs() {
               <ErrorMessage name="message" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
-            {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-end pt-2">
               <motion.button
                 type="submit"

@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { login } from '@/redux/UserAuth/operations';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -34,7 +34,6 @@ export default function Login() {
   ) => {
     try {
       const resultAction = await dispatch(login(values));
-
       if (login.fulfilled.match(resultAction)) {
         const userRole = resultAction.payload.data.user.role;
         router.push(userRole === 'admin' ? '/admin' : '/products');
@@ -132,8 +131,6 @@ export default function Login() {
             </Form>
           )}
         </Formik>
-
-        <ToastContainer position="top-right" autoClose={3000} theme="dark" />
       </motion.div>
     </main>
   );

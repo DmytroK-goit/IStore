@@ -41,8 +41,6 @@ export default function Register() {
       const resultAction = await dispatch(registerUser(values));
 
       if (registerUser.fulfilled.match(resultAction)) {
-        toast.success('Registration successful');
-
         const loginResult = await dispatch(
           login({ email: values.email, password: values.password }),
         );
@@ -153,8 +151,6 @@ export default function Register() {
             </Form>
           )}
         </Formik>
-
-        <ToastContainer position="top-right" autoClose={3000} theme="dark" />
       </motion.div>
     </main>
   );
