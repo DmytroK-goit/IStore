@@ -12,6 +12,10 @@ import { selectProducts } from '@/redux/Products/selectors';
 import { CartItem, setCartItemQuantity } from '@/redux/Cart/sliсe';
 import { createOrder } from '@/redux/Order/operations';
 import PaymentModal from '@/components/paymentModal/paymentModal';
+import { selectUser } from '@/redux/UserAuth/selectors';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface SoldAddress {
   name: string;
@@ -30,13 +34,21 @@ export interface DetailedCartItem extends Product {
 }
 
 export default function CartPage() {
-  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector(selectUser);
+  const router = useRouter();
+  const isLoggedIn = Boolean(user?.email !== '');
   const products = useSelector(selectProducts);
+  const dispatch = useDispatch<AppDispatch>();
   const cart: CartItem[] = useSelector(selectCartItems);
-
   const [detailedItems, setDetailedItems] = useState<DetailedCartItem[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pendingValues, setPendingValues] = useState<SoldAddress | null>(null);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/login');
+    }
+  }, [isLoggedIn, router]);
 
   useEffect(() => {
     if (!products || products.length === 0) dispatch(fetchProducts());
@@ -100,7 +112,6 @@ export default function CartPage() {
       productId: ci.productId,
       quantity: ci.quantity,
     }));
-    console.log('Creating order with:', { address: pendingValues, items });
     await dispatch(createOrder({ address: pendingValues, items }));
     await dispatch(fetchCart());
 
@@ -115,64 +126,95 @@ export default function CartPage() {
 
   if (!cart || cart.length === 0) {
     return (
-      <div className="p-6">
-        <h2 className="text-2xl font-bold mb-6">Cart</h2>
-        <p>Your cart is currently empty.</p>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="p-10 text-center text-gray-300"
+      >
+        <h2 className="text-3xl font-bold mb-4 text-yellow-400">Your Cart</h2>
+        <p className="text-gray-400">Your cart is currently empty.</p>
+      </motion.div>
     );
   }
 
   return (
-    <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div>
-        <h2 className="text-2xl font-bold mb-6">Cart</h2>
-        <div className="">
+    <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-200">
+      <motion.div
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 className="text-3xl font-bold mb-6 text-yellow-400">Your Cart</h2>
+        <div className="space-y-4">
           {detailedItems.map((item) => (
-            <div
+            <motion.div
               key={item._id}
-              className="flex justify-between items-center border rounded-xl p-4 bg-white shadow-md"
+              whileHover={{ scale: 1.02 }}
+              className="flex justify-between items-center border border-gray-700 rounded-2xl p-4 bg-gray-900 shadow-md"
             >
-              <div>
-                <button
-                  className="bg-red-500 w-16 rounded-2xl hover:bg-red-700"
-                  onClick={() => dispatch(removeFromCart(item.cartItemId))}
-                >
-                  Delete
-                </button>
-                <h3 className="font-semibold text-gray-800">{item.name}</h3>
-                <p className="text-sm text-gray-500">{item.category}</p>
-                <p className="text-gray-700">
-                  ${item.price} × {item.cartQuantity} = ${item.price * item.cartQuantity}
-                </p>
+              <div className="flex items-center gap-4">
+                <img
+                  src={item.img || '/img/no_item.jpg'}
+                  alt={item.name}
+                  width={100}
+                  height={100}
+                  className="rounded-lg object-cover"
+                />
+                <div>
+                  <h3 className="font-semibold text-yellow-300">{item.name}</h3>
+                  <p className="text-sm text-gray-400">{item.category}</p>
+                  <p className="text-gray-300">
+                    ${item.price} × {item.cartQuantity}{' '}
+                    <span className="text-yellow-400 font-semibold">
+                      = ${item.price * item.cartQuantity}
+                    </span>
+                  </p>
+                  <button
+                    className="mt-2 text-sm px-3 py-1 rounded-lg bg-red-600 hover:bg-red-700 transition"
+                    onClick={() => dispatch(removeFromCart(item.cartItemId))}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() =>
                     handleQuantityChange(item._id, item.cartQuantity, -1, item.quantity)
                   }
-                  className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                  className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600"
                 >
                   -
                 </button>
-                <span className="text-gray-900">{item.cartQuantity}</span>
+                <span className="text-yellow-400 font-semibold">{item.cartQuantity}</span>
                 <button
                   onClick={() =>
                     handleQuantityChange(item._id, item.cartQuantity, +1, item.quantity)
                   }
-                  className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                  className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600"
                 >
                   +
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
         <div className="mt-6 text-right">
-          <p className="text-xl font-bold">Total: ${total}</p>
+          <p className="text-2xl font-bold text-yellow-400">
+            Total: <span className="text-white">${total.toFixed(2)}</span>
+          </p>
         </div>
-      </div>
-      <div>
-        <h2 className="text-2xl font-bold mb-6">Delivery details</h2>
+      </motion.div>
+
+      {/* DELIVERY FORM */}
+      <motion.div
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="p-6 rounded-2xl shadow-md bg-gray-950 bg-opacity-90 border border-gray-800"
+      >
+        <h2 className="text-3xl font-bold mb-6 text-yellow-400">Delivery Details</h2>
         <Formik
           initialValues={{
             name: '',
@@ -188,11 +230,11 @@ export default function CartPage() {
           onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
-            <Form className="space-y-3">
+            <Form className="space-y-4">
               {['name', 'surname', 'phone', 'city', 'street', 'house', 'apartment', 'comment'].map(
                 (field) => (
                   <div key={field}>
-                    <label htmlFor={field} className="block font-medium text-gray-400">
+                    <label htmlFor={field} className="block text-sm font-medium text-gray-400 mb-1">
                       {field.charAt(0).toUpperCase() + field.slice(1)}
                     </label>
                     <Field
@@ -200,25 +242,27 @@ export default function CartPage() {
                       id={field}
                       name={field}
                       placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                      className="w-full border p-2 rounded"
+                      className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
                     />
-                    <ErrorMessage name={field} component="div" className="text-red-500 text-sm" />
+                    <ErrorMessage name={field} component="div" className="text-red-400 text-sm" />
                   </div>
                 ),
               )}
-              <button
+              <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 w-full"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                className="mt-4 w-full py-3 rounded-lg font-semibold bg-yellow-500 text-gray-900 hover:bg-yellow-400 transition disabled:opacity-50"
               >
-                Place Order
-              </button>
+                {isSubmitting ? 'Processing...' : 'Place Order'}
+              </motion.button>
             </Form>
           )}
         </Formik>
 
         {isModalOpen && <PaymentModal onConfirm={handleConfirm} onCancel={handleCancel} />}
-      </div>
+      </motion.div>
     </div>
   );
 }

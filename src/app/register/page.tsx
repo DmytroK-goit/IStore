@@ -59,6 +59,9 @@ export default function Register() {
       setSubmitting(false);
     }
   };
+  const handleLoginRedirect = () => {
+    router.push('/login');
+  };
 
   return (
     <main className="relative min-h-screen flex items-center justify-center ">
@@ -136,6 +139,17 @@ export default function Register() {
               >
                 {isSubmitting ? 'Registering...' : 'Register'}
               </button>
+              <motion.button
+                onClick={handleLoginRedirect}
+                initial={{ x: -5 }}
+                animate={{ x: 0 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.9 }}
+                type="button"
+                className="bg-transparent border-2 border-emerald-600 text-emerald-600 font-semibold py-3 rounded-lg shadow-md hover:bg-emerald-600 hover:text-white transition disabled:opacity-50 cursor-pointer"
+              >
+                Login
+              </motion.button>
             </Form>
           )}
         </Formik>

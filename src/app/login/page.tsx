@@ -19,7 +19,6 @@ interface LoginFormValues {
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-
   const initialValues: LoginFormValues = { email: '', password: '' };
 
   const validationSchema = Yup.object({
@@ -47,6 +46,9 @@ export default function Login() {
     } finally {
       setSubmitting(false);
     }
+  };
+  const handleRegisterRedirect = () => {
+    router.push('/register');
   };
 
   return (
@@ -115,6 +117,17 @@ export default function Login() {
                 className="bg-emerald-600 hover:bg-emerald-500 transition text-white font-semibold py-3 rounded-lg shadow-md disabled:opacity-50"
               >
                 {isSubmitting ? 'Logging in...' : 'Login'}
+              </motion.button>
+              <motion.button
+                onClick={handleRegisterRedirect}
+                initial={{ x: -5 }}
+                animate={{ x: 0 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.9 }}
+                type="button"
+                className="bg-transparent border-2 border-emerald-600 text-emerald-600 font-semibold py-3 rounded-lg shadow-md hover:bg-emerald-600 hover:text-white transition disabled:opacity-50 cursor-pointer"
+              >
+                Register
               </motion.button>
             </Form>
           )}

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function About() {
   return (
-    <main className="relative min-h-screen  text-gray-100 px-6 py-12 flex flex-col items-center">
+    <main className="relative min-h-screen text-gray-100 px-6 py-10 flex flex-col items-center">
       <Link
         href="/"
         className="absolute top-4 left-4 text-emerald-400 font-semibold transition-all duration-300 hover:underline hover:text-emerald-300 hover:translate-x-1"
@@ -15,7 +15,7 @@ export default function About() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-5xl w-full space-y-12 bg-gray-900/60 backdrop-blur-md rounded-3xl shadow-xl p-8 border border-gray-800"
+        className="max-w-7xl w-full space-y-12 bg-gray-900/60 backdrop-blur-sm rounded-3xl shadow-xl p-8 border border-gray-800"
       >
         <h1 className="text-4xl md:text-5xl font-extrabold text-center text-yellow-400 drop-shadow-lg">
           About ISTORE

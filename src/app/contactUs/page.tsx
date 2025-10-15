@@ -6,6 +6,7 @@ import { AppDispatch } from '@/redux/store';
 import { addContactUsMessage } from '@/redux/ContactUs/operations';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { motion } from 'framer-motion';
 
 interface ContactFormValues {
   name: string;
@@ -41,11 +42,17 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white opacity-90 rounded-lg shadow-md">
-      <ToastContainer position="top-right" autoClose={3000} />
-      <h2 className="text-3xl font-bold mb-2 text-gray-800">Contact Us</h2>
-      <p className="text-gray-600 mb-6">
-        We would love to hear from you! Please reach out with any questions or feedback.
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="max-w-3xl mx-auto mt-10 p-8 bg-gray-950 bg-opacity-90 backdrop-blur-md border border-gray-800 rounded-2xl shadow-lg text-gray-100"
+    >
+      <ToastContainer position="top-right" autoClose={3000} theme="dark" />
+
+      <h2 className="text-3xl font-bold mb-3 text-yellow-400">Contact Us</h2>
+      <p className="text-gray-400 mb-8">
+        We'd love to hear from you! Send us your message, and we’ll get back to you soon.
       </p>
 
       <Formik
@@ -54,22 +61,24 @@ export default function ContactUs() {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <Form className="space-y-4">
+          <Form className="space-y-6">
+            {/* Name */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
                 Name
               </label>
               <Field
                 id="name"
                 name="name"
                 placeholder="Your Name"
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
               />
-              <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="name" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
+            {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                 Email
               </label>
               <Field
@@ -77,13 +86,14 @@ export default function ContactUs() {
                 id="email"
                 name="email"
                 placeholder="you@example.com"
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
               />
-              <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="email" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
+            {/* Message */}
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">
                 Message
               </label>
               <Field
@@ -92,21 +102,35 @@ export default function ContactUs() {
                 name="message"
                 rows={4}
                 placeholder="Your message..."
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
               />
-              <ErrorMessage name="message" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="message" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Send Message
-            </button>
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-end pt-2">
+              <motion.button
+                type="submit"
+                disabled={isSubmitting}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-2.5 rounded-lg font-semibold bg-yellow-500 text-gray-900 hover:bg-yellow-400 transition disabled:opacity-50"
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </motion.button>
+
+              <motion.button
+                type="reset"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-2.5 rounded-lg font-semibold border border-yellow-500 text-yellow-400 hover:bg-yellow-500 hover:text-gray-900 transition"
+              >
+                Clear
+              </motion.button>
+            </div>
           </Form>
         )}
       </Formik>
-    </div>
+    </motion.div>
   );
 }
