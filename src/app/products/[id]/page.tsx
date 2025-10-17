@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { fetchProducts } from '@/redux/Products/operations';
@@ -9,11 +9,17 @@ import { selectProducts } from '@/redux/Products/selectors';
 import { Product } from '@/types/product';
 import { addToCart as addToCartThunk } from '@/redux/Cart/operations';
 import { motion } from 'framer-motion';
+import { selectUser } from '@/redux/UserAuth/selectors';
+import { Modal } from '@/components/modal/modal';
 
 export default function ProductPage() {
+  const [isGuestOpenModal, setIsGuestOpenModal] = useState(false);
+  const router = useRouter();
   const { id } = useParams();
+  const searchParams = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
   const products = useSelector(selectProducts) as Product[];
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     if (!products.length) {
@@ -34,12 +40,29 @@ export default function ProductPage() {
     }
   };
 
+  const handleClickGuest = () => setIsGuestOpenModal(true);
+
+  const handleGoBack = () => {
+    const searchQuery = searchParams.get('search');
+    const categoryQuery = searchParams.get('category');
+
+    const queryParams = new URLSearchParams();
+    if (searchQuery) queryParams.append('search', searchQuery);
+    if (categoryQuery) queryParams.append('category', categoryQuery);
+
+    router.push(`/products${queryParams.toString() ? `?${queryParams}` : ''}`);
+  };
+
   return (
-    <motion.div
-      layout
-      className="min-h-screen  text-gray-100 flex items-center justify-center p-6 min-w-3/4"
-    >
-      <div className="w-full bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-800 p-8">
+    <motion.div layout className="min-h-screen text-gray-100 flex items-center justify-center p-6">
+      <div className="w-full bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-800 p-8 max-w-4xl">
+        <button
+          onClick={handleGoBack}
+          className="mb-6 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-xl transition"
+        >
+          ← Back
+        </button>
+
         <h1 className="text-4xl font-bold mb-6 text-emerald-400">{product.name}</h1>
 
         <div className="flex flex-col sm:flex-row gap-6">
@@ -60,24 +83,44 @@ export default function ProductPage() {
               </p>
             </div>
 
-            <motion.button
-              animate={{ y: [0, -20, 0], opacity: [1, 0.8, 1] }}
-              transition={{ repeat: Infinity, duration: 1, ease: 'easeInOut' }}
-              onClick={() => !outOfStock && handleAddToCart(product._id, 1)}
-              disabled={outOfStock}
-              className={`w-full sm:w-48 py-2 rounded-xl font-semibold cursor-pointer 
-    transition-all duration-300 ease-in-out
-    ${
-      outOfStock
-        ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
-        : 'bg-emerald-600 text-white hover:bg-emerald-500 hover:scale-105 shadow-md hover:shadow-emerald-500/40'
-    }`}
-            >
-              {outOfStock ? 'Out of Stock' : 'Add to Cart'}
-            </motion.button>
+            <div className="flex gap-3">
+              <button
+                onClick={
+                  user.role === 'Guest' ? handleClickGuest : () => handleAddToCart(product._id, 1)
+                }
+                disabled={outOfStock && user.role !== 'Guest'}
+                className={`px-4 py-2 rounded-2xl font-semibold text-white transition ${
+                  outOfStock && user.role !== 'Guest'
+                    ? 'bg-gray-600 cursor-not-allowed'
+                    : 'bg-emerald-600 hover:bg-emerald-700'
+                }`}
+              >
+                {outOfStock && user.role !== 'Guest' ? 'Out of Stock' : 'Add to Cart'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={isGuestOpenModal}
+        onClose={() => setIsGuestOpenModal(false)}
+        title="Guest Mode"
+      >
+        <p className="text-gray-300 mb-4">You need to log in to make purchases.</p>
+
+        <div className="flex justify-center gap-2">
+          <button
+            onClick={() => {
+              setIsGuestOpenModal(false);
+              router.push('/login');
+            }}
+            className="px-4 py-2 bg-emerald-600 text-white hover:bg-emerald-800 transition w-3/4 rounded-2xl text-center"
+          >
+            Log In
+          </button>
+        </div>
+      </Modal>
     </motion.div>
   );
 }

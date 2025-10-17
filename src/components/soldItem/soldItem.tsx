@@ -43,7 +43,7 @@ export default function SoldItemsPage() {
 
   useEffect(() => {
     dispatch(allOrder());
-  }, [dispatch]);
+  }, [dispatch, orderItems]);
 
   const changeOrderStatus = (id: string, status: OrderStatus) => {
     dispatch(updateOrderStatus({ id, status }));

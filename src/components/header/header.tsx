@@ -55,12 +55,12 @@ export const Header = () => {
           <Image src="/img/istore.png" alt="Logo" width={120} height={120} priority />
         </Link>
       </motion.div>
-      <button
+      {/* <button
         onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
         className="p-2 rounded-xl bg-gray-200 dark:bg-gray-800 transition-all"
       >
         {theme === 'dark' ? '☀️' : '🌙'}
-      </button>
+      </button> */}
 
       <div className="flex flex-col items-center sm:items-end text-center sm:text-right mt-2 sm:mt-0">
         <p className="text-lg sm:text-2xl text-gray-300 font-medium truncate max-w-[180px]">
