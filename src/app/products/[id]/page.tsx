@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, useParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { fetchProducts } from '@/redux/Products/operations';
@@ -12,13 +12,14 @@ import { selectUser } from '@/redux/UserAuth/selectors';
 import { Modal } from '@/components/modal/modal';
 
 export default function ProductPage() {
-  const [isGuestOpenModal, setIsGuestOpenModal] = useState(false);
   const router = useRouter();
   const { id } = useParams();
   const searchParams = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
   const products = useSelector(selectProducts) as Product[];
   const user = useSelector(selectUser);
+
+  const [isGuestOpenModal, setIsGuestOpenModal] = useState(false);
 
   useEffect(() => {
     if (!products.length) {
@@ -42,14 +43,11 @@ export default function ProductPage() {
   const handleClickGuest = () => setIsGuestOpenModal(true);
 
   const handleGoBack = () => {
-    const searchQuery = searchParams.get('search');
-    const categoryQuery = searchParams.get('category');
+    const query = new URLSearchParams();
+    if (searchParams.get('search')) query.set('search', searchParams.get('search')!);
+    if (searchParams.get('category')) query.set('category', searchParams.get('category')!);
 
-    const queryParams = new URLSearchParams();
-    if (searchQuery) queryParams.append('search', searchQuery);
-    if (categoryQuery) queryParams.append('category', categoryQuery);
-
-    router.push(`/products${queryParams.toString() ? `?${queryParams}` : ''}`);
+    router.push(`/products${query.toString() ? `?${query.toString()}` : ''}`);
   };
 
   return (
