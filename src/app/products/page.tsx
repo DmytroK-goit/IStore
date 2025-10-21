@@ -16,21 +16,23 @@ import { GridLoader } from 'react-spinners';
 import { selectUser } from '@/redux/UserAuth/selectors';
 import { Modal } from '@/components/modal/modal';
 import { Pagination } from '@/components/pagination/pagination';
+import { useSearchParams } from 'next/navigation';
 
-interface ProductsPageProps {
-  searchParams: { search?: string; category?: string; page?: string };
-}
+// interface ProductsPageProps {
+//   searchParams: { search?: string; category?: string; page?: string };
+// }
 
-export default function ProductsPage({ searchParams }: ProductsPageProps) {
+export default function ProductsPage() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const products = useSelector(selectProducts) as Product[];
   const isLoading = useSelector(selectProductsLoading);
   const error = useSelector(selectProductsError);
   const user = useSelector(selectUser);
-  const initialCategory = searchParams.category || 'All';
-  const initialSearch = searchParams.search || '';
-  const initialPage = parseInt(searchParams.page || '1', 10);
+  const searchParams = useSearchParams();
+  const initialCategory = searchParams.get('category') || 'All';
+  const initialSearch = searchParams.get('search') || '';
+  const initialPage = parseInt(searchParams.get('page') || '1', 10);
 
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState(initialSearch);
