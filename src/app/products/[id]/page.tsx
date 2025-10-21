@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams, useParams } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { fetchProducts } from '@/redux/Products/operations';
@@ -14,7 +14,6 @@ import { Modal } from '@/components/modal/modal';
 export default function ProductPage() {
   const router = useRouter();
   const { id } = useParams();
-  const searchParams = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
   const products = useSelector(selectProducts) as Product[];
   const user = useSelector(selectUser);
@@ -43,11 +42,7 @@ export default function ProductPage() {
   const handleClickGuest = () => setIsGuestOpenModal(true);
 
   const handleGoBack = () => {
-    const query = new URLSearchParams();
-    if (searchParams.get('search')) query.set('search', searchParams.get('search')!);
-    if (searchParams.get('category')) query.set('category', searchParams.get('category')!);
-
-    router.push(`/products${query.toString() ? `?${query.toString()}` : ''}`);
+    router.back();
   };
 
   return (
