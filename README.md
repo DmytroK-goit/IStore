@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 IStore — Full-Stack E-Commerce Platform
 
-## Getting Started
+**IStore** is a full-stack e-commerce application built with **Next.js**, **TypeScript**, **Redux Toolkit**, **Node.js**, and **MongoDB**.  
+The project provides a complete online shopping experience — from browsing products to managing the cart and authentication — with a focus on speed, usability, and modern design.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- 🧾 **Product Catalog** — browse products with categories, filtering, and search
+- 📦 **Product Details** — view detailed information, availability, and images
+- 🛍️ **Cart Management** — add/remove products, update quantities
+- 🔐 **User Authentication** — JWT-based login, registration, and role-based access
+- 🧠 **Redux Toolkit** — global state management for products and cart
+- 🍪 **Cookies Modal** — informs users about cookie usage (GDPR compliant)
+- 💬 **Notifications** — integrated with `react-toastify` for UX feedback
+- 📱 **Fully Responsive Design** — optimized for desktop and mobile
+- ⚙️ **Deployed on Vercel** — with environment variables and secure build process
+
+---
+
+## 🧩 Tech Stack
+
+| Category           | Technologies                                                           |
+| ------------------ | ---------------------------------------------------------------------- |
+| **Frontend**       | Next.js, TypeScript, React, Redux Toolkit, Framer Motion, Tailwind CSS |
+| **Backend**        | Node.js, Express, MongoDB, Mongoose                                    |
+| **Authentication** | JWT, bcrypt                                                            |
+| **Deployment**     | Vercel                                                                 |
+| **Tools**          | ESLint, Prettier, Postman, Git                                         |
+
+---
+
+## ⚙️ Getting Started
+
+### 1️⃣ Clone the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/DmytroK-goit/IStore.git
+cd istore
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2️⃣ Install dependencies
+npm install
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🧑‍💻 About the Developer
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Developed by Dmytro Kovbasyuk — Fullstack Developer passionate about building modern, performant web applications.
+💼 https://portfolio-sooty-five-98.vercel.app/
 
-## Learn More
+📧 k0vbasyuk.dim0n@gmail.com
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+📱 +380979638775
