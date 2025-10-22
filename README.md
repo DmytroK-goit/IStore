@@ -41,11 +41,15 @@ cd istore
 ```
 
 2️⃣ Install dependencies
+
+```bash
 npm install
+```
 
 🧑‍💻 About the Developer
 
 Developed by Dmytro Kovbasyuk — Fullstack Developer passionate about building modern, performant web applications.
+
 💼 https://portfolio-sooty-five-98.vercel.app/
 
 📧 k0vbasyuk.dim0n@gmail.com
