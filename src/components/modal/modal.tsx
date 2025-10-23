@@ -32,7 +32,7 @@ export const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
           <motion.div
             onClick={(e) => e.stopPropagation()}
             className="relative bg-slate-800 dark:bg-gray-900 text-gray-900 dark:text-gray-100 
-                       p-6 sm:p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-200 
+                       p-6 sm:p-8 rounded-2xl shadow-2xl w-full max-w-3lg border border-gray-200 
                        dark:border-gray-700"
             initial={{ scale: 0.9, opacity: 0, y: 40 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}

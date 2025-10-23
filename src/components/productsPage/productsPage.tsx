@@ -35,7 +35,7 @@ export default function ProductsComponent() {
   const [page, setPage] = useState(initialPage);
   const [isGuestOpenModal, setIsGuestOpenModal] = useState(false);
 
-  const limit = 12;
+  const limit = 20;
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -62,7 +62,7 @@ export default function ProductsComponent() {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6 text-emerald-400">ISTORE</h2>
+      <h2 className="text-5xl font-bold mb-6 text-emerald-800">ISTORE</h2>
 
       <div className="mb-6 w-full max-w-md">
         <input
@@ -148,7 +148,7 @@ export default function ProductsComponent() {
                     }`}
                 >
                   <div
-                    className="relative flex w-full h-48 bg-gray-800 items-center justify-center rounded-xl mb-4 overflow-hidden cursor-pointer border border-gray-700 hover:border-emerald-500 transition-all duration-300"
+                    className="group relative flex w-full h-48 bg-gray-800 items-center justify-center rounded-xl mb-4 overflow-hidden cursor-pointer border border-gray-700 hover:border-emerald-500 transition-all duration-300"
                     onClick={() =>
                       router.push(
                         `/products/${product._id}?search=${searchQuery}&category=${selectedCategory}&page=${page}`,
@@ -159,10 +159,16 @@ export default function ProductsComponent() {
                       src={product.img || '/img/no_item.webp'}
                       alt={product.name || 'No Image'}
                       loading="lazy"
-                      className={`object-cover w-full h-full transition-opacity duration-300 ${
+                      className={`object-cover w-full h-full transition-transform duration-500 group-hover:scale-110 ${
                         outOfStock ? 'opacity-50' : 'opacity-100'
                       }`}
                     />
+
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors duration-500"></div>
+
+                    <div className="absolute bottom-0 left-0 right-0 flex justify-center translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                      <span className="text-white text-lg font-medium py-3">Show more</span>
+                    </div>
                   </div>
 
                   <h3 className="text-xl font-semibold text-emerald-300 mb-1">{product.name}</h3>

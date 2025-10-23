@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { fetchProducts } from '@/redux/Products/operations';
@@ -10,7 +10,6 @@ import { addToCart as addToCartThunk } from '@/redux/Cart/operations';
 import { motion } from 'framer-motion';
 import { selectUser } from '@/redux/UserAuth/selectors';
 import { Modal } from '@/components/modal/modal';
-import { useSearchParams } from 'next/navigation';
 
 export default function ProductComponent() {
   const router = useRouter();
@@ -19,15 +18,14 @@ export default function ProductComponent() {
   const products = useSelector(selectProducts) as Product[];
   const user = useSelector(selectUser);
   const [isGuestOpenModal, setIsGuestOpenModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
   const search = searchParams.get('search') || '';
   const category = searchParams.get('category') || 'All';
   const page = searchParams.get('page') || '1';
 
   useEffect(() => {
-    if (!products.length) {
-      dispatch(fetchProducts());
-    }
+    if (!products.length) dispatch(fetchProducts());
   }, [dispatch, products.length]);
 
   const product = products.find((p) => p._id === id) as Product | undefined;
@@ -54,7 +52,7 @@ export default function ProductComponent() {
       <div className="w-full bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-800 p-8 max-w-4xl">
         <button
           onClick={handleGoBack}
-          className="mb-6 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-xl transition"
+          className="mb-6 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-xl transition cursor-pointer"
         >
           ← Back
         </button>
@@ -65,8 +63,17 @@ export default function ProductComponent() {
           <img
             src={product.img || '/img/no_item.jpg'}
             alt={product.name}
-            className="w-full sm:w-80 h-80 object-cover rounded-xl border border-gray-700 shadow-md"
+            className="w-full sm:w-80 h-80 object-cover rounded-xl border border-gray-700 shadow-md cursor-pointer transition-transform duration-300 hover:scale-105"
+            onClick={() => setIsOpen(true)}
           />
+
+          <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title={product.name}>
+            <img
+              src={product.img || '/img/no_item.jpg'}
+              alt={product.name}
+              className="w-full h-full object-contain rounded-xl max-h-[80vh] mx-auto"
+            />
+          </Modal>
 
           <div className="flex flex-col justify-between">
             <div>
@@ -85,7 +92,7 @@ export default function ProductComponent() {
                   user.role === 'Guest' ? handleClickGuest : () => handleAddToCart(product._id, 1)
                 }
                 disabled={outOfStock && user.role !== 'Guest'}
-                className={`px-4 py-2 rounded-2xl font-semibold text-white transition ${
+                className={`cursor-pointer px-4 py-2 rounded-2xl font-semibold text-white transition ${
                   outOfStock && user.role !== 'Guest'
                     ? 'bg-gray-600 cursor-not-allowed'
                     : 'bg-emerald-600 hover:bg-emerald-700'
