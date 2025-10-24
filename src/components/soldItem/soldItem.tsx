@@ -1,7 +1,7 @@
 'use client';
 import { allOrder, updateOrderStatus } from '@/redux/Order/operations';
 import { selectAllOrders } from '@/redux/Order/selectors';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import Link from 'next/link';
@@ -40,13 +40,17 @@ export type SoldOrder = {
 export default function SoldItemsPage() {
   const dispatch = useDispatch<AppDispatch>();
   const orderItems: SoldOrder[] = useSelector(selectAllOrders);
+  const [selectedStatus, setSelectedStatus] = useState<'All' | OrderStatus>('All');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
     dispatch(allOrder());
-  }, [dispatch, orderItems]);
+  }, [dispatch]);
 
-  const changeOrderStatus = (id: string, status: OrderStatus) => {
-    dispatch(updateOrderStatus({ id, status }));
+  const changeOrderStatus = async (id: string, status: OrderStatus) => {
+    await dispatch(updateOrderStatus({ id, status }));
+    dispatch(allOrder());
   };
 
   const getStatusStyles = (status: OrderStatus) => {
@@ -64,19 +68,72 @@ export default function SoldItemsPage() {
     }
   };
 
+  const statuses = ['All', ...new Set(orderItems.map((p) => p.status))];
+
+  const filteredOrders = orderItems.filter((order) => {
+    const orderDate = new Date(order.createdAt);
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
+
+    const matchStatus = selectedStatus === 'All' || order.status === selectedStatus;
+    const matchStart = !start || orderDate >= start;
+    const matchEnd = !end || orderDate <= end;
+
+    return matchStatus && matchStart && matchEnd;
+  });
+
   return (
-    <motion.div layout className="mt-8 p-4 min-h-screen  text-gray-100">
+    <motion.div layout className="mt-8 p-4 min-h-screen text-gray-100">
       <Link
         href="/admin"
         className="flex items-center mb-6 text-emerald-100 font-semibold transition-all duration-300 hover:underline hover:text-emerald-200 hover:translate-x-1"
       >
         &larr; Back to Admin Panel
       </Link>
+
       <h2 className="text-4xl font-bold mb-6 text-emerald-400">Sold Orders</h2>
-      {orderItems.length === 0 && <p className="text-gray-400">No sold items yet.</p>}
+
+      <div className="flex flex-wrap gap-4 mb-6 items-center">
+        <div>
+          <label className="mr-2 text-gray-300 font-medium">Status:</label>
+          <select
+            value={selectedStatus}
+            onChange={(e) => setSelectedStatus(e.target.value as OrderStatus | 'All')}
+            className="px-3 py-2 border border-gray-600 rounded-lg bg-gray-700 text-white"
+          >
+            {statuses.map((status) => (
+              <option key={status} value={status}>
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="mr-2 text-gray-300 font-medium">From:</label>
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="px-3 py-2 border border-gray-600 rounded-lg bg-gray-700 text-white"
+          />
+        </div>
+
+        <div>
+          <label className="mr-2 text-gray-300 font-medium">To:</label>
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="px-3 py-2 border border-gray-600 rounded-lg bg-gray-700 text-white"
+          />
+        </div>
+      </div>
+
+      {filteredOrders.length === 0 && <p className="text-gray-400">No sold items found.</p>}
 
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {orderItems.map((order, idx) => (
+        {filteredOrders.map((order, idx) => (
           <div
             key={order._id}
             className={`flex flex-col justify-between p-4 rounded-2xl border shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 
