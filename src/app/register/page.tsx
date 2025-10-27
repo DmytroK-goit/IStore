@@ -2,7 +2,7 @@
 
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { login, registerUser } from '@/redux/UserAuth/operations';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { GridLoader } from 'react-spinners';
+import { selectIsLoading } from '@/redux/UserAuth/selectors';
 
 interface RegisterFormValues {
   email: string;
@@ -20,6 +22,7 @@ interface RegisterFormValues {
 export default function Register() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+  const loading = useSelector(selectIsLoading);
 
   const initialValues: RegisterFormValues = { email: '', password: '', name: '' };
 
@@ -60,7 +63,13 @@ export default function Register() {
   const handleLoginRedirect = () => {
     router.push('/login');
   };
-
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <GridLoader color="#22c55e" />
+      </div>
+    );
+  }
   return (
     <main className="relative min-h-screen flex items-center justify-center ">
       <Link

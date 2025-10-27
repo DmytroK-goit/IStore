@@ -55,7 +55,7 @@ export default function Login() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <GridLoader color="#22c55e" size={15} />
+        <GridLoader color="#22c55e" />
       </div>
     );
   }
