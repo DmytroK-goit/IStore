@@ -3,13 +3,15 @@
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { login } from '@/redux/UserAuth/operations';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { selectIsLoading } from '@/redux/UserAuth/selectors';
+import { GridLoader } from 'react-spinners';
 
 interface LoginFormValues {
   email: string;
@@ -18,6 +20,7 @@ interface LoginFormValues {
 
 export default function Login() {
   const router = useRouter();
+  const loading = useSelector(selectIsLoading);
   const dispatch = useDispatch<AppDispatch>();
   const initialValues: LoginFormValues = { email: '', password: '' };
 
@@ -49,6 +52,13 @@ export default function Login() {
   const handleRegisterRedirect = () => {
     router.push('/register');
   };
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <GridLoader color="#22c55e" size={15} />
+      </div>
+    );
+  }
 
   return (
     <main className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat">

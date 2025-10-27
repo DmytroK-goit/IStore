@@ -12,10 +12,10 @@ import { selectProducts } from '@/redux/Products/selectors';
 import { CartItem, setCartItemQuantity } from '@/redux/Cart/sliсe';
 import { createOrder } from '@/redux/Order/operations';
 import PaymentModal from '@/components/paymentModal/paymentModal';
-import { selectUser } from '@/redux/UserAuth/selectors';
+import { selectIsLoading, selectUser } from '@/redux/UserAuth/selectors';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { GridLoader } from 'react-spinners';
 
 interface SoldAddress {
   name: string;
@@ -92,7 +92,12 @@ export default function CartPage() {
   const validationSchema = Yup.object({
     name: Yup.string().required('Required'),
     surname: Yup.string().required('Required'),
-    phone: Yup.string().required('Required'),
+    phone: Yup.string()
+      .matches(
+        /^\+?38\s?\(?0\d{2}\)?\s?\d{3}[- ]?\d{2}[- ]?\d{2}$/,
+        'Enter a valid Ukrainian phone number (e.g. +38(097)9638775)',
+      )
+      .required('Required'),
     city: Yup.string().required('Required'),
     street: Yup.string().required('Required'),
     house: Yup.string().required('Required'),
@@ -101,7 +106,8 @@ export default function CartPage() {
   });
 
   const handleSubmit = (values: SoldAddress, { resetForm }: { resetForm: () => void }) => {
-    setPendingValues(values);
+    const cleanedPhone = values.phone.replace(/\D/g, '');
+    setPendingValues({ ...values, phone: cleanedPhone });
     setIsModalOpen(true);
   };
 
@@ -207,7 +213,6 @@ export default function CartPage() {
         </div>
       </motion.div>
 
-      {/* DELIVERY FORM */}
       <motion.div
         initial={{ opacity: 0, x: 30 }}
         animate={{ opacity: 1, x: 0 }}

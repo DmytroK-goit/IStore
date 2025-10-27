@@ -74,7 +74,6 @@ export default function SoldItemsPage() {
     const orderDate = new Date(order.createdAt);
     const start = startDate ? new Date(startDate) : null;
     const end = endDate ? new Date(endDate) : null;
-
     const matchStatus = selectedStatus === 'All' || order.status === selectedStatus;
     const matchStart = !start || orderDate >= start;
     const matchEnd = !end || orderDate <= end;
