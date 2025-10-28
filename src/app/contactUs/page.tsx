@@ -48,7 +48,7 @@ export default function ContactUs() {
       transition={{ duration: 0.6 }}
       className="max-w-3xl mx-auto mt-10 p-8 bg-gray-950 bg-opacity-90 backdrop-blur-md border border-gray-800 rounded-2xl shadow-lg text-gray-100"
     >
-      <ToastContainer position="top-right" autoClose={3000} theme="dark" />
+      {/* <ToastContainer position="top-right" autoClose={3000} theme="dark" /> */}
 
       <h2 className="text-3xl font-bold mb-3 text-yellow-400">Contact Us</h2>
       <p className="text-gray-400 mb-8">
