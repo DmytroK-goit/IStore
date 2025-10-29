@@ -31,7 +31,6 @@ export default function ContactUs() {
     try {
       const resultAction = await dispatch(addContactUsMessage(values));
       if (addContactUsMessage.fulfilled.match(resultAction)) {
-        toast.success('Message sent successfully!');
         resetForm();
       } else {
         toast.error('Failed to send message');

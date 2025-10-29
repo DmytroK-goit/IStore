@@ -25,14 +25,14 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
       enableSystem={true}
       disableTransitionOnChange={true}
     >
+      {/* <ToastContainer
+        position="bottom-left"
+        autoClose={1000}
+        closeOnClick
+        pauseOnFocusLoss
+        transition={Flip}
+      /> */}
       <Providers>
-        <ToastContainer
-          position="top-center"
-          autoClose={1000}
-          closeOnClick
-          pauseOnFocusLoss
-          transition={Flip}
-        />
         <Header />
         <main
           className="flex-1 p-5 bg-cover bg-center bg-no-repeat"
