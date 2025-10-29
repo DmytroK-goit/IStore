@@ -22,7 +22,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <Provider store={store}>
       <InitProfile />
       {children}
-      <ToastContainer position="top-right" autoClose={2000} />
+     
     </Provider>
   );
 }
