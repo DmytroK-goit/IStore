@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchProfile, login, logout, registerUser } from './operations.ts';
+import { fetchProfile, fetchUsers, login, logout, registerUser } from './operations.ts';
 
 const initialState = {
   isLoadingLogin: false,
@@ -10,7 +10,9 @@ const initialState = {
     email: '',
     role: '',
   },
-
+  users: {
+    usersList: [],
+  },
   isLoggedIn: false,
   isRefreshing: false,
 };
@@ -55,6 +57,13 @@ const slice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         console.error('Registration failed', action.error);
         state.isLoggedIn = false;
+      })
+      .addCase(fetchUsers.pending, (state) => {
+        state.isLoadingLogin = true;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.users.usersList = action.payload;
+        state.isLoadingLogin = false;
       });
   },
 });

@@ -5,28 +5,30 @@ import { useRouter } from 'next/navigation';
 import AdminListStore from '@/components/adminListStore/adminListStore';
 import { Product } from '@/types/product';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '@/redux/UserAuth/selectors';
+import { fetchUsers } from '@/redux/UserAuth/operations';
 
 export default function AdminPage() {
   const user = useSelector(selectUser);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) return;
-
-    if (user.role !== 'admin') {
+    if (user && user.role !== 'admin') {
       router.push('/login');
     }
   }, [user, router]);
 
-  if (!user) return null;
-
   const handleSelectProduct = (product: Product) => {
     setSelectedProduct(product);
   };
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
   return (
     <div className="p-6 flex flex-col gap-6">
       <div className="flex justify-between items-center">

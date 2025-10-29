@@ -56,7 +56,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-2 hover:text-emerald-400 transition">
                 <Home className="w-5 h-5 text-emerald-500" />
-                <span>Soborna 1</span>
+                <span>First 1</span>
               </li>
               <li className="flex items-center gap-2 hover:text-emerald-400 transition">
                 <Phone className="w-5 h-5 text-emerald-500" />
