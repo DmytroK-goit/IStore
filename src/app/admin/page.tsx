@@ -8,11 +8,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '@/redux/UserAuth/selectors';
 import { fetchUsers } from '@/redux/UserAuth/operations';
+import { AppDispatch } from '@/redux/store';
 
 export default function AdminPage() {
   const user = useSelector(selectUser);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const router = useRouter();
 
