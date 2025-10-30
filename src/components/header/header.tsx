@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { Clock } from '../clock/clock';
 
 export const Header = () => {
   const user = useSelector(selectUser);
@@ -61,7 +62,7 @@ export const Header = () => {
       >
         {theme === 'dark' ? '☀️' : '🌙'}
       </button> */}
-
+      <Clock />
       <div className="flex flex-col items-center sm:items-end text-center sm:text-right mt-2 sm:mt-0">
         <p className="text-lg sm:text-2xl text-gray-300 font-medium truncate max-w-[180px]">
           {user?.name || 'Guest'}
