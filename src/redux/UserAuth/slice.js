@@ -62,7 +62,7 @@ const slice = createSlice({
         state.isLoadingLogin = true;
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.users.usersList = action.payload;
+        state.users.usersList = action.payload.data;
         state.isLoadingLogin = false;
       });
   },
