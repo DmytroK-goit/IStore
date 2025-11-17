@@ -88,9 +88,10 @@ export default function ProductComponent() {
 
             <div className="flex gap-3">
               <button
-                onClick={
-                  user.role === 'Guest' ? handleClickGuest : () => handleAddToCart(product._id, 1)
-                }
+                onClick={() => {
+                  if (!user.email) handleClickGuest();
+                  else handleAddToCart(product._id, 1);
+                }}
                 disabled={outOfStock && user.role !== 'Guest'}
                 className={`cursor-pointer px-4 py-2 rounded-2xl font-semibold text-white transition ${
                   outOfStock && user.role !== 'Guest'
