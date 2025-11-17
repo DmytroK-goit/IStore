@@ -22,7 +22,7 @@ export const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 "
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -32,8 +32,8 @@ export const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
           <motion.div
             onClick={(e) => e.stopPropagation()}
             className="relative bg-slate-800 dark:bg-gray-900 text-gray-900 dark:text-gray-100 
-                       p-6 sm:p-8 rounded-2xl shadow-2xl w-full max-w-3lg border border-gray-200 
-                       dark:border-gray-700"
+                       p-6 sm:p-8 rounded-2xl shadow-2xl max-w-3lg border border-gray-200 
+                       dark:border-gray-700 w-1/3"
             initial={{ scale: 0.9, opacity: 0, y: 40 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 40 }}
