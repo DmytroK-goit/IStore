@@ -76,68 +76,79 @@ export default function AddItem({ product }: AddItemProps) {
         onSubmit={handleSubmit}
       >
         {({ setFieldValue }) => (
-          <Form className="space-y-4">
-            <div>
-              <label className="block mb-1 font-medium">Name</label>
-              <Field name="name" type="text" className="w-full border p-2 rounded" />
-              <ErrorMessage name="name" component="div" className="text-red-500 text-sm" />
+          <Form className="space-y-5">
+            <div className="space-y-1">
+              <label className="block font-medium text-gray-200">Name</label>
+              <Field
+                name="name"
+                type="text"
+                className="w-full bg-white/90 text-black border border-zinc-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-400 rounded-lg p-2 transition"
+              />
+              <ErrorMessage name="name" component="div" className="text-red-400 text-sm" />
             </div>
-            <div>
-              <label className="block mb-1 font-medium">Category</label>
+
+            <div className="space-y-1">
+              <label className="block font-medium text-gray-200">Category</label>
               <Field
                 name="category"
                 as="select"
-                className="w-full border p-2 rounded bg-white text-black"
+                className="w-full bg-white/90 text-black border border-zinc-400 rounded-lg p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition"
               >
-                <option value="" className="text-black">
-                  Select category
-                </option>
+                <option value="">Select category</option>
                 {categories.map((cat) => (
-                  <option key={cat} value={cat} className="text-black bg-white">
+                  <option key={cat} value={cat}>
                     {cat}
                   </option>
                 ))}
               </Field>
-              <ErrorMessage name="category" component="div" className="text-red-500 text-sm" />
+              <ErrorMessage name="category" component="div" className="text-red-400 text-sm" />
             </div>
 
-            <div>
-              <label className="block mb-1 font-medium">Price</label>
-              <Field name="price" type="number" className="w-full border p-2 rounded" />
-              <ErrorMessage name="price" component="div" className="text-red-500 text-sm" />
+            <div className="space-y-1">
+              <label className="block font-medium text-gray-200">Price</label>
+              <Field
+                name="price"
+                type="number"
+                className="w-full bg-white/90 text-black border border-zinc-400 rounded-lg p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition"
+              />
+              <ErrorMessage name="price" component="div" className="text-red-400 text-sm" />
             </div>
 
-            <div>
-              <label className="block mb-1 font-medium">Description</label>
+            <div className="space-y-1">
+              <label className="block font-medium text-gray-200">Description</label>
               <Field
                 name="description"
                 as="textarea"
                 rows={3}
-                className="w-full border p-2 rounded"
+                className="w-full bg-white/90 text-black border border-zinc-400 rounded-lg p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition"
               />
-              <ErrorMessage name="description" component="div" className="text-red-500 text-sm" />
+              <ErrorMessage name="description" component="div" className="text-red-400 text-sm" />
             </div>
 
-            <div>
-              <label className="block mb-1 font-medium">Quantity</label>
-              <Field name="quantity" type="number" className="w-full border p-2 rounded" />
-              <ErrorMessage name="quantity" component="div" className="text-red-500 text-sm" />
+            <div className="space-y-1">
+              <label className="block font-medium text-gray-200">Quantity</label>
+              <Field
+                name="quantity"
+                type="number"
+                className="w-full bg-white/90 text-black border border-zinc-400 rounded-lg p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition"
+              />
+              <ErrorMessage name="quantity" component="div" className="text-red-400 text-sm" />
             </div>
 
-            <div>
-              <label className="block mb-1 font-medium">Image</label>
+            <div className="space-y-1">
+              <label className="block font-medium text-gray-200">Image</label>
               <input
                 type="file"
                 name="img"
                 onChange={(e) => setFieldValue('img', e.currentTarget.files?.[0] || null)}
-                className="w-full border p-2 rounded"
+                className="w-full bg-white/90 text-black border border-zinc-400 rounded-lg p-2 cursor-pointer file:mr-3 file:py-1 file:px-3 file:border-0 file:bg-blue-600 file:text-white file:rounded file:hover:bg-blue-700 transition"
               />
-              <ErrorMessage name="img" component="div" className="text-red-500 text-sm" />
+              <ErrorMessage name="img" component="div" className="text-red-400 text-sm" />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded"
+              className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition transform active:scale-95"
             >
               {product ? 'Update' : 'Add'}
             </button>

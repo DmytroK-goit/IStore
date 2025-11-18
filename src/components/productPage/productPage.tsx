@@ -48,7 +48,10 @@ export default function ProductComponent() {
   };
 
   return (
-    <motion.div layout className="min-h-screen text-gray-100 flex items-center justify-center p-6">
+    <motion.div
+      layout
+      className="min-h-screen w-full text-gray-100 flex items-center justify-center p-6"
+    >
       <div className="w-full bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-800 p-8 max-w-4xl">
         <button
           onClick={handleGoBack}
