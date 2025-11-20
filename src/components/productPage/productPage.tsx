@@ -53,12 +53,12 @@ export default function ProductComponent() {
       className="min-h-screen w-full text-gray-100 flex items-center justify-center p-6"
     >
       <div className="w-full bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-800 p-8 max-w-4xl">
-        {/* <button
+        <button
           onClick={handleGoBack}
           className="mb-6 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-xl transition cursor-pointer"
         >
           ← Back
-        </button> */}
+        </button>
 
         <h1 className="text-4xl font-bold mb-6 text-emerald-400">{product.name}</h1>
 
