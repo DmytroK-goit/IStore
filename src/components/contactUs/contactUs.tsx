@@ -31,12 +31,12 @@ export const ContactUs = () => {
 
   return (
     <motion.div layout className="w-full min-h-screen p-4  text-gray-100">
-      <Link
+      {/* <Link
         href="/admin"
         className="flex items-center mb-6 text-emerald-400 font-semibold transition-all duration-300 hover:underline hover:text-emerald-300 hover:translate-x-1"
       >
         &larr; Back to Admin Panel
-      </Link>
+      </Link> */}
 
       <h2 className="text-4xl font-bold mb-6 text-emerald-400">Contact Messages</h2>
 

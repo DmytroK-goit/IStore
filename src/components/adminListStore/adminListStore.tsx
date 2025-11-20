@@ -17,6 +17,7 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
 
   const filteredProducts =
     selectedCategory === 'All' ? products : products.filter((p) => p.category === selectedCategory);
+  console.log('Filtered Products:', filteredProducts);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -60,7 +61,7 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
           <li
             key={product._id}
             className="flex justify-between items-center p-4 rounded-2xl border border-gray-700 
-              bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 shadow-md transition-all duration-300 ease-in-out transform hover:shadow-emerald-500/30 hover:-translate-y-1"
+      bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 shadow-md transition-all duration-300 ease-in-out transform hover:shadow-emerald-500/30 hover:-translate-y-1"
           >
             <div>
               <p className="font-semibold text-emerald-300">{product.name}</p>

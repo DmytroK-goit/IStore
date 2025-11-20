@@ -83,12 +83,12 @@ export default function SoldItemsPage() {
 
   return (
     <motion.div layout className="mt-8 p-4 min-h-screen text-gray-100">
-      <Link
+      {/* <Link
         href="/admin"
         className="flex items-center mb-6 text-emerald-100 font-semibold transition-all duration-300 hover:underline hover:text-emerald-200 hover:translate-x-1"
       >
         &larr; Back to Admin Panel
-      </Link>
+      </Link> */}
 
       <h2 className="text-4xl font-bold mb-6 text-emerald-400">Sold Orders</h2>
 

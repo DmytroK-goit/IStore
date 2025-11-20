@@ -23,13 +23,13 @@ export default function UsersListPage() {
   const { usersList } = useSelector((state: RootState) => selectUsers(state)) as UsersState;
 
   return (
-    <section className="min-h-screen py-10 px-6 bg-gray-900/60 backdrop-blur-sm">
-      <Link
+    <section className="min-h-screen py-10 px-6 ">
+      {/* <Link
         href="/admin"
         className="flex items-center mb-6 text-emerald-100 font-semibold transition-all duration-300 hover:underline hover:text-emerald-200 hover:translate-x-1"
       >
         &larr; Back to Admin Panel
-      </Link>
+      </Link> */}
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl font-semibold text-white mb-10 text-center tracking-wide">
           👥 Users List
