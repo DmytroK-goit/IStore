@@ -94,3 +94,26 @@ export const fetchUsers = createAsyncThunk('fetchUsers', async (_, thunkApi) => 
     return thunkApi.rejectWithValue(err.message);
   }
 });
+export const deleteUser = createAsyncThunk('deleteUser', async (userId: string, thunkApi) => {
+  try {
+    const { data } = await istore.delete(`/auth/deleteUser/${userId}`);
+    toast.success('User deleted successfully');
+    return data;
+  } catch (err: any) {
+    toast.error('Failed to delete user');
+    return thunkApi.rejectWithValue(err.message);
+  }
+});
+export const updateUserRole = createAsyncThunk(
+  'updateUserRole',
+  async ({ userId, role }: { userId: string; role: string }, thunkApi) => {
+    try {
+      const { data } = await istore.patch(`/auth/updateRole/${userId}`, { role });
+      toast.success('User role updated successfully');
+      return data;
+    } catch (err: any) {
+      toast.error('Failed to update user role');
+      return thunkApi.rejectWithValue(err.message);
+    }
+  },
+);

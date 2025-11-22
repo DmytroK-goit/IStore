@@ -1,5 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchProfile, fetchUsers, login, logout, registerUser } from './operations.ts';
+import {
+  deleteUser,
+  fetchProfile,
+  fetchUsers,
+  login,
+  logout,
+  registerUser,
+  updateUserRole,
+} from './operations.ts';
+import { a, u } from 'motion/react-client';
 
 const initialState = {
   isLoadingLogin: false,
@@ -64,6 +73,39 @@ const slice = createSlice({
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.users.usersList = action.payload.data;
         state.isLoadingLogin = false;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.isLoadingLogin = false;
+        state.error = action.payload || action.error.message;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.isLoadingLogin = false;
+        state.users.usersList = state.users.usersList.filter(
+          (user) => user._id !== action.payload.id,
+        );
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.isLoadingLogin = false;
+        state.error = action.payload || action.error.message;
+      })
+      .addCase(deleteUser.pending, (state) => {
+        state.isLoadingLogin = true;
+      })
+      .addCase(updateUserRole.fulfilled, (state, action) => {
+        state.isLoadingLogin = false;
+        const index = state.users.usersList.findIndex(
+          (user) => user._id === action.payload.data._id,
+        );
+        if (index !== -1) {
+          state.users.usersList[index] = action.payload.data;
+        }
+      })
+      .addCase(updateUserRole.rejected, (state, action) => {
+        state.isLoadingLogin = false;
+        state.error = action.payload || action.error.message;
+      })
+      .addCase(updateUserRole.pending, (state) => {
+        state.isLoadingLogin = true;
       });
   },
 });

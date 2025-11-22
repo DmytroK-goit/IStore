@@ -17,7 +17,6 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
 
   const filteredProducts =
     selectedCategory === 'All' ? products : products.filter((p) => p.category === selectedCategory);
-  console.log('Filtered Products:', filteredProducts);
 
   useEffect(() => {
     dispatch(fetchProducts());
