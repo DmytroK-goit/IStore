@@ -8,16 +8,12 @@ import { fetchUsers } from '@/redux/UserAuth/operations';
 import { AppDispatch } from '@/redux/store';
 import { Product } from '@/types/product';
 import { useRouter } from 'next/navigation';
+import ProtectDemo from '@/components/ProtectDemo';
+import ProtectAdminOrDemo from '@/components/ProtectAdminOrDemo';
 
-export default function AdminDashboard() {
-  const user = useSelector(selectUser);
+function AdminDashboard() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user && user.role !== 'admin') router.push('/login');
-  }, [user, router]);
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -32,3 +28,5 @@ export default function AdminDashboard() {
     </div>
   );
 }
+
+export default ProtectAdminOrDemo(ProtectDemo(AdminDashboard));

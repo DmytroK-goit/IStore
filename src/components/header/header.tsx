@@ -89,7 +89,7 @@ export const Header = () => {
         {navLink('/products', 'Shop')}
         {isLoggedIn && navLink('/cart', 'Cart')}
         {user?.role === 'user' && navLink('/myProfile', 'My Profile')}
-        {user?.role === 'admin' && navLink('/admin', 'Admin')}
+        {(user?.role === 'admin' || user?.role === 'demo') && navLink('/admin', 'Admin')}
 
         {isLoggedIn ? (
           <motion.button
