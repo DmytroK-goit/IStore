@@ -6,6 +6,8 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { selectUsers } from '@/redux/UserAuth/selectors';
 import Link from 'next/link';
 import { deleteUser, updateUserRole } from '@/redux/UserAuth/operations';
+import ProtectAdminOrDemo from '../ProtectAdminOrDemo';
+import ProtectDemo from '../ProtectDemo';
 
 export interface User {
   _id: string;
@@ -20,7 +22,7 @@ export interface UsersState {
   usersList: User[];
 }
 
-export default function UsersListPage() {
+function UsersListPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { usersList } = useSelector((state: RootState) => selectUsers(state)) as UsersState;
 
@@ -108,3 +110,4 @@ export default function UsersListPage() {
     </section>
   );
 }
+export default ProtectAdminOrDemo(ProtectDemo(UsersListPage));

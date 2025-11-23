@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import ProtectAdminOrDemo from '../ProtectAdminOrDemo';
+import ProtectDemo from '../ProtectDemo';
 
 export type SoldProduct = {
   id: number;
@@ -37,7 +39,7 @@ export type SoldOrder = {
   createdAt: string;
 };
 
-export default function SoldItemsPage() {
+function SoldItemsPage() {
   const dispatch = useDispatch<AppDispatch>();
   const orderItems: SoldOrder[] = useSelector(selectAllOrders);
   const [selectedStatus, setSelectedStatus] = useState<'All' | OrderStatus>('All');
@@ -190,3 +192,4 @@ export default function SoldItemsPage() {
     </motion.div>
   );
 }
+export default ProtectAdminOrDemo(ProtectDemo(SoldItemsPage));
