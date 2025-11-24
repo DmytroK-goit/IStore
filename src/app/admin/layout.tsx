@@ -11,10 +11,12 @@ import {
   ShoppingCart,
   ChartNoAxesCombined,
 } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const path = usePathname();
-
+  const { role } = useSelector((state: RootState) => state.user.user) || {};
   const links = [
     { href: '/admin', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
     { href: '/admin/orders', label: 'Orders', icon: <ShoppingCart size={18} /> },
@@ -50,7 +52,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <main className="flex-1 p-8">
         <div className="flex justify-between items-center mb-6">
           <p className="text-gray-500 font-bold text-3xl">
-            Logged in as: <span className="font-bold text-3xl text-gray-100">Admin</span>
+            Logged in as: <span className="font-bold text-3xl text-gray-100">{role} user</span>
           </p>
         </div>
 

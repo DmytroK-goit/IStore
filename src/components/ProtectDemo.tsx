@@ -10,7 +10,7 @@ export default function ProtectDemo<P extends object>(Component: React.Component
 
     if (role === 'demo') {
       return (
-        <div className="opacity-70 pointer-events-none select-none">
+        <div className="opacity-90 pointer-events-none select-none">
           <Component {...props} />
         </div>
       );

@@ -24,8 +24,15 @@ export interface UsersState {
 
 function UsersListPage() {
   const dispatch = useDispatch<AppDispatch>();
+  const { role } = useSelector((state: RootState) => state.user.user) || {};
   const { usersList } = useSelector((state: RootState) => selectUsers(state)) as UsersState;
 
+  const mapUserList = () => {
+    if (role === 'admin') {
+      return usersList;
+    }
+    return usersList.filter((user) => user.role !== 'admin');
+  };
   const delUser = async (id: string) => {
     await dispatch(deleteUser(id));
   };
@@ -43,7 +50,7 @@ function UsersListPage() {
 
         {usersList && usersList.length > 0 ? (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {usersList.map((user) => (
+            {mapUserList().map((user) => (
               <div
                 key={user._id}
                 className="bg-gradient-to-b from-white to-gray-100 rounded-2xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300 p-6 border border-gray-200"
@@ -95,7 +102,7 @@ function UsersListPage() {
                   <button
                     onClick={() => delUser(user._id)}
                     className="w-full mt-4 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
-                    disabled={user.role === 'admin'} // щоб не видалити головного
+                    disabled={user.role === 'admin'}
                   >
                     Delete
                   </button>
