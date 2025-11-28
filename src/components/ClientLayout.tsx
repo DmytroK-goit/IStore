@@ -7,6 +7,7 @@ import { Flip, ToastContainer } from 'react-toastify';
 import { Footer } from '@/components/footer/footer';
 import { ThemeProvider } from 'next-themes';
 import { CookiesModal } from '@/components/cookiesModal/cookiesModal';
+import PushSubscribe from './PushSubscribe';
 
 export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -34,6 +35,7 @@ export const ClientLayout = ({ children }: { children: React.ReactNode }) => {
       />
       <Providers>
         <Header />
+        <PushSubscribe />
         <main
           className="flex-1 p-5 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: bgImage }}
