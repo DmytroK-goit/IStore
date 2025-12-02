@@ -3,7 +3,7 @@ import { istore } from '../UserAuth/operations';
 
 interface Subscription {
   title: string;
-  text: string;
+  body: string;
 }
 export const sendPushNotification = createAsyncThunk<void, Subscription>(
   'subscriptions/sendPushNotification',

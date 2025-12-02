@@ -9,7 +9,7 @@ function PushNotification() {
 
   const [payload, setPayload] = useState({
     title: '',
-    text: '',
+    body: '',
   });
 
   const sendPush = () => {
@@ -31,8 +31,8 @@ function PushNotification() {
         />
 
         <textarea
-          value={payload.text}
-          onChange={(e) => setPayload({ ...payload, text: e.target.value })}
+          value={payload.body}
+          onChange={(e) => setPayload({ ...payload, body: e.target.value })}
           placeholder="Message text"
           className="w-full p-3 border border-gray-300 rounded-lg h-32 resize-none outline-none focus:border-blue-500 transition"
         />

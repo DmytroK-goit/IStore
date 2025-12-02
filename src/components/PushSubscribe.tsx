@@ -27,10 +27,8 @@ export default function PushSubscribe() {
   const subscribeToPush = async () => {
     try {
       const reg = await navigator.serviceWorker.ready;
-
       const key = urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || '');
       const applicationServerKey = new Uint8Array(key);
-
       const subscription = await reg.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey,
