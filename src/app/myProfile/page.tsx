@@ -15,30 +15,47 @@ export default function MyProfile() {
     dispatch(myOrder());
   }, [dispatch]);
 
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'creating':
+        return 'bg-gray-600 text-white';
+      case 'processing':
+        return 'bg-blue-600 text-white';
+      case 'shipped':
+        return 'bg-orange-400 text-white';
+      case 'delivered':
+        return 'bg-green-600 text-white';
+      default:
+        return 'bg-gray-500 text-white';
+    }
+  };
+
   if (orderItems.length === 0) {
-    return <p className="text-center text-gray-500 mt-8">No orders yet.</p>;
+    return <p className="text-center text-gray-400 mt-16 text-lg">You have no orders yet.</p>;
   }
 
   return (
-    <div className="grid xs:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 mt-8 space-y-6 space-x-3">
+    <div className="p-4 mt-8 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {orderItems.map((order, idx) => (
         <div
           key={order._id}
-          className="border rounded-xl p-4 shadow-md bg-gray-800 dark:bg-gray-800"
+          className="bg-gray-900 border border-gray-700 rounded-xl shadow-lg flex flex-col justify-between p-4 transition-transform hover:scale-105"
         >
-          <h3 className="text-lg font-semibold mb-2">
-            Order #{idx + 1} (ID: {order._id})
-          </h3>
+          <div className="mb-3">
+            <h3 className="text-lg font-bold text-emerald-400 mb-1">Order #{idx + 1}</h3>
+            <p
+              className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusBadge(order.status)}`}
+            >
+              {order.status.toUpperCase()}
+            </p>
+          </div>
 
-          <p className="mb-2">
-            <span className="font-medium">Status:</span> {order.status}
-          </p>
-          <p className="mb-2">
+          <p className="mb-2 text-white">
             <span className="font-medium">Total:</span> ${order.total}
           </p>
 
-          <div className="mb-2">
-            <h4 className="font-semibold">Shipping Address:</h4>
+          <div className="mb-3 p-3 bg-gray-800 rounded-lg border border-gray-700 text-gray-200">
+            <h4 className="font-semibold mb-1 text-emerald-300">Shipping Address</h4>
             <p>
               {order.address.name} {order.address.surname}
             </p>
@@ -48,22 +65,28 @@ export default function MyProfile() {
               {order.address.apartment && `, Apt. ${order.address.apartment}`}
             </p>
             {order.address.comment && (
-              <p className="italic text-gray-600">Comment: {order.address.comment}</p>
+              <p className="italic text-gray-400">Comment: {order.address.comment}</p>
             )}
           </div>
 
-          <div className="mb-2">
-            <h4 className="font-semibold">Items:</h4>
-            <ul className="list-disc list-inside">
+          <div className="mb-3 p-3 bg-gray-800 rounded-lg border border-gray-700 text-gray-200">
+            <h4 className="font-semibold mb-1 text-emerald-300">Items</h4>
+            <ul className="list-disc list-inside space-y-1">
               {order.items.map((item, i) => (
                 <li key={i}>
-                  {item.name} x{item.quantity} - ${item.price * item.quantity}
+                  {item.name} x{item.quantity} -{' '}
+                  <span className="font-semibold">${item.price * item.quantity}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <p className="text-sm text-gray-500">
+          <div className="mb-3 p-3 bg-gray-800 rounded-lg border border-gray-700 text-gray-200">
+            <h4 className="font-semibold mb-1 text-emerald-300">TTN</h4>
+            <p>{order.trackingNumber}</p>
+          </div>
+
+          <p className="text-sm text-gray-400 mt-auto">
             Ordered at: {new Date(order.createdAt).toLocaleString()}
           </p>
         </div>

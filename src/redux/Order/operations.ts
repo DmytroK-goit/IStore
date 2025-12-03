@@ -35,9 +35,12 @@ export const allOrder = createAsyncThunk('sold/all', async (_, { rejectWithValue
 
 export const updateOrderStatus = createAsyncThunk(
   'sold/updateStatus',
-  async ({ id, status }: { id: string; status: string }, { rejectWithValue }) => {
+  async (
+    { id, status, trackingNumber }: { id: string; status: string; trackingNumber?: string },
+    { rejectWithValue },
+  ) => {
     try {
-      const res = await istore.patch(`/sold/${id}`, { status });
+      const res = await istore.patch(`/sold/${id}`, { status, trackingNumber });
       return res.data;
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || 'Failed to update order status');

@@ -4,7 +4,6 @@ import { selectAllOrders } from '@/redux/Order/selectors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import ProtectAdminOrDemo from '../ProtectAdminOrDemo';
 import ProtectDemo from '../ProtectDemo';
@@ -35,6 +34,7 @@ export type SoldOrder = {
   items: SoldProduct[];
   address: Address;
   total: number;
+  trackingNumber?: string;
   status: OrderStatus;
   createdAt: string;
 };
@@ -42,16 +42,40 @@ export type SoldOrder = {
 function SoldItemsPage() {
   const dispatch = useDispatch<AppDispatch>();
   const orderItems: SoldOrder[] = useSelector(selectAllOrders);
+
   const [selectedStatus, setSelectedStatus] = useState<'All' | OrderStatus>('All');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+
+  const [trackingNumbers, setTrackingNumbers] = useState<Record<string, string>>({});
+  const [localStatus, setLocalStatus] = useState<Record<string, OrderStatus>>({});
 
   useEffect(() => {
     dispatch(allOrder());
   }, [dispatch]);
 
-  const changeOrderStatus = async (id: string, status: OrderStatus) => {
-    await dispatch(updateOrderStatus({ id, status }));
+  useEffect(() => {
+    const statusMap: Record<string, OrderStatus> = {};
+    orderItems.forEach((order) => {
+      statusMap[order._id] = order.status;
+    });
+    setLocalStatus(statusMap);
+  }, [orderItems]);
+
+  const handleTrackingChange = (id: string, value: string) => {
+    setTrackingNumbers((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const applyOrderChanges = async (order: SoldOrder) => {
+    const status = localStatus[order._id];
+    const trackingNumber = trackingNumbers[order._id] || order.trackingNumber || '';
+
+    if ((status === 'shipped' || status === 'delivered') && !trackingNumber.trim()) {
+      alert('Tracking number is required for shipped or delivered orders');
+      return;
+    }
+
+    await dispatch(updateOrderStatus({ id: order._id, status, trackingNumber }));
     dispatch(allOrder());
   };
 
@@ -79,19 +103,11 @@ function SoldItemsPage() {
     const matchStatus = selectedStatus === 'All' || order.status === selectedStatus;
     const matchStart = !start || orderDate >= start;
     const matchEnd = !end || orderDate <= end;
-
     return matchStatus && matchStart && matchEnd;
   });
 
   return (
     <motion.div layout className="mt-8 p-4 min-h-screen text-gray-100">
-      {/* <Link
-        href="/admin"
-        className="flex items-center mb-6 text-emerald-100 font-semibold transition-all duration-300 hover:underline hover:text-emerald-200 hover:translate-x-1"
-      >
-        &larr; Back to Admin Panel
-      </Link> */}
-
       <h2 className="text-4xl font-bold mb-6 text-emerald-400">Sold Orders</h2>
 
       <div className="flex flex-wrap gap-4 mb-6 items-center">
@@ -109,7 +125,6 @@ function SoldItemsPage() {
             ))}
           </select>
         </div>
-
         <div>
           <label className="mr-2 text-gray-300 font-medium">From:</label>
           <input
@@ -119,7 +134,6 @@ function SoldItemsPage() {
             className="px-3 py-2 border border-gray-600 rounded-lg bg-gray-700 text-white"
           />
         </div>
-
         <div>
           <label className="mr-2 text-gray-300 font-medium">To:</label>
           <input
@@ -137,13 +151,12 @@ function SoldItemsPage() {
         {filteredOrders.map((order, idx) => (
           <div
             key={order._id}
-            className={`flex flex-col justify-between p-4 rounded-2xl border shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 
-              bg-gradient-to-br ${getStatusStyles(order.status)}`}
+            className={`flex flex-col justify-between p-4 rounded-2xl border shadow-lg transition-all duration-300 
+            bg-gradient-to-br ${getStatusStyles(order.status)}`}
           >
             <h3 className="text-lg font-semibold mb-2 text-white">
               Order #{idx + 1} ({order.status})
             </h3>
-
             <div className="space-y-2 mb-4 text-gray-200">
               {order.items.map((item, i) => (
                 <div key={i} className="flex justify-between">
@@ -172,19 +185,39 @@ function SoldItemsPage() {
               )}
             </div>
 
-            <div>
-              <label className="mr-2 font-medium text-gray-200">Change Status:</label>
+            <div className="p-3 rounded-md bg-gray-700 border border-gray-600 mb-4 text-gray-200 flex flex-col gap-3">
+              <label className="font-medium">Tracking Number (TTN):</label>
+              <input
+                type="text"
+                value={trackingNumbers[order._id] || order.trackingNumber || ''}
+                onChange={(e) => handleTrackingChange(order._id, e.target.value)}
+                className="w-full px-3 py-2 rounded-lg bg-gray-800 border border-gray-600 text-white"
+                placeholder="Enter tracking number"
+              />
+
+              <label className="font-medium">Change Status:</label>
               <select
-                value={order.status}
-                onChange={(e) => changeOrderStatus(order._id, e.target.value as OrderStatus)}
-                className="px-3 py-2 border border-gray-600 rounded-lg bg-gray-700 text-white shadow-md
-                  transition-all duration-300 ease-in-out hover:bg-gray-600"
+                value={localStatus[order._id] || order.status}
+                onChange={(e) =>
+                  setLocalStatus((prev) => ({
+                    ...prev,
+                    [order._id]: e.target.value as OrderStatus,
+                  }))
+                }
+                className="px-3 py-2 rounded-lg bg-gray-800 border border-gray-600 text-white"
               >
                 <option value="creating">Creating</option>
                 <option value="processing">Processing</option>
                 <option value="shipped">Shipped</option>
                 <option value="delivered">Delivered</option>
               </select>
+
+              <button
+                onClick={() => applyOrderChanges(order)}
+                className="mt-2 px-4 py-2 bg-emerald-600 rounded-lg text-white hover:bg-emerald-500"
+              >
+                Apply
+              </button>
             </div>
           </div>
         ))}
@@ -192,4 +225,5 @@ function SoldItemsPage() {
     </motion.div>
   );
 }
+
 export default ProtectAdminOrDemo(ProtectDemo(SoldItemsPage));
