@@ -11,15 +11,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { selectIsLoading } from '@/redux/UserAuth/selectors';
-import { GridLoader } from 'react-spinners';
 import { useState } from 'react';
 
 type GifState = 'wait' | 'success' | 'error';
 
 const gifs = {
-  wait: '/gifts/load.gif',
-  success: '/gifts/done.gif',
-  error: '/gifts/wrong.gif',
+  wait: 'gifts/load.gif',
+  success: 'gifts/done.gif',
+  error: 'gifts/wrong.gif',
 };
 interface LoginFormValues {
   email: string;
