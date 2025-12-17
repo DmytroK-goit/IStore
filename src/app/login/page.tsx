@@ -55,7 +55,7 @@ export default function Login() {
 
         setTimeout(() => {
           router.push(userRole === 'admin' ? '/admin' : '/products');
-        }, 800);
+        }, 2000);
       } else {
         setGifState('error');
         toast.error('Login failed. Please check your credentials.');
@@ -84,12 +84,12 @@ export default function Login() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="backdrop-blur-sm bg-black/60 p-8 rounded-2xl shadow-lg max-w-xl w-full mx-4"
+        className="backdrop-blur-sm bg-black/60 p-8 rounded-2xl shadow-lg max-w-3xl w-full mx-4 flex flex-col items-center justify-between"
       >
-        <h2 className="text-3xl font-bold mb-6 text-yellow-400 text-center">Login to IStore</h2>
-        <div className="flex gap-4">
-          <div>
-            <img src={gifs[gifState]} alt="status animation" className="w-40 h-40 object-contain" />
+        <h2 className="text-5xl font-bold mb-6 text-yellow-400 text-center">Login to IStore</h2>
+        <div className="flex justify-center gap-20">
+          <div className="flex items-center">
+            <img src={gifs[gifState]} alt="status animation" className="w-60 h-60 object-contain" />
           </div>
           <Formik
             initialValues={initialValues}
@@ -97,7 +97,7 @@ export default function Login() {
             onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
-              <Form className="flex flex-col gap-5">
+              <Form className="flex flex-col gap-5 w-2/3">
                 <div>
                   <label htmlFor="email" className="block text-sm font-semibold text-gray-200 mb-1">
                     Email

@@ -53,6 +53,7 @@ export const Footer = () => {
               <li className="flex items-center gap-2 hover:text-emerald-400 transition">
                 <MapPin className="w-5 h-5 text-emerald-500" />
                 <span>Ukraine, Vinnitsa</span>
+                <img src="/gifts/ukraine.gif" width="30" alt="ukraine" />
               </li>
               <li className="flex items-center gap-2 hover:text-emerald-400 transition">
                 <Home className="w-5 h-5 text-emerald-500" />

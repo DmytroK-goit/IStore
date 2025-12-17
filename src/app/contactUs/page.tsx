@@ -109,7 +109,7 @@ export default function ContactUs() {
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-2.5 rounded-lg font-semibold bg-yellow-500 text-gray-900 hover:bg-yellow-400 transition disabled:opacity-50"
+                className="px-6 py-2.5 rounded-lg font-semibold bg-yellow-500 text-gray-900 hover:bg-yellow-400 transition disabled:opacity-50 cursor-pointer"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </motion.button>
@@ -118,7 +118,7 @@ export default function ContactUs() {
                 type="reset"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-2.5 rounded-lg font-semibold border border-yellow-500 text-yellow-400 hover:bg-yellow-500 hover:text-gray-900 transition"
+                className="px-6 py-2.5 rounded-lg font-semibold border border-yellow-500 text-yellow-400 hover:bg-yellow-500 hover:text-gray-900 transition cursor-pointer"
               >
                 Clear
               </motion.button>

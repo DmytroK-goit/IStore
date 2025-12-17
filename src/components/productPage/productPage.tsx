@@ -89,7 +89,7 @@ export default function ProductComponent() {
               </p>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-row items-center justify-center">
               <button
                 onClick={() => {
                   if (!user.email) handleClickGuest();
@@ -104,6 +104,7 @@ export default function ProductComponent() {
               >
                 {outOfStock && user.role !== 'Guest' ? 'Out of Stock' : 'Add to Cart'}
               </button>
+              <img src="/gifts/add.gif" width="50" height="50" alt="add item" />
             </div>
           </div>
         </div>

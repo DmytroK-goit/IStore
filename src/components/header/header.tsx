@@ -1,35 +1,56 @@
 'use client';
+
 import { AppDispatch } from '@/redux/store';
 import { logout } from '@/redux/UserAuth/operations';
 import { selectUser } from '@/redux/UserAuth/selectors';
+import { fetchCart } from '@/redux/Cart/operations';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { useTheme } from 'next-themes';
+
+import { Menu, X, ShoppingCart } from 'lucide-react';
 import { Clock } from '../clock/clock';
 
 export const Header = () => {
   const user = useSelector(selectUser);
+  const { items: cartItems } = useSelector((state: any) => state.cart);
+
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
   const pathname = usePathname();
+  const dispatch = useDispatch<AppDispatch>();
+
   const [menuOpen, setMenuOpen] = useState(false);
-  const isLoggedIn = Boolean(user?.email);
-  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+
+  const isLoggedIn = Boolean(user?.email);
+
+  // 🔢 кількість товарів у кошику
+  const cartCount =
+    cartItems?.reduce((total: number, item: any) => total + (item.quantity || 1), 0) || 0;
 
   const handleLogout = async () => {
     await dispatch(logout() as any);
     router.push('/products');
   };
-  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      dispatch(fetchCart() as any);
+    }
+  }, [mounted, dispatch]);
+
   if (!mounted) return null;
 
-  const navLink = (href: string, label: string) => (
+  const NavLink = ({ href, label }: { href: string; label: string }) => (
     <Link
       href={href}
       onClick={() => setMenuOpen(false)}
@@ -41,29 +62,78 @@ export const Header = () => {
     </Link>
   );
 
+  const CartLink = () =>
+    isLoggedIn && (
+      <Link
+        href="/cart"
+        onClick={() => setMenuOpen(false)}
+        className={`relative flex items-center gap-1 transition font-medium ${
+          pathname === '/cart' ? 'text-yellow-400' : 'text-gray-200 hover:text-yellow-400'
+        }`}
+      >
+        <ShoppingCart size={18} />
+        Cart
+        {cartCount > 0 && (
+          <motion.span
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 500 }}
+            className="
+              absolute
+              -top-2
+              -right-3
+              min-w-[20px]
+              h-[20px]
+              px-1
+              flex
+              items-center
+              justify-center
+              text-xs
+              font-bold
+              text-gray-900
+              bg-yellow-400
+              rounded-full
+              shadow-md
+            "
+          >
+            {cartCount}
+          </motion.span>
+        )}
+      </Link>
+    );
+
   return (
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="relative flex flex-col md:flex-row justify-between items-center px-6 py-4 sm:py-0 bg-gray-950 bg-opacity-90 backdrop-blur-md shadow-md border-b border-gray-800"
+      className="
+        relative
+        flex
+        flex-col
+        md:flex-row
+        justify-between
+        items-center
+        px-6
+        py-4
+        sm:py-0
+        bg-gray-950
+        bg-opacity-90
+        backdrop-blur-md
+        shadow-md
+        border-b
+        border-gray-800
+      "
     >
-      <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 1.5, ease: 'easeInOut' }}>
-        <Link
-          href="/products"
-          className="flex items-center gap-2 text-xl font-bold text-yellow-400 hover:text-yellow-300 transition"
-        >
+      <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 1.5 }}>
+        <Link href="/products">
           <Image src="/img/istore.png" alt="Logo" width={120} height={120} priority />
         </Link>
       </motion.div>
-      {/* <button
-        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-        className="p-2 rounded-xl bg-gray-200 dark:bg-gray-800 transition-all"
-      >
-        {theme === 'dark' ? '☀️' : '🌙'}
-      </button> */}
+
       <Clock />
-      <div className="flex flex-col items-center sm:items-end text-center sm:text-right mt-2 sm:mt-0">
+
+      <div className="flex flex-col items-center sm:items-end text-center sm:text-right">
         <p className="text-lg sm:text-2xl text-gray-300 font-medium truncate max-w-[180px]">
           {user?.name || 'Guest'}
         </p>
@@ -75,7 +145,6 @@ export const Header = () => {
               repeat: Infinity,
               repeatType: 'reverse',
               duration: 2,
-              ease: 'linear',
             }}
             className="text-sm text-red-400 italic"
           >
@@ -84,29 +153,31 @@ export const Header = () => {
         )}
       </div>
 
-      <nav className="hidden sm:flex flex-wrap justify-center sm:justify-end items-center gap-4 mt-3 sm:mt-0">
-        {navLink('/', 'Home')}
-        {navLink('/products', 'Shop')}
-        {isLoggedIn && navLink('/cart', 'Cart')}
-        {user?.role === 'user' && navLink('/myProfile', 'My Profile')}
-        {(user?.role === 'admin' || user?.role === 'demo') && navLink('/admin', 'Admin')}
+      <nav className="hidden sm:flex items-center gap-4">
+        <NavLink href="/" label="Home" />
+        <NavLink href="/products" label="Shop" />
+        <CartLink />
+        {user?.role === 'user' && <NavLink href="/myProfile" label="My Profile" />}
+        {(user?.role === 'admin' || user?.role === 'demo') && (
+          <NavLink href="/admin" label="Admin" />
+        )}
 
         {isLoggedIn ? (
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleLogout}
-            className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md font-medium transition"
+            className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md"
           >
             Logout
           </motion.button>
         ) : (
-          navLink('/login', 'Login')
+          <NavLink href="/login" label="Login" />
         )}
       </nav>
 
       <button
-        className="sm:hidden absolute right-6 top-6 text-gray-300 hover:text-yellow-400 transition"
+        className="sm:hidden absolute right-6 top-6 text-gray-300 hover:text-yellow-400"
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {menuOpen ? <X size={26} /> : <Menu size={26} />}
@@ -118,23 +189,38 @@ export const Header = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="sm:hidden absolute top-20 left-0 right-0 bg-gray-900 bg-opacity-95 p-6 flex flex-col items-center gap-4 border-t border-gray-700 z-50"
+            className="
+              sm:hidden
+              absolute
+              top-20
+              left-0
+              right-0
+              bg-gray-900
+              p-6
+              flex
+              flex-col
+              items-center
+              gap-4
+              border-t
+              border-gray-700
+              z-50
+            "
           >
-            {navLink('/', 'Home')}
-            {navLink('/products', 'Shop')}
-            {isLoggedIn && navLink('/cart', 'Cart')}
-            {user?.role === 'user' && navLink('/myProfile', 'My Profile')}
-            {user?.role === 'admin' && navLink('/admin', 'Admin')}
+            <NavLink href="/" label="Home" />
+            <NavLink href="/products" label="Shop" />
+            <CartLink />
+            {user?.role === 'user' && <NavLink href="/myProfile" label="My Profile" />}
+            {user?.role === 'admin' && <NavLink href="/admin" label="Admin" />}
+
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md font-medium transition"
+                className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md"
               >
                 Logout
               </button>
             ) : (
-              navLink('/login', 'Login')
+              <NavLink href="/login" label="Login" />
             )}
           </motion.div>
         )}
