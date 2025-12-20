@@ -56,7 +56,7 @@ export const CookiesModal = () => {
                   onClick={handleDecline}
                   className="px-4 py-2 rounded-xl font-medium text-gray-300 
                   border border-gray-700 hover:border-red-500 hover:text-red-400 
-                  transition-all duration-300"
+                  transition-all duration-300 cursor-pointer"
                 >
                   Decline
                 </button>
@@ -65,7 +65,7 @@ export const CookiesModal = () => {
                   onClick={handleAccept}
                   className="px-5 py-2 rounded-xl bg-emerald-600 text-white font-semibold 
                   hover:bg-emerald-500 hover:scale-105 active:scale-95 
-                  shadow-md hover:shadow-emerald-500/40 transition-all duration-300 flex items-center gap-2"
+                  shadow-md hover:shadow-emerald-500/40 transition-all duration-300 flex items-center gap-2 cursor-pointer"
                 >
                   <ShieldCheck className="w-4 h-4" />
                   Accept

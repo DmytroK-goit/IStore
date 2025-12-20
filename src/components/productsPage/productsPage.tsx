@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { fetchProducts } from '@/redux/Products/operations';
@@ -17,6 +17,7 @@ import { selectUser } from '@/redux/UserAuth/selectors';
 import { Modal } from '@/components/modal/modal';
 import { Pagination } from '@/components/pagination/pagination';
 import { useSearchParams } from 'next/navigation';
+import { BatteryFull, Keyboard, Laptop, Monitor, Package, Plug, Smartphone } from 'lucide-react';
 
 export default function ProductsComponent() {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,6 +38,16 @@ export default function ProductsComponent() {
 
   const limit = 20;
 
+  const categoryIcons: Record<string, JSX.Element> = {
+    All: <Package size={18} />,
+    Phone: <Smartphone size={18} />,
+    Laptop: <Laptop size={18} />,
+    Monitors: <Monitor size={18} />,
+    Accessories: <Keyboard size={18} />,
+    'Power banks': <BatteryFull size={18} />,
+    Electronics: <Plug size={18} />,
+  };
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
@@ -49,7 +60,7 @@ export default function ProductsComponent() {
   const totalPages = Math.ceil(filteredProducts.length / limit);
   const paginatedProducts = filteredProducts.slice((page - 1) * limit, page * limit);
   const categories = ['All', ...new Set(products.map((p) => p.category))];
-
+  console.log(categories);
   const handleAddToCart = async (productId: string, quantity: number) => {
     try {
       await dispatch(addToCartThunk({ productId, quantity })).unwrap();
@@ -112,15 +123,16 @@ export default function ProductsComponent() {
                     setSelectedCategory(cat);
                     setPage(1);
                   }}
-                  className={`cursor-pointer px-4 py-2 rounded-xl border font-medium 
-                    transition-all duration-300 ease-in-out transform
-                    ${
-                      selectedCategory === cat
-                        ? 'bg-emerald-500 text-white border-emerald-500 scale-105 shadow-md shadow-emerald-500/30'
-                        : 'bg-gray-900 text-gray-300 border-gray-700 hover:bg-gray-800 hover:text-white hover:scale-105 hover:shadow-md hover:shadow-emerald-500/20'
-                    }`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl border font-medium
+    transition-all duration-300 ease-in-out transform cursor-pointer
+    ${
+      selectedCategory === cat
+        ? 'bg-emerald-500 text-white border-emerald-500 scale-105 shadow-md'
+        : 'bg-gray-900 text-gray-300 border-gray-700 hover:bg-gray-800 hover:text-white'
+    }`}
                 >
-                  {cat}
+                  {categoryIcons[cat] ?? <Package size={18} />}
+                  <span>{cat}</span>
                 </button>
               ))}
           </div>
