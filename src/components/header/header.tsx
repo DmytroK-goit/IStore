@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-import { Menu, X, ShoppingCart } from 'lucide-react';
+import { Menu, X, ShoppingCart, LogOut, UserStar, House } from 'lucide-react';
 import { Clock } from '../clock/clock';
 
 export const Header = () => {
@@ -29,7 +29,6 @@ export const Header = () => {
 
   const isLoggedIn = Boolean(user?.email);
 
-  // 🔢 кількість товарів у кошику
   const cartCount =
     cartItems?.reduce((total: number, item: any) => total + (item.quantity || 1), 0) || 0;
 
@@ -50,15 +49,24 @@ export const Header = () => {
 
   if (!mounted) return null;
 
-  const NavLink = ({ href, label }: { href: string; label: string }) => (
+  const NavLink = ({
+    href,
+    label,
+    children,
+  }: {
+    href: string;
+    label: string;
+    children?: React.ReactNode;
+  }) => (
     <Link
       href={href}
       onClick={() => setMenuOpen(false)}
-      className={`transition font-medium ${
+      className={`flex items-center gap-1 transition font-medium ${
         pathname === href ? 'text-yellow-400' : 'text-gray-200 hover:text-yellow-400'
       }`}
     >
       {label}
+      {children}
     </Link>
   );
 
@@ -154,12 +162,18 @@ export const Header = () => {
       </div>
 
       <nav className="hidden sm:flex items-center gap-4">
-        <NavLink href="/" label="Home" />
-        <NavLink href="/products" label="Shop" />
+        <NavLink href="/" label="Home">
+          <House size={18} />
+        </NavLink>
+        <NavLink href="/products" label="Shop">
+          <ShoppingCart size={18} />{' '}
+        </NavLink>
         <CartLink />
         {user?.role === 'user' && <NavLink href="/myProfile" label="My Profile" />}
         {(user?.role === 'admin' || user?.role === 'demo') && (
-          <NavLink href="/admin" label="Admin" />
+          <NavLink href="/admin" label="Admin">
+            <UserStar size={16} />{' '}
+          </NavLink>
         )}
 
         {isLoggedIn ? (
@@ -167,8 +181,9 @@ export const Header = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleLogout}
-            className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md"
+            className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md flex items-center gap-2 cursor-pointer"
           >
+            <LogOut size={18} />
             Logout
           </motion.button>
         ) : (
@@ -206,8 +221,12 @@ export const Header = () => {
               z-50
             "
           >
-            <NavLink href="/" label="Home" />
-            <NavLink href="/products" label="Shop" />
+            <NavLink href="/" label="Home">
+              <House size={18} />
+            </NavLink>
+            <NavLink href="/products" label="Shop">
+              <ShoppingCart size={18} />{' '}
+            </NavLink>
             <CartLink />
             {user?.role === 'user' && <NavLink href="/myProfile" label="My Profile" />}
             {user?.role === 'admin' && <NavLink href="/admin" label="Admin" />}
@@ -217,6 +236,7 @@ export const Header = () => {
                 onClick={handleLogout}
                 className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md"
               >
+                <LogOut size={18} />
                 Logout
               </button>
             ) : (
