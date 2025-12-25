@@ -4,29 +4,23 @@ import { AppDispatch } from '@/redux/store';
 import { logout } from '@/redux/UserAuth/operations';
 import { selectUser } from '@/redux/UserAuth/selectors';
 import { fetchCart } from '@/redux/Cart/operations';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
-
 import { Menu, X, ShoppingCart, LogOut, UserStar, House } from 'lucide-react';
 import { Clock } from '../clock/clock';
 
 export const Header = () => {
   const user = useSelector(selectUser);
   const { items: cartItems } = useSelector((state: any) => state.cart);
-
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useDispatch<AppDispatch>();
-
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-
   const isLoggedIn = Boolean(user?.email);
 
   const cartCount =
@@ -62,7 +56,7 @@ export const Header = () => {
       href={href}
       onClick={() => setMenuOpen(false)}
       className={`flex items-center gap-1 transition font-medium ${
-        pathname === href ? 'text-yellow-400' : 'text-gray-200 hover:text-yellow-400'
+        pathname === href ? 'text-yellow-400' : 'text-gray-200 hover:text-yellow-800'
       }`}
     >
       {label}
@@ -76,12 +70,12 @@ export const Header = () => {
         href="/cart"
         onClick={() => setMenuOpen(false)}
         className={`relative flex items-center gap-1 transition font-medium ${
-          pathname === '/cart' ? 'text-yellow-400' : 'text-gray-200 hover:text-yellow-400'
+          pathname === '/cart' ? 'text-yellow-400' : 'text-gray-200 hover:text-yellow-800'
         }`}
       >
         <ShoppingCart size={18} />
         Cart
-        {cartCount > 0 && (
+        {cartCount >= 0 && (
           <motion.span
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -114,7 +108,7 @@ export const Header = () => {
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.7 }}
       className="
         relative
         flex
@@ -181,7 +175,7 @@ export const Header = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleLogout}
-            className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md flex items-center gap-2 cursor-pointer"
+            className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md flex items-center gap-2 cursor-pointer transition-all duration-150"
           >
             <LogOut size={18} />
             Logout
