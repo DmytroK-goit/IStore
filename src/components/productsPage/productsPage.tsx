@@ -167,14 +167,17 @@ export default function ProductsComponent() {
                       )
                     }
                   >
-                    <img
-                      src={product.img || '/img/no_item.webp'}
-                      alt={product.name || 'No Image'}
-                      loading="lazy"
-                      className={`object-cover w-full h-full transition-transform duration-500 group-hover:scale-110 ${
-                        outOfStock ? 'opacity-50' : 'opacity-100'
-                      }`}
-                    />
+                    <div className="relative w-full h-full bg-neutral-200">
+                      <img
+                        src={product.img || '/img/no_item.webp'}
+                        alt={product.name || 'No Image'}
+                        loading="lazy"
+                        className={`object-cover w-full h-full transition-all duration-500 group-hover:scale-110 ${
+                          outOfStock ? 'opacity-50' : 'opacity-0'
+                        }`}
+                        onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
+                      />
+                    </div>
 
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors duration-500"></div>
 
