@@ -29,9 +29,6 @@ export default function Home() {
 
   return (
     <>
-      <head>
-        <title>IStore – Your Tech Marketplace</title>
-      </head>
       <main
         className="relative min-h-screen flex flex-col items-center justify-center text-center
                  bg-cover bg-center bg-no-repeat px-6"

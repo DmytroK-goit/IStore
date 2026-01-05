@@ -1,7 +1,12 @@
 import PushSubscribe from '@/components/PushSubscribe';
 import './globals.css';
 import { ClientLayout } from '@/components/ClientLayout';
+import { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'IStore – Your Tech Marketplace',
+  description: 'Buy smartphones, laptops, accessories and electronics at IStore',
+};
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
