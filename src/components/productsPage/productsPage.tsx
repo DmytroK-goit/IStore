@@ -18,6 +18,7 @@ import { Modal } from '@/components/modal/modal';
 import { Pagination } from '@/components/pagination/pagination';
 import { useSearchParams } from 'next/navigation';
 import { BatteryFull, Keyboard, Laptop, Monitor, Package, Plug, Smartphone } from 'lucide-react';
+import { getFavorites, toggleFavorite } from '@/service/favorites';
 
 export default function ProductsComponent() {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,11 +31,11 @@ export default function ProductsComponent() {
   const initialCategory = searchParams.get('category') || 'All';
   const initialSearch = searchParams.get('search') || '';
   const initialPage = parseInt(searchParams.get('page') || '1', 10);
-
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [page, setPage] = useState(initialPage);
   const [isGuestOpenModal, setIsGuestOpenModal] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
 
   const limit = 20;
 
@@ -52,6 +53,10 @@ export default function ProductsComponent() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  useEffect(() => {
+    setFavoriteIds(getFavorites());
+  }, []);
+
   const filteredProducts = products
     .filter((p) => p.category !== 'Education')
     .filter((p) => (selectedCategory === 'All' ? true : p.category === selectedCategory))
@@ -60,7 +65,7 @@ export default function ProductsComponent() {
   const totalPages = Math.ceil(filteredProducts.length / limit);
   const paginatedProducts = filteredProducts.slice((page - 1) * limit, page * limit);
   const categories = ['All', ...new Set(products.map((p) => p.category))];
-  console.log(categories);
+
   const handleAddToCart = async (productId: string, quantity: number) => {
     try {
       await dispatch(addToCartThunk({ productId, quantity })).unwrap();
@@ -70,6 +75,10 @@ export default function ProductsComponent() {
   };
 
   const handleClickGuest = () => setIsGuestOpenModal(true);
+  const handleClickFavorite = (productId: string) => {
+    const updated = toggleFavorite(productId);
+    setFavoriteIds(updated);
+  };
 
   return (
     <div className="p-6">
@@ -151,14 +160,27 @@ export default function ProductsComponent() {
                       outOfStock ? '/img/bg_no_item.webp' : '/img/bg_for_item.webp'
                     })`,
                   }}
-                  className={`max-h-[420px] bg-cover bg-no-repeat rounded-2xl shadow-md border border-gray-800 
-                    flex flex-col justify-between p-4 transition-all duration-300 ease-in-out transform
+                  className={`relative max-h-[420px] bg-cover bg-no-repeat rounded-2xl shadow-md border border-gray-800 
+                    flex flex-col justify-between p-6 transition-all duration-300 ease-in-out transform
+                    
                     ${
                       outOfStock
                         ? 'bg-gray-900/60 opacity-70'
                         : 'bg-gray-900 hover:shadow-emerald-500/20 hover:-translate-y-1'
                     }`}
                 >
+                  <button
+                    onClick={() => handleClickFavorite(product._id)}
+                    type="button"
+                    className="absolute top-2 right-2 z-10"
+                  >
+                    <svg
+                      className={`w-6 h-6 transition-colors duration-300
+      ${favoriteIds.includes(product._id) ? 'fill-red-500' : 'fill-gray-300 hover:fill-red-400'}`}
+                    >
+                      <use href="sprite.svg#icon-hart"></use>
+                    </svg>
+                  </button>
                   <div
                     className="group relative flex w-full h-48 bg-gray-800 items-center justify-center rounded-xl mb-4 overflow-hidden cursor-pointer border border-gray-700 hover:border-emerald-500 transition-all duration-300"
                     onClick={() =>

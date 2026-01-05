@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Menu, X, ShoppingCart, LogOut, UserStar, House } from 'lucide-react';
 import { Clock } from '../clock/clock';
+import { getFavorites } from '@/service/favorites';
 
 export const Header = () => {
   const user = useSelector(selectUser);
@@ -22,7 +23,7 @@ export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const isLoggedIn = Boolean(user?.email);
-
+  const count = getFavorites().length;
   const cartCount =
     cartItems?.reduce((total: number, item: any) => total + (item.quantity || 1), 0) || 0;
 
@@ -156,6 +157,15 @@ export const Header = () => {
       </div>
 
       <nav className="hidden sm:flex items-center gap-4">
+        <Link href="/favorites" className="relative text-amber-50">
+          ❤️
+          {count > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-xs text-white px-2 rounded-full">
+              {count}
+            </span>
+          )}
+          Favorites
+        </Link>
         <NavLink href="/" label="Home">
           <House size={18} />
         </NavLink>
@@ -236,6 +246,14 @@ export const Header = () => {
             ) : (
               <NavLink href="/login" label="Login" />
             )}
+            <Link href="/favorites" className="relative">
+              ❤️
+              {count > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-xs text-white px-2 rounded-full">
+                  {count}
+                </span>
+              )}
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>
