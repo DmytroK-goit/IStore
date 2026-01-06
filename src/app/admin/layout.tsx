@@ -35,11 +35,13 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen transition-all duration-300">
       <aside
-        className={`transition-all duration-300 shadow-lg flex flex-col py-6 px-4
+        className={`transition-all duration-300 shadow-lg flex flex-col py-6 px-4 backdrop-blur-lg bg-gray-200/30 border-gray-300 max-h-[500px] rounded-lg
         ${openAside ? 'w-64' : ' overflow-hidden'}`}
       >
         <div className="flex items-center justify-between mb-8">
-          {openAside && <h1 className="text-2xl font-bold text-blue-600">Admin</h1>}
+          {openAside && (
+            <h1 className="text-2xl font-extrabold text-green-500">Admin navigation</h1>
+          )}
 
           <button
             onClick={() => setOpenAside((prev) => !prev)}
@@ -71,7 +73,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <main className="flex-1 p-8">
         <div className="flex justify-between items-center mb-6">
           <p className="text-gray-500 font-bold text-3xl">
-            Logged in as: <span className="text-gray-900">{role} user</span>
+            Logged in as: <span className="text-gray-400">{role} user</span>
           </p>
         </div>
 
