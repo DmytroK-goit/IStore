@@ -44,7 +44,7 @@ export default function FavoritesPage() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-8">
       <h2 className="text-4xl font-bold mb-6 text-emerald-800">Favorites ❤️</h2>
 
       <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
@@ -64,10 +64,10 @@ export default function FavoritesPage() {
               <img
                 src={product.img || '/img/no_item.webp'}
                 alt={product.name}
-                className="h-40 w-full object-cover rounded-xl mb-3"
+                className="h-40 w-[90%] object-cover rounded-xl mb-4 block mx-auto"
               />
-              <h3 className="text-lg font-semibold text-emerald-300">{product.name}</h3>
-              <p className="text-gray-400">${product.price}</p>
+              <h3 className="text-lg font-semibold text-emerald-300 text-center">{product.name}</h3>
+              <p className="text-gray-400 text-center">${product.price}</p>
             </div>
           </motion.div>
         ))}

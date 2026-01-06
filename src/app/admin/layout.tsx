@@ -12,6 +12,7 @@ import {
   Warehouse,
   Menu,
   X,
+  Bell,
 } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -27,7 +28,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     { href: '/admin/warehouse', label: 'Warehouse', icon: <Warehouse size={18} /> },
     { href: '/admin/statistics', label: 'Statistics', icon: <ChartNoAxesCombined size={18} /> },
     { href: '/admin/users', label: 'Users', icon: <Users size={18} /> },
-    { href: '/admin/pushNotification', label: 'Push Notifications', icon: <Users size={18} /> },
+    { href: '/admin/pushNotification', label: 'Push Notifications', icon: <Bell size={18} /> },
     { href: '/admin/contactUs', label: 'Messages', icon: <Mail size={18} /> },
   ];
 

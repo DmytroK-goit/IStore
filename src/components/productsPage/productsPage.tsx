@@ -175,8 +175,8 @@ export default function ProductsComponent() {
                     className="absolute top-2 right-2 z-10"
                   >
                     <svg
-                      className={`w-6 h-6 transition-colors duration-300
-      ${favoriteIds.includes(product._id) ? 'fill-red-500' : 'fill-gray-300 hover:fill-red-400'}`}
+                      className={`w-6 h-6 transition-colors duration-300 cursor-pointer
+      ${favoriteIds.includes(product._id) ? 'fill-red-800' : 'fill-gray-300 hover:fill-red-400'}`}
                     >
                       <use href="sprite.svg#icon-hart"></use>
                     </svg>
