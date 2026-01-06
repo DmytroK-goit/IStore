@@ -37,7 +37,7 @@ export default function FavoritesPage() {
           onClick={() => router.push('/products')}
           className="px-6 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-500"
         >
-          Go to products
+          Go to Shop
         </button>
       </div>
     );
