@@ -21,7 +21,7 @@ function AdminDashboard() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-12 lg:flex-row">
+      <div className="flex flex-col gap-8 lg:flex-row">
         <AddItem product={selectedProduct} />
         <AdminListStore onSelectProduct={setSelectedProduct} />
       </div>

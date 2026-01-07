@@ -62,7 +62,7 @@ export default function AddItem({ product }: AddItemProps) {
 
   return (
     <div
-      className="w-3/4 p-6 shadow-lg rounded-xl bg-zinc-700 h-3/4 bg-cover bg-center sm:w-1/4 "
+      className="w-1/2 p-6 shadow-lg rounded-xl bg-zinc-700 h-3/4 bg-cover bg-center sm:w-1/4 "
       style={{ backgroundImage: "url('/img/BG_add_item.webp')" }}
     >
       <h2 className="text-2xl font-bold mb-4 text-center text-gray-200">

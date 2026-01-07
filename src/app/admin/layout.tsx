@@ -70,7 +70,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </nav>
       </aside>
 
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-4">
         <div className="flex justify-between items-center mb-6">
           <p className="text-gray-500 font-bold text-3xl">
             Logged in as: <span className="text-gray-400">{role} user</span>
