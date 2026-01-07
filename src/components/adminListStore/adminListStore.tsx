@@ -55,7 +55,7 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
         </ul>
       </div>
 
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
         {filteredProducts.map((product) => (
           <li
             key={product._id}
@@ -73,13 +73,13 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
             <div className="flex flex-col gap-2">
               <button
                 onClick={() => onSelectProduct(product)}
-                className="px-3 py-1 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 hover:scale-105 transition-all duration-300 ease-in-out"
+                className=" max-w-[70px] p-1 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 hover:scale-105 transition-all duration-300 ease-in-out"
               >
                 Update
               </button>
               <button
                 onClick={() => handleDelete(product._id)}
-                className="px-3 py-1 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 hover:scale-105 transition-all duration-300 ease-in-out"
+                className="max-w-[70px] p-1 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 hover:scale-105 transition-all duration-300 ease-in-out"
               >
                 Delete
               </button>

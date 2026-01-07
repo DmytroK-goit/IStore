@@ -35,7 +35,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen transition-all duration-300">
       <aside
-        className={`transition-all duration-300 shadow-lg flex flex-col py-6 px-4 backdrop-blur-lg bg-gray-200/30 border-gray-300 max-h-[500px] rounded-lg
+        className={`transition-all duration-300 shadow-lg flex flex-col py-6 px-4 backdrop-blur-lg bg-gray-100/10 border-gray-300 max-h-[500px] rounded-lg
         ${openAside ? 'w-64' : ' overflow-hidden'}`}
       >
         <div className="flex items-center justify-between mb-8">
