@@ -59,11 +59,11 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
         {filteredProducts.map((product) => (
           <li
             key={product._id}
-            className="flex justify-between items-center p-2 rounded-2xl border border-gray-700 
+            className="flex justify-between items-center p-2 xl:max-w-[300px] rounded-2xl border border-gray-700 
       bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 shadow-md transition-all duration-300 ease-in-out transform hover:shadow-emerald-500/30 hover:-translate-y-1"
           >
             <div>
-              <p className="text-[10px] md:text-[12px] lg:text-[16px] font-semibold text-emerald-300 max-w-[130px]">
+              <p className="text-[10px] md:text-[12px] font-semibold text-emerald-300 max-w-[120px]">
                 {product.name}
               </p>
               <p className="text-sm text-gray-300">${product.price}</p>

@@ -147,11 +147,11 @@ function SoldItemsPage() {
 
       {filteredOrders.length === 0 && <p className="text-gray-400">No sold items found.</p>}
 
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
         {filteredOrders.map((order, idx) => (
           <div
             key={order._id}
-            className={`flex flex-col justify-between p-4 rounded-2xl border shadow-lg transition-all duration-300 
+            className={`flex flex-col justify-between p-2 rounded-2xl border shadow-lg transition-all duration-300 
             bg-gradient-to-br ${getStatusStyles(order.status)}`}
           >
             <h3 className="text-lg font-semibold mb-2 text-white">
