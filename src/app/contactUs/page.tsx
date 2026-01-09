@@ -7,6 +7,7 @@ import { addContactUsMessage } from '@/redux/ContactUs/operations';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 interface ContactFormValues {
   name: string;
@@ -47,7 +48,7 @@ export default function ContactUs() {
       transition={{ duration: 0.6 }}
       className="max-w-3xl mx-auto mt-10 p-8 bg-gray-950 bg-opacity-90 backdrop-blur-md border border-gray-800 rounded-2xl shadow-lg text-gray-100"
     >
-      {/* <ToastContainer position="top-right" autoClose={3000} theme="dark" /> */}
+
 
       <h2 className="text-3xl font-bold mb-3 text-yellow-400">Contact Us</h2>
       <p className="text-gray-400 mb-8">
@@ -104,6 +105,13 @@ export default function ContactUs() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-end pt-2">
+              <Link
+                href="/"
+                className="inline-block px-6 py-3 bg-yellow-400 text-gray-900 font-semibold rounded-xl 
+              hover:bg-yellow-300 active:scale-95 transition-all duration-300 shadow-lg shadow-yellow-400/30 text-center"
+              >
+                Back to Home
+              </Link>
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
@@ -122,6 +130,7 @@ export default function ContactUs() {
               >
                 Clear
               </motion.button>
+
             </div>
           </Form>
         )}

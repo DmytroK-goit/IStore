@@ -74,12 +74,7 @@ export default function Login() {
 
   return (
     <main className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat">
-      <Link
-        href="/"
-        className="absolute top-4 left-4 text-emerald-400 font-semibold transition-all duration-300 hover:underline hover:text-emerald-300 hover:translate-x-1"
-      >
-        &larr; Back to Home
-      </Link>
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -157,6 +152,13 @@ export default function Login() {
                 >
                   Register
                 </motion.button>
+                <Link
+                  href="/"
+                  className="inline-block px-6 py-3 bg-yellow-400 text-gray-900 font-semibold rounded-xl 
+              hover:bg-yellow-300 active:scale-95 transition-all duration-300 shadow-lg shadow-yellow-400/30 text-center"
+                >
+                  Back to Home
+                </Link>
               </Form>
             )}
           </Formik>
