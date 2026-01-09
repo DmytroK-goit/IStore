@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'IStore – Your Tech Marketplace',
   description: 'Buy smartphones, laptops, accessories and electronics at IStore',
+  
 };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
