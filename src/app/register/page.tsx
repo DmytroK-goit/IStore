@@ -79,7 +79,7 @@ export default function Register() {
         transition={{ duration: 0.6 }}
         className="backdrop-blur-sm bg-black/60 p-8 rounded-2xl shadow-lg max-w-md w-full mx-4"
       >
-        <h2 className="text-3xl font-bold mb-6 text-yellow-400 text-center">Register to IStore</h2>
+        <h2 className="text-3xl font-bold mb-4 text-yellow-400 text-center">Register to IStore</h2>
 
         <Formik
           initialValues={initialValues}
@@ -87,7 +87,7 @@ export default function Register() {
           onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
-            <Form className="flex flex-col gap-5">
+            <Form className="flex flex-col gap-3">
               <div>
                 <label htmlFor="name" className="block text-sm font-semibold text-gray-200 mb-1">
                   Name

@@ -79,9 +79,9 @@ export default function Login() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="backdrop-blur-sm bg-black/60 p-8 rounded-2xl shadow-lg max-w-3xl w-full mx-4 flex flex-col items-center justify-between"
+        className="backdrop-blur-sm bg-black/60 p-4 rounded-2xl shadow-lg max-w-3xl w-full mx-4 flex flex-col items-center justify-between"
       >
-        <h2 className="text-5xl font-bold mb-6 text-yellow-400 text-center">Login to IStore</h2>
+        <h2 className="text-5xl font-bold mb-4 text-yellow-400 text-center">Login to IStore</h2>
         <div className="flex justify-center gap-20">
           <div className="flex items-center">
             <img src={gifs[gifState]} alt="status animation" className="w-60 h-60 object-contain" />
@@ -92,7 +92,7 @@ export default function Login() {
             onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
-              <Form className="flex flex-col gap-5 w-2/3">
+              <Form className="flex flex-col gap-3 w-2/3">
                 <div>
                   <label htmlFor="email" className="block text-sm font-semibold text-gray-200 mb-1">
                     Email

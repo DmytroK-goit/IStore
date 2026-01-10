@@ -134,11 +134,10 @@ export default function ProductsComponent() {
                   }}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl border font-medium
     transition-all duration-300 ease-in-out transform cursor-pointer
-    ${
-      selectedCategory === cat
-        ? 'bg-emerald-500 text-white border-emerald-500 scale-105 shadow-md'
-        : 'bg-gray-900 text-gray-300 border-gray-700 hover:bg-gray-800 hover:text-white'
-    }`}
+    ${selectedCategory === cat
+                      ? 'bg-emerald-500 text-white border-emerald-500 scale-105 shadow-md'
+                      : 'bg-gray-900 text-gray-300 border-gray-700 hover:bg-gray-800 hover:text-white'
+                    }`}
                 >
                   {categoryIcons[cat] ?? <Package size={18} />}
                   <span>{cat}</span>
@@ -148,7 +147,7 @@ export default function ProductsComponent() {
         </motion.div>
 
         <div>
-          <motion.div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          <motion.div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
             {paginatedProducts.map((product) => {
               const outOfStock = product.quantity === 0;
 
@@ -156,17 +155,15 @@ export default function ProductsComponent() {
                 <motion.div
                   key={product._id}
                   style={{
-                    backgroundImage: `url(${
-                      outOfStock ? '/img/bg_no_item.webp' : '/img/bg_for_item.webp'
-                    })`,
+                    backgroundImage: `url(${outOfStock ? '/img/bg_no_item.webp' : '/img/bg_for_item.webp'
+                      })`,
                   }}
                   className={`relative max-h-[420px] bg-cover bg-no-repeat rounded-2xl shadow-md border border-gray-800 
                     flex flex-col justify-between p-6 transition-all duration-300 ease-in-out transform
                     
-                    ${
-                      outOfStock
-                        ? 'bg-gray-900/60 opacity-70'
-                        : 'bg-gray-900 hover:shadow-emerald-500/20 hover:-translate-y-1'
+                    ${outOfStock
+                      ? 'bg-gray-900/60 opacity-70'
+                      : 'bg-gray-900 hover:shadow-emerald-500/20 hover:-translate-y-1'
                     }`}
                 >
                   <button
@@ -194,9 +191,8 @@ export default function ProductsComponent() {
                         src={product.img || '/img/no_item.webp'}
                         alt={product.name || 'No Image'}
                         loading="lazy"
-                        className={`object-cover w-full h-full transition-all duration-500 group-hover:scale-110 ${
-                          outOfStock ? 'opacity-50' : 'opacity-0'
-                        }`}
+                        className={`object-cover w-full h-full transition-all duration-500 group-hover:scale-110 ${outOfStock ? 'opacity-50' : 'opacity-0'
+                          }`}
                         onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
                       />
                     </div>
@@ -228,10 +224,9 @@ export default function ProductsComponent() {
                     disabled={outOfStock}
                     className={`w-full cursor-pointer py-2 rounded-xl font-semibold
                       transition-all duration-300 ease-in-out transform
-                      ${
-                        outOfStock
-                          ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
-                          : 'bg-emerald-600 text-white hover:bg-emerald-500 hover:scale-105 active:scale-95 shadow-md hover:shadow-emerald-500/40'
+                      ${outOfStock
+                        ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                        : 'bg-emerald-600 text-white hover:bg-emerald-500 hover:scale-105 active:scale-95 shadow-md hover:shadow-emerald-500/40'
                       }`}
                   >
                     {outOfStock ? 'Out of Stock' : 'Add to Cart'}

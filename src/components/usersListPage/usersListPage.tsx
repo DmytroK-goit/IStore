@@ -42,14 +42,14 @@ function UsersListPage() {
   };
 
   return (
-    <section className="min-h-screen py-10 px-6">
+    <section className="min-h-screen py-6 px-6">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-semibold text-white mb-10 text-center tracking-wide">
+        <h2 className="text-[40px] font-semibold text-white mb-4 text-center tracking-wide">
           👥 Users List
         </h2>
 
         {usersList && usersList.length > 0 ? (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             {mapUserList().map((user) => (
               <div
                 key={user._id}
@@ -59,13 +59,12 @@ function UsersListPage() {
                   <div className="flex justify-between items-center border-b border-gray-200 pb-2">
                     <h3 className="text-lg font-semibold text-gray-900">{user.name}</h3>
                     <span
-                      className={`text-xs font-medium px-2 py-1 rounded-full ${
-                        user.role === 'admin'
-                          ? 'bg-blue-100 text-blue-700'
-                          : user.role === 'demo'
-                            ? 'bg-yellow-200 text-yellow-600'
-                            : 'bg-gray-200 text-gray-700'
-                      }`}
+                      className={`text-xs font-medium px-2 py-1 rounded-full ${user.role === 'admin'
+                        ? 'bg-blue-100 text-blue-700'
+                        : user.role === 'demo'
+                          ? 'bg-yellow-200 text-yellow-600'
+                          : 'bg-gray-200 text-gray-700'
+                        }`}
                     >
                       {user.role}
                     </span>
