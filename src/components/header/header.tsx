@@ -56,9 +56,8 @@ export const Header = () => {
     <Link
       href={href}
       onClick={() => setMenuOpen(false)}
-      className={`flex items-center gap-1 transition font-medium ${
-        pathname === href ? 'text-yellow-400' : 'text-gray-200 hover:text-yellow-800'
-      }`}
+      className={`flex items-center gap-1 transition font-medium ${pathname === href ? 'text-yellow-400' : 'text-gray-200 hover:text-yellow-800'
+        }`}
     >
       {label}
       {children}
@@ -70,9 +69,8 @@ export const Header = () => {
       <Link
         href="/cart"
         onClick={() => setMenuOpen(false)}
-        className={`relative flex items-center gap-1 transition font-medium ${
-          pathname === '/cart' ? 'text-yellow-400' : 'text-gray-200 hover:text-yellow-800'
-        }`}
+        className={`relative flex items-center gap-1 transition font-medium ${pathname === '/cart' ? 'text-yellow-400' : 'text-gray-200 hover:text-yellow-800'
+          }`}
       >
         <ShoppingCart size={18} />
         Cart
@@ -117,8 +115,7 @@ export const Header = () => {
         md:flex-row
         justify-between
         items-center
-        px-6
-        py-4
+        p-4
         sm:py-0
         bg-gray-950
         bg-opacity-90
@@ -137,13 +134,13 @@ export const Header = () => {
       <Clock />
 
       <div className="flex flex-col items-center sm:items-end text-center sm:text-right">
-        <p className="text-lg sm:text-2xl text-gray-300 font-medium truncate max-w-[180px]">
+        <p className="text-sm lg:text-2xl text-gray-200 font-medium truncate max-w-[80px] lg:max-w-[180px]">
           {user?.name || 'Guest'}
         </p>
 
         {!isLoggedIn && (
           <motion.p
-            animate={{ x: [0, -30, 0] }}
+            animate={{ x: [-50, 50] }}
             transition={{
               repeat: Infinity,
               repeatType: 'reverse',
@@ -191,8 +188,23 @@ export const Header = () => {
             Logout
           </motion.button>
         ) : (
-          <NavLink href="/login" label="Login" />
+          <motion.div
+
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{
+              repeat: Infinity,
+              duration: 2.2,
+              ease: 'easeInOut',
+            }}
+            whileHover={{
+              scale: 1.2,
+              color: '#ef4444',
+            }}
+          >
+            <NavLink href="/login" label="Login" />
+          </motion.div>
         )}
+
       </nav>
 
       <button

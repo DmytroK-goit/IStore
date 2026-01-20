@@ -27,7 +27,7 @@ function WarehousePage({ onSelectProduct }: WarehousePageProps) {
     .sort((a, b) => a.quantity - b.quantity);
 
   return (
-    <div className="p-4 flex flex-col lg:flex-row gap-6">
+    <div className="p-4 flex flex-col lg:flex-row gap-6 ">
       <AddItem product={selectedProduct} />
       <div className="flex-1">
         <p className="text-lg font-semibold text-gray-200 mb-4 border-b border-gray-600 pb-2">
@@ -37,7 +37,7 @@ function WarehousePage({ onSelectProduct }: WarehousePageProps) {
           {filteredProducts.map((product) => (
             <li
               key={product._id}
-              className="flex flex-col justify-between p-4 rounded-2xl border border-gray-700 
+              className="flex flex-col min-h-[350px] justify-between p-4 rounded-2xl border border-gray-700 
                 bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 shadow-md hover:shadow-emerald-500/30 
                 transition cursor-pointer max-h-50 hover:-translate-y-1"
               onClick={() => {

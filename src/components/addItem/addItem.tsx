@@ -62,7 +62,7 @@ export default function AddItem({ product }: AddItemProps) {
 
   return (
     <div
-      className="w-1/2 p-6 shadow-lg rounded-xl bg-zinc-700 h-3/4 bg-cover bg-center sm:w-1/4 "
+      className="w-1/2 p-6 shadow-lg rounded-xl bg-zinc-700 h-3/4 bg-cover bg-center sm:w-1/2 md:w-2/3 lg:w-1/2"
       style={{ backgroundImage: "url('/img/BG_add_item.webp')" }}
     >
       <h2 className="text-2xl font-bold mb-4 text-center text-gray-200">
@@ -76,7 +76,7 @@ export default function AddItem({ product }: AddItemProps) {
         onSubmit={handleSubmit}
       >
         {({ setFieldValue }) => (
-          <Form className="space-y-5">
+          <Form className="space-y-2">
             <div className="space-y-1">
               <label className="block font-medium text-gray-200">Name</label>
               <Field
@@ -148,7 +148,7 @@ export default function AddItem({ product }: AddItemProps) {
 
             <button
               type="submit"
-              className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition transform active:scale-95"
+              className="w-1/3 bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition transform active:scale-95 flex mx-auto justify-center hover:cursor-pointer "
             >
               {product ? 'Update' : 'Add'}
             </button>

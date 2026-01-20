@@ -50,12 +50,12 @@ export default function ProductComponent() {
   return (
     <motion.div
       layout
-      className="min-h-screen w-full text-gray-100 flex items-center justify-center p-6"
+      className="min-h-screen w-full text-gray-100 flex items-center justify-center p-2"
     >
-      <div className="w-full bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-800 p-8 max-w-4xl">
+      <div className="w-full bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-800 p-5 max-w-4xl">
         <button
           onClick={handleGoBack}
-          className="mb-6 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-xl transition cursor-pointer"
+          className="mb-6 px-4 py-2 bg-gray-600 hover:bg-gray-600 text-white rounded-xl transition cursor-pointer hover:scale-105 hover:duration-400"
         >
           ← Back
         </button>
@@ -83,7 +83,7 @@ export default function ProductComponent() {
               <p className="text-gray-400 mb-1">
                 Category: <span className="text-gray-200">{product.category}</span>
               </p>
-              <p className="text-2xl font-semibold text-emerald-300 mb-3">${product.price}</p>
+              <p className="text-2xl font-semibold text-emerald-500 mb-3">${product.price}</p>
               <p className="whitespace-pre-line text-gray-300 mb-6">
                 {product.description || 'No description available.'}
               </p>
@@ -96,11 +96,10 @@ export default function ProductComponent() {
                   else handleAddToCart(product._id, 1);
                 }}
                 disabled={outOfStock && user.role !== 'Guest'}
-                className={`cursor-pointer px-4 py-2 rounded-2xl font-semibold text-white transition ${
-                  outOfStock && user.role !== 'Guest'
-                    ? 'bg-gray-600 cursor-not-allowed'
-                    : 'bg-emerald-600 hover:bg-emerald-700'
-                }`}
+                className={`cursor-pointer px-4 py-2 rounded-2xl font-semibold text-white transition ${outOfStock && user.role !== 'Guest'
+                  ? 'bg-gray-600 cursor-not-allowed'
+                  : 'bg-emerald-600 hover:bg-emerald-700'
+                  }`}
               >
                 {outOfStock && user.role !== 'Guest' ? 'Out of Stock' : 'Add to Cart'}
               </button>

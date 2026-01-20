@@ -64,7 +64,6 @@ const slice = createSlice({
       })
 
       .addCase(registerUser.rejected, (state, action) => {
-        console.error('Registration failed', action.error);
         state.isLoggedIn = false;
       })
       .addCase(fetchUsers.pending, (state) => {

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { redirect } from 'next/navigation';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,7 +13,8 @@ istore.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      toast.error('Your session has expired. Please log in again.');
+      redirect('/login');
+      // toast.error('Your session has expired. Please log in again.');
     }
     return Promise.reject(error);
   },

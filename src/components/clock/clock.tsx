@@ -14,5 +14,5 @@ export const Clock = () => {
     const interval = setInterval(updTime, 1000);
     return () => clearInterval(interval);
   }, []);
-  return <div className="text-2xl text-center text-gray-300">{time}</div>;
+  return <div className="text-sm lg:text-2xl text-center text-gray-300">{time}</div>;
 };

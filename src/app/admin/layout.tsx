@@ -50,13 +50,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     overflow-y-auto
     sm:text-[12px]
    md:max-h-[70vh]
-   md:text-[14px]
-    ${openAside ? 'w-64' : 'w-22 overflow-hidden'}
+       ${openAside ? 'w-55' : 'w-18 overflow-hidden'}
   `}
       >
         <div className="flex items-center justify-between mb-2">
           {openAside && (
-            <h1 className="text-2xl font-extrabold text-green-500">Admin navigation</h1>
+            <h1 className="text-xl font-extrabold text-green-500">Admin navigation</h1>
           )}
 
           <button
@@ -67,7 +66,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           </button>
         </div>
 
-        <nav className="flex flex-col gap-2 bg-gray-400 p-1 rounded-lg transition-all duration-300">
+        <nav className="flex flex-col gap-1 bg-gray-400 p-1 rounded-lg transition-all duration-300">
           {links.map((link) => (
             <Link
               key={link.href} href={link.href} className={`flex items-center gap-2 rounded-lg p-[4px] transition
