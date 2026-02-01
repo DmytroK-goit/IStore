@@ -14,9 +14,9 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
   const dispatch = useDispatch<AppDispatch>();
   const products: Product[] = useSelector(selectProducts);
   const [selectedCategory, setSelectedCategory] = useState('All');
-
+  const [searchQuery, setSearchQuery] = useState('');
   const filteredProducts =
-    selectedCategory === 'All' ? products : products.filter((p) => p.category === selectedCategory);
+    selectedCategory === 'All' ? products : products.filter((p) => p.category === selectedCategory).filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -31,21 +31,32 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
   const categories = ['All', ...new Set(products.map((p) => p.category))];
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col backdrop-blur-xl p-6 rounded-3xl border border-gray-700 bg-gray-900/50 shadow-lg max-w-8xl ">
       <h2 className="text-2xl font-bold mb-4 text-center text-emerald-400">Products</h2>
+      <div className="mb-6 w-full max-w-md">
+        <p className='text-gray-100'>Search products</p>
+        <input
+          type="text"
+          placeholder="Search by name..."
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
 
-      <div className="flex flex-col gap-4 mb-6">
+          }}
+          className="w-full px-6 py-2 rounded-xl border border-gray-700 bg-gray-900 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 flex justify-center items-center"
+        />
+      </div>
+      <div className="flex flex-col gap-4 mb-6 ">
         <p className="text-lg font-semibold text-gray-300">Categories</p>
-        <ul className="flex flex-row flex-wrap gap-2">
+        <ul className="flex flex-row flex-wrap gap-2 ">
           {categories.map((cat) => (
             <li key={cat}>
               <button
                 onClick={() => setSelectedCategory(cat)}
                 className={`cursor-pointer px-4 py-2 rounded-xl border font-medium transition-all duration-300 ease-in-out transform
-                  ${
-                    selectedCategory === cat
-                      ? 'bg-emerald-500 text-white border-emerald-500 scale-105 shadow-md shadow-emerald-500/30'
-                      : 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700 hover:text-white hover:scale-105 hover:shadow-md hover:shadow-emerald-500/20'
+                  ${selectedCategory === cat
+                    ? 'bg-emerald-500 text-white border-emerald-500 scale-105 shadow-md shadow-emerald-500/30'
+                    : 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700 hover:text-white hover:scale-105 hover:shadow-md hover:shadow-emerald-500/20'
                   }`}
               >
                 {cat}
@@ -55,11 +66,11 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
         </ul>
       </div>
 
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-">
         {filteredProducts.map((product) => (
           <li
             key={product._id}
-            className="flex justify-between items-center p-2 xl:max-w-[300px] rounded-2xl border border-gray-700 
+            className="max-w-[300px] flex justify-between items-center p-2  rounded-2xl border border-gray-700 
       bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 shadow-md transition-all duration-300 ease-in-out transform hover:shadow-emerald-500/30 hover:-translate-y-1"
           >
             <div>

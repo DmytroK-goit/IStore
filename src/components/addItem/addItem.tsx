@@ -62,8 +62,7 @@ export default function AddItem({ product }: AddItemProps) {
 
   return (
     <div
-      className="w-1/2 p-6 shadow-lg rounded-xl bg-zinc-700 h-3/4 bg-cover bg-center sm:w-1/2 md:w-2/3 lg:w-1/2"
-      style={{ backgroundImage: "url('/img/BG_add_item.webp')" }}
+      className="w-1/2 max-w-[450px] h-3/4 bg-cover bg-center sm:w-1/2 md:w-2/3 lg:w-1/2 backdrop-blur-xl p-6 rounded-3xl border border-gray-700 bg-gray-900/50 shadow-xl shadow-green-300/70 "
     >
       <h2 className="text-2xl font-bold mb-4 text-center text-gray-200">
         {product ? 'Update Item' : 'Add Item'}
@@ -155,6 +154,6 @@ export default function AddItem({ product }: AddItemProps) {
           </Form>
         )}
       </Formik>
-    </div>
+    </div >
   );
 }

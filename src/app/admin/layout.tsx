@@ -33,7 +33,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   ];
 
   return (
-    <div className="flex min-h-screen transition-all duration-300">
+    <div className="flex min-h-screen transition-all duration-300 backdrop-blur-xl p-2 rounded-3xl border border-gray-700 bg-gray-900/50 shadow-lg max-w-8xl">
       <aside
         className={`
     sticky
