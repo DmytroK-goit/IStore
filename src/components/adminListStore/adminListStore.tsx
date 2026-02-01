@@ -31,7 +31,7 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
   const categories = ['All', ...new Set(products.map((p) => p.category))];
 
   return (
-    <div className="flex flex-col backdrop-blur-xl p-6 rounded-3xl border border-gray-700 bg-gray-900/50 shadow-lg max-w-8xl ">
+    <div className="flex flex-col backdrop-blur-xl p-6 rounded-3xl border border-gray-700 bg-gray-900/50 shadow-lg max-w-8xl  shadow-green-300/70">
       <h2 className="text-2xl font-bold mb-4 text-center text-emerald-400">Products</h2>
       <div className="mb-6 w-full max-w-md">
         <p className='text-gray-100'>Search products</p>
@@ -66,12 +66,12 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
         </ul>
       </div>
 
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-">
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 ">
         {filteredProducts.map((product) => (
           <li
             key={product._id}
-            className="max-w-[300px] flex justify-between items-center p-2  rounded-2xl border border-gray-700 
-      bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 shadow-md transition-all duration-300 ease-in-out transform hover:shadow-emerald-500/30 hover:-translate-y-1"
+            className="max-w-[320px] h-[140px] flex justify-between items-center p-2 rounded-xl border border-gray-700 
+      bg-gradient-to-br from-gray-500 via-gray-900 to-gray-500 shadow-md transition-all duration-300 ease-in-out transform hover:shadow-emerald-500/30 hover:-translate-y-2 hover:cursor-pointer"
           >
             <div>
               <p className="text-[10px] md:text-[12px] font-semibold text-emerald-300 max-w-[120px]">
