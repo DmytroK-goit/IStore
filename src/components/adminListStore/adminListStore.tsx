@@ -66,11 +66,11 @@ export default function AdminListStore({ onSelectProduct }: AdminListStoreProps)
         </ul>
       </div>
 
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 ">
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 w-full max-w-8xl mx-auto">
         {filteredProducts.map((product) => (
           <li
             key={product._id}
-            className="max-w-[320px] h-[140px] flex justify-between items-center p-2 rounded-xl border border-gray-700 
+            className="w-[240px] max-w-[250px] h-[140px] flex justify-between items-center p-2 rounded-xl border border-gray-700 
       bg-gradient-to-br from-gray-500 via-gray-900 to-gray-500 shadow-md transition-all duration-300 ease-in-out transform hover:shadow-emerald-500/30 hover:-translate-y-2 hover:cursor-pointer"
           >
             <div>
