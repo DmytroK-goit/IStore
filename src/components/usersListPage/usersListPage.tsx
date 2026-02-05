@@ -42,14 +42,14 @@ function UsersListPage() {
   };
 
   return (
-    <section className="min-h-screen py-6 px-6">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-[40px] font-semibold text-white mb-4 text-center tracking-wide">
+    <section className="min-h-screen py-6 px-6 rounded-3xl border border-gray-700 bg-gray-900/50 shadow-lg max-w-8xl  shadow-green-300/70">
+      <div className="mx-auto">
+        <h2 className="text-[40px] font-semibold  text-emerald-400 mb-4 text-center tracking-wide">
           👥 Users List
         </h2>
 
         {usersList && usersList.length > 0 ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6">
             {mapUserList().map((user) => (
               <div
                 key={user._id}
@@ -100,7 +100,7 @@ function UsersListPage() {
 
                   <button
                     onClick={() => delUser(user._id)}
-                    className="w-full mt-4 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
+                    className="w-full mt-4 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={user.role === 'admin'}
                   >
                     Delete

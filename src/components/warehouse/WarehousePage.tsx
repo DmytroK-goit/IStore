@@ -30,15 +30,15 @@ function WarehousePage({ onSelectProduct }: WarehousePageProps) {
     <div className="p-4 flex flex-col lg:flex-row gap-6 ">
       <AddItem product={selectedProduct} />
       <div className="flex-1">
-        <p className="text-lg font-semibold text-gray-200 mb-4 border-b border-gray-600 pb-2">
+        <h2 className="text-[40px] font-semibold  text-emerald-400 mb-4 text-center tracking-wide">
           Low stock items in Warehouse
-        </p>
+        </h2>
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map((product) => (
             <li
               key={product._id}
-              className="flex flex-col min-h-[350px] justify-between p-4 rounded-2xl border border-gray-700 
-                bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 shadow-md hover:shadow-emerald-500/30 
+              className="flex flex-col min-h-[350px] justify-between p-4 border border-gray-700 
+                rounded-2xl shadow-md bg-gradient-to-br from-gray-500 via-gray-900 to-gray-500 hover:shadow-emerald-500/30 
                 transition cursor-pointer max-h-50 hover:-translate-y-1"
               onClick={() => {
                 onSelectProduct?.(product);
@@ -46,11 +46,11 @@ function WarehousePage({ onSelectProduct }: WarehousePageProps) {
               }}
             >
               <div>
-                <h3 className="text-lg font-semibold mb-2 text-emerald-400">{product.name}</h3>
-                <p className="text-gray-300 mb-1 italic text-sm">Category: {product.category}</p>
+                <h3 className="text-lg font-semibold mb-2 text-emerald-400 text-center">{product.name}</h3>
+                <p className="text-gray-200 mb-1 italic text-sm">Category: {product.category}</p>
                 <p className="text-gray-300 mb-1">Price: ${product.price.toFixed(2)}</p>
                 <p
-                  className={`mb-1 ${product.quantity < 5 ? 'text-red-400 font-bold' : 'text-gray-300'}`}
+                  className={`mb-1 ${product.quantity < 5 ? 'text-red-500 font-bold' : 'text-gray-300'}`}
                 >
                   Count: {product.quantity}
                 </p>
@@ -65,7 +65,7 @@ function WarehousePage({ onSelectProduct }: WarehousePageProps) {
                   className="px-3 py-1 bg-blue-600 text-white rounded-lg shadow-md 
                     hover:bg-blue-700 hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer"
                 >
-                  Add item
+                  Add more item
                 </button>
               </div>
             </li>

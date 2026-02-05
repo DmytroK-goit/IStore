@@ -53,22 +53,22 @@ export default function StatisticsPage() {
   const stats = calculateStats(orders);
 
   return (
-    <div className="p-6 min-h-screen text-gray-100">
-      <h1 className="text-4xl font-bold text-emerald-400 mb-6">Statistics</h1>
+    <div className="p-6 min-h-screen text-gray-100 rounded-3xl border border-gray-700 bg-gray-900/50 shadow-lg max-w-8xl  shadow-green-300/70">
+      <h1 className="text-[40px] font-semibold  text-emerald-400 mb-4 text-center tracking-wide">Statistics</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        <div className="p-4 bg-gray-800 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-200">Total Orders</h2>
-          <p className="text-3xl font-bold text-emerald-400">{stats.totalOrders}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 ">
+        <div className="p-4 bg-gray-800 rounded-2xl shadow-md bg-gradient-to-br from-gray-500 via-gray-900 to-gray-500">
+          <h2 className="text-xl text-center font-semibold text-gray-200">Total Orders</h2>
+          <p className="text-3xl text-center font-bold text-emerald-400">{stats.totalOrders}</p>
         </div>
-        <div className="p-4 bg-gray-800 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-200">Total Revenue</h2>
-          <p className="text-3xl font-bold text-emerald-400">${stats.totalRevenue}</p>
+        <div className="p-4 bg-gray-800 rounded-2xl shadow-md bg-gradient-to-br from-gray-500 via-gray-900 to-gray-500">
+          <h2 className="text-xl text-center font-semibold text-gray-200">Total Revenue</h2>
+          <p className="text-3xl text-center font-bold text-emerald-400">${stats.totalRevenue}</p>
         </div>
         {Object.entries(stats.statusCounts).map(([status, count]) => (
-          <div key={status} className="p-4 bg-gray-800 rounded-2xl shadow-md">
-            <h2 className="text-xl font-semibold text-gray-200">{status}</h2>
-            <p className="text-3xl font-bold text-emerald-400">{count}</p>
+          <div key={status} className="p-4 bg-gray-800 rounded-2xl shadow-md bg-gradient-to-br from-gray-500 via-gray-900 to-gray-500">
+            <h2 className="text-xl text-center font-semibold text-gray-200">{status}</h2>
+            <p className="text-3xl text-center font-bold text-emerald-400">{count}</p>
           </div>
         ))}
       </div>
@@ -77,10 +77,10 @@ export default function StatisticsPage() {
         <h2 className="text-2xl font-bold text-emerald-400 mb-4">Top Products</h2>
         <ul className="space-y-2">
           {stats.topProducts.map((p) => (
-            <li key={p.name} className="flex justify-between p-3 bg-gray-800 rounded-xl shadow-md">
-              <span>{p.name}</span>
+            <li key={p.name} className="flex justify-between px-10 py-2 rounded-xl shadow-md align-center bg-gradient-to-br from-gray-600 via-gray-900 to-gray-600">
+              <span className='text-2xl'>{p.name}</span>
 
-              <span className="font-bold text-emerald-400">{p.quantity}</span>
+              <span className="font-bold text-2xl text-emerald-400">{p.quantity}</span>
             </li>
           ))}
         </ul>

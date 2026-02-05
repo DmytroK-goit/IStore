@@ -145,129 +145,130 @@ export default function CartPage() {
   }
 
   return (
-    <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-200">
-      <motion.div
-        initial={{ opacity: 0, x: -30 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="text-3xl font-bold mb-6 text-yellow-400">Your Cart</h2>
-        <div className="space-y-4">
-          {detailedItems.map((item) => (
-            <motion.div
-              key={item._id}
-              whileHover={{ scale: 1.02 }}
-              className="flex justify-between items-center border border-gray-700 rounded-2xl p-4 bg-gray-900 shadow-md"
-            >
-              <div className="flex items-center gap-4">
-                <img
-                  src={item.img || '/img/no_item.jpg'}
-                  alt={item.name}
-                  width={100}
-                  height={100}
-                  className="rounded-lg object-cover"
-                />
-                <div>
-                  <h3 className="font-semibold text-yellow-300">{item.name}</h3>
-                  <p className="text-sm text-gray-400">{item.category}</p>
-                  <p className="text-gray-300">
-                    ${item.price} × {item.cartQuantity}{' '}
-                    <span className="text-yellow-400 font-semibold">
-                      = ${item.price * item.cartQuantity}
-                    </span>
-                  </p>
+    <div className='rounded-3xl border border-gray-700 bg-stone-900/80 shadow-lg max-w-8xl  shadow-green-300/70'>
+      <h2 className="text-3xl text-center font-bold mb-6 text-yellow-400">Your Cart</h2>
+      <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-200">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="space-y-4">
+            {detailedItems.map((item) => (
+              <motion.div
+                key={item._id}
+                whileHover={{ scale: 1.02 }}
+                className="flex justify-between items-center border border-gray-700 rounded-2xl shadow-md bg-gradient-to-br from-gray-500 via-gray-900 to-gray-500 p-4"
+              >
+                <div className="flex items-center gap-4">
+                  <img
+                    src={item.img || '/img/no_item.jpg'}
+                    alt={item.name}
+                    width={100}
+                    height={100}
+                    className="rounded-lg object-cover"
+                  />
+                  <div>
+                    <h3 className="font-semibold text-yellow-300">{item.name}</h3>
+                    <p className="text-sm text-gray-400">{item.category}</p>
+                    <p className="text-gray-300">
+                      ${item.price} × {item.cartQuantity}{' '}
+                      <span className="text-yellow-400 font-semibold">
+                        = ${item.price * item.cartQuantity}
+                      </span>
+                    </p>
+                    <button
+                      className="mt-2 text-sm px-3 py-1 rounded-lg bg-red-600 hover:bg-red-700 transition cursor-pointer"
+                      onClick={() => dispatch(removeFromCart(item.cartItemId))}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
                   <button
-                    className="mt-2 text-sm px-3 py-1 rounded-lg bg-red-600 hover:bg-red-700 transition"
-                    onClick={() => dispatch(removeFromCart(item.cartItemId))}
+                    onClick={() =>
+                      handleQuantityChange(item._id, item.cartQuantity, -1, item.quantity)
+                    }
+                    className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600 border cursor-pointer border-gray-600"
                   >
-                    Delete
+                    -
+                  </button>
+                  <span className="text-yellow-400 font-semibold">{item.cartQuantity}</span>
+                  <button
+                    onClick={() =>
+                      handleQuantityChange(item._id, item.cartQuantity, +1, item.quantity)
+                    }
+                    className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600 border cursor-pointer border-gray-600"
+                  >
+                    +
                   </button>
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() =>
-                    handleQuantityChange(item._id, item.cartQuantity, -1, item.quantity)
-                  }
-                  className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600"
-                >
-                  -
-                </button>
-                <span className="text-yellow-400 font-semibold">{item.cartQuantity}</span>
-                <button
-                  onClick={() =>
-                    handleQuantityChange(item._id, item.cartQuantity, +1, item.quantity)
-                  }
-                  className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600"
-                >
-                  +
-                </button>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        <div className="mt-6 text-right">
-          <p className="text-2xl font-bold text-yellow-400">
-            Total: <span className="text-white">${total.toFixed(2)}</span>
-          </p>
-        </div>
-      </motion.div>
+              </motion.div>
+            ))}
+          </div>
+          <div className="mt-6 text-right">
+            <p className="text-2xl font-bold text-yellow-400">
+              Total: <span className="text-white">${total.toFixed(2)}</span>
+            </p>
+          </div>
+        </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, x: 30 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-        className="p-6 rounded-2xl shadow-md bg-gray-950 bg-opacity-90 border border-gray-800"
-      >
-        <h2 className="text-3xl font-bold mb-6 text-yellow-400">Delivery Details</h2>
-        <Formik
-          initialValues={{
-            name: '',
-            surname: '',
-            phone: '',
-            city: '',
-            street: '',
-            house: '',
-            apartment: '',
-            comment: '',
-          }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="border border-gray-700 rounded-2xl shadow-md bg-gradient-to-br from-gray-500 via-gray-900 to-gray-500 p-4 "
         >
-          {({ isSubmitting }) => (
-            <Form className="space-y-4">
-              {['name', 'surname', 'phone', 'city', 'street', 'house', 'apartment', 'comment'].map(
-                (field) => (
-                  <div key={field}>
-                    <label htmlFor={field} className="block text-sm font-medium text-gray-400 mb-1">
-                      {field.charAt(0).toUpperCase() + field.slice(1)}
-                    </label>
-                    <Field
-                      as={field === 'comment' ? 'textarea' : 'input'}
-                      id={field}
-                      name={field}
-                      placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                      className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
-                    />
-                    <ErrorMessage name={field} component="div" className="text-red-400 text-sm" />
-                  </div>
-                ),
-              )}
-              <motion.button
-                type="submit"
-                disabled={isSubmitting}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.95 }}
-                className="mt-4 w-full py-3 rounded-lg font-semibold bg-yellow-500 text-gray-900 hover:bg-yellow-400 transition disabled:opacity-50"
-              >
-                {isSubmitting ? 'Processing...' : 'Place Order'}
-              </motion.button>
-            </Form>
-          )}
-        </Formik>
+          <h2 className="text-3xl font-bold mb-6 text-yellow-400 text-center">Delivery Details</h2>
+          <Formik
+            initialValues={{
+              name: '',
+              surname: '',
+              phone: '',
+              city: '',
+              street: '',
+              house: '',
+              apartment: '',
+              comment: '',
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting }) => (
+              <Form className="flex flex-col gap-1 justify-center">
+                {['name', 'surname', 'phone', 'city', 'street', 'house', 'apartment', 'comment'].map(
+                  (field) => (
+                    <div key={field}>
+                      <label htmlFor={field} className="block text-sm font-medium text-gray-400 mb-1">
+                        {field.charAt(0).toUpperCase() + field.slice(1)}
+                      </label>
+                      <Field
+                        as={field === 'comment' ? 'textarea' : 'input'}
+                        id={field}
+                        name={field}
+                        placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                        className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+                      />
+                      <ErrorMessage name={field} component="div" className="text-red-400 text-sm" />
+                    </div>
+                  ),
+                )}
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex justify-center mt-4 w-1/3 p-2 rounded-lg font-semibold bg-yellow-500 text-gray-900 hover:bg-yellow-400 transition disabled:opacity-50 cursor-pointer text-lg text-center"
+                >
+                  {isSubmitting ? 'Processing...' : 'Place Order'}
+                </motion.button>
+              </Form>
+            )}
+          </Formik>
 
-        {isModalOpen && <PaymentModal onConfirm={handleConfirm} onCancel={handleCancel} />}
-      </motion.div>
-    </div>
+          {isModalOpen && <PaymentModal onConfirm={handleConfirm} onCancel={handleCancel} />}
+        </motion.div>
+      </div></div>
   );
 }

@@ -30,15 +30,10 @@ export const ContactUs = () => {
   if (error) return <div className="text-red-400">Error: Something went wrong</div>;
 
   return (
-    <motion.div layout className="w-full min-h-screen p-4  text-gray-100">
-      {/* <Link
-        href="/admin"
-        className="flex items-center mb-6 text-emerald-400 font-semibold transition-all duration-300 hover:underline hover:text-emerald-300 hover:translate-x-1"
-      >
-        &larr; Back to Admin Panel
-      </Link> */}
+    <motion.div layout className="w-full min-h-screen p-4  text-gray-100 rounded-3xl border border-gray-700 bg-gray-900/50 shadow-lg max-w-8xl  shadow-green-300/70">
 
-      <h2 className="text-4xl font-bold mb-6 text-emerald-400">Contact Messages</h2>
+
+      <h2 className="text-[40px] font-semibold  text-emerald-400 mb-4 text-center tracking-wide">Contact Messages</h2>
 
       {messages.length === 0 ? (
         <p className="text-gray-400">No messages yet.</p>
