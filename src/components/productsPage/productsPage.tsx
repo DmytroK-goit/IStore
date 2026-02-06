@@ -1,5 +1,5 @@
 'use client';
-import { JSX, useEffect, useState } from 'react';
+import { JSX, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { fetchProducts } from '@/redux/Products/operations';
@@ -36,6 +36,7 @@ export default function ProductsComponent() {
   const [page, setPage] = useState(initialPage);
   const [isGuestOpenModal, setIsGuestOpenModal] = useState(false);
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [sortOrder, setSortOrder] = useState('asc');
 
   const limit = 20;
 
@@ -57,15 +58,37 @@ export default function ProductsComponent() {
     setFavoriteIds(getFavorites());
   }, []);
 
-  const filteredProducts = products
-    .filter((p) => p.category !== 'Education')
-    .filter((p) => (selectedCategory === 'All' ? true : p.category === selectedCategory))
-    .filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredProducts = useMemo(() => {
+    return products
+      .filter(p => p.category !== 'Education')
+      .filter(p =>
+        selectedCategory === 'All' ? true : p.category === selectedCategory,
+      )
+      .filter(p =>
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+  }, [products, selectedCategory, searchQuery]);
 
-  const totalPages = Math.ceil(filteredProducts.length / limit);
-  const paginatedProducts = filteredProducts.slice((page - 1) * limit, page * limit);
   const categories = ['All', ...new Set(products.map((p) => p.category))];
 
+  const sortedProducts = useMemo(() => {
+    return [...filteredProducts].sort((a, b) => {
+      if (a.quantity === 0 && b.quantity > 0) return 1;
+      if (a.quantity > 0 && b.quantity === 0) return -1;
+
+      return sortOrder === 'asc'
+        ? a.price - b.price
+        : b.price - a.price;
+    });
+  }, [filteredProducts, sortOrder]);
+
+  const paginatedProducts = useMemo(() => {
+    return sortedProducts.slice(
+      (page - 1) * limit,
+      page * limit,
+    );
+  }, [sortedProducts, page]);
+  const totalPages = Math.ceil(sortedProducts.length / limit);
   const handleAddToCart = async (productId: string, quantity: number) => {
     try {
       await dispatch(addToCartThunk({ productId, quantity })).unwrap();
@@ -73,7 +96,6 @@ export default function ProductsComponent() {
       console.error(err);
     }
   };
-
   const handleClickGuest = () => setIsGuestOpenModal(true);
   const handleClickFavorite = (productId: string) => {
     const updated = toggleFavorite(productId);
@@ -95,6 +117,18 @@ export default function ProductsComponent() {
           }}
           className="w-full px-4 py-2 rounded-xl border border-gray-700 bg-gray-900 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-md shadow-emerald-500/20 transition"
         />
+        <button
+          onClick={() => {
+            setSortOrder(prev => (prev === 'asc' ? 'desc' : 'asc'));
+            setPage(1);
+          }}
+          className="ml-3 px-4 py-2 rounded-xl bg-emerald-600 text-white
+             flex items-center gap-2 hover:bg-emerald-500 transition"
+        >
+          Price
+          <span>{sortOrder === 'asc' ? '↑' : '↓'}</span>
+        </button>
+
       </div>
 
       <AnimatePresence>
@@ -147,7 +181,7 @@ export default function ProductsComponent() {
         </motion.div>
 
         <div>
-          <motion.div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+          <motion.div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 duration-75">
             {paginatedProducts.map((product) => {
               const outOfStock = product.quantity === 0;
 
