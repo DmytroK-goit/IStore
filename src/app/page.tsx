@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { selectUser } from '@/redux/UserAuth/selectors';
-import { head } from 'motion/react-client';
+import { useUpwork } from '@/hooks/upWorkContext';
 
 const buttonClasses = `
   block
@@ -26,6 +26,7 @@ const buttonClasses = `
 
 export default function Home() {
   const user = useSelector(selectUser);
+  const { isUpwork } = useUpwork(); // отримуємо стан
 
   return (
     <>
@@ -47,14 +48,14 @@ export default function Home() {
           </p>
 
           <div className="flex flex-wrap justify-center gap-6 mt-10">
-            <Link href="/about" className={buttonClasses}>
+            <Link href={isUpwork ? "/about?upwork=true" : "/about"} className={buttonClasses}>
               About Us
             </Link>
             <Link href="/products" className={buttonClasses}>
               Shop
             </Link>
 
-            {!user?.email && (
+            {!user?.email && !isUpwork && (
               <>
                 <Link href="/login" className={buttonClasses}>
                   Login

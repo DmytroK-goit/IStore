@@ -1,8 +1,13 @@
 'use client';
+import { useUpwork } from '@/hooks/upWorkContext';
+import { useUpworkMode } from '@/hooks/useUpworkMode';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-
+import { useSelector } from 'react-redux';
+import { selectUpworkMode } from '@/redux/upworkSlice';
 export default function About() {
+  const isUpwork = useSelector(selectUpworkMode);
+
   return (
     <> <Link
       href="/"
@@ -80,14 +85,21 @@ export default function About() {
               <br />
               📍 <span className="font-semibold text-yellow-400">Vinnytsia, Ukraine</span> <br />
               📞{' '}
-              <a href="tel:+380979638775" className="text-blue-400 hover:underline">
-                +380 97 963 8775
-              </a>{' '}
+              {!isUpwork && (
+                <a href="tel:+380979638775" className="text-blue-400 hover:underline">
+                  +380 97 963 8775
+                </a>
+              )}
+              {' '}
               <br />
               📧{' '}
-              <a href="mailto:k0vbasyuk.dim0n@gmail.com" className="text-blue-400 hover:underline">
-                k0vbasyuk.dim0n@gmail.com
-              </a>
+              {!isUpwork && (
+                <a href="mailto:k0vbasyuk.dim0n@gmail.com" className="text-blue-400 hover:underline">
+                  k0vbasyuk.dim0n@gmail.com
+                </a>
+              )
+              }
+
             </p>
           </section>
 
